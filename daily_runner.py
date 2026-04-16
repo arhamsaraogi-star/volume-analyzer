@@ -26,8 +26,9 @@ N500_JSON = CACHE_DIR / "nifty500.json"
 HIST_CSV = CACHE_DIR / "quadrant_history.csv"
 
 # Credentials
-SCREENER_USER = "asutosh@ashikagroup.com"
-SCREENER_PASS = "Dilipsir@1234"
+SCREENER_USER = os.getenv("SCREENER_USERNAME", "asutosh@ashikagroup.com")
+SCREENER_PASS = os.getenv("SCREENER_PASSWORD", "Dilipsir@1234")
+
 
 # Watchlists
 WATCHLIST_IDS = ["10259781", "10259808"]
