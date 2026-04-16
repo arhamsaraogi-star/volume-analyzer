@@ -1,0 +1,20 @@
+.git/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.venv
+.env
+.vscode/
+.idea/
+
+# Large cache data (optional to keep local)
+# screener_cache/
+
+# Latest data is embedded in HTML so latest_data.json is just a temp artifact
+latest_data.json

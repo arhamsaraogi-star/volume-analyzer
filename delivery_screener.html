@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NSE Delivery Screener</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: rgba(17, 24, 39, .8);
+      --bg-glass: rgba(255, 255, 255, .05);
+      --border-glass: rgba(255, 255, 255, .1);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-cyan: #06b6d4;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --accent-amber: #f59e0b;
+      --gradient-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      --shadow-glow: 0 0 20px rgba(59, 130, 246, .15);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: all .3s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, .08) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(139, 92, 246, .06) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(6, 182, 212, .05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0
+    }
+
+    .header {
+      background: var(--gradient-hero);
+      border-bottom: 1px solid var(--border-glass);
+      padding: 16px 32px;
+      position: relative;
+      z-index: 10
+    }
+
+    .header-inner {
+      max-width: 1700px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .header h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap
+    }
+
+    .meta {
+      font-size: .78rem;
+      color: var(--text-muted)
+    }
+
+    .conn-err {
+      display: none;
+      background: rgba(239, 68, 68, .12);
+      border: 1px solid var(--accent-red);
+      color: #fca5a5;
+      padding: 7px 20px;
+      font-size: .8rem;
+      text-align: center
+    }
+
+    /* status bar */
+    .sbar {
+      background: rgba(17, 24, 39, .9);
+      border-bottom: 1px solid var(--border-glass);
+      padding: 6px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      backdrop-filter: blur(20px)
+    }
+
+    .sbar-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: background .3s
+    }
+
+    .dot-idle {
+      background: #475569
+    }
+
+    .dot-running {
+      background: var(--accent-amber);
+      animation: pulse 1s infinite
+    }
+
+    .dot-done {
+      background: var(--accent-green)
+    }
+
+    .dot-error {
+      background: var(--accent-red)
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    .sbar-txt {
+      font-size: .78rem;
+      color: var(--text-secondary);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .pbar-wrap {
+      width: 120px;
+      height: 3px;
+      background: rgba(255, 255, 255, .08);
+      border-radius: 2px;
+      overflow: hidden;
+      flex-shrink: 0
+    }
+
+    .pbar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      border-radius: 2px;
+      transition: width .4s;
+      width: 0%
+    }
+
+    .cache-badge {
+      font-size: .7rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border-glass);
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap
+    }
+
+    /* tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding: 10px 32px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-glass);
+      position: sticky;
+      top: 34px;
+      z-index: 100;
+      backdrop-filter: blur(20px)
+    }
+
+    .tab {
+      padding: 8px 20px;
+      border-radius: var(--radius-sm);
+      font-size: .83rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-secondary);
+      border: 1px solid transparent
+    }
+
+    .tab:hover {
+      color: var(--text-primary);
+      background: var(--bg-glass)
+    }
+
+    .tab.active {
+      background: var(--gradient-primary);
+      color: #fff;
+      border-color: rgba(59, 130, 246, .3);
+      box-shadow: var(--shadow-glow)
+    }
+
+    .tab .bc {
+      display: inline-block;
+      min-width: 20px;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-size: .68rem;
+      font-weight: 700;
+      margin-left: 5px;
+      background: rgba(255, 255, 255, .2)
+    }
+
+    .tab.active .bc {
+      background: rgba(255, 255, 255, .3)
+    }
+
+    /* run controls */
+    .run-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 12px 32px;
+      background: rgba(17, 24, 39, .5);
+      border-bottom: 1px solid var(--border-glass)
+    }
+
+    .run-ctrl {
+      display: flex;
+      flex-direction: column;
+      gap: 3px
+    }
+
+    .run-ctrl label {
+      font-size: .68rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    input[type="date"],
+    select,
+    input[type="text"],
+    input[type="number"] {
+      padding: 7px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-glass);
+      background: #1e293b;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: var(--transition);
+      color-scheme: dark
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2394a3b8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 9px center;
+      padding-right: 28px
+    }
+
+    select:focus,
+    input:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, .15)
+    }
+
+    .btn {
+      padding: 7px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-glass);
+      background: var(--bg-glass);
+      color: var(--text-primary);
+      font-size: .8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition)
+    }
+
+    .btn:hover {
+      background: rgba(59, 130, 246, .15);
+      border-color: var(--accent-blue)
+    }
+
+    .btn.active {
+      background: var(--gradient-primary);
+      color: #fff;
+      border-color: var(--accent-blue)
+    }
+
+    .btn-run {
+      background: var(--gradient-primary);
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      padding: 8px 22px;
+      font-size: .85rem
+    }
+
+    .btn-run:hover {
+      opacity: .85
+    }
+
+    .btn-run:disabled {
+      opacity: .35;
+      cursor: not-allowed
+    }
+
+    /* content */
+    .content {
+      max-width: 1700px;
+      margin: 0 auto;
+      padding: 20px 32px;
+      position: relative;
+      z-index: 1
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeIn .3s ease
+    }
+
+    .tab-panel.active {
+      display: block
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* stat cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px
+    }
+
+    .stat-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      text-align: center;
+      transition: var(--transition);
+      cursor: default
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow)
+    }
+
+    .stat-card .val {
+      font-size: 1.4rem;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .stat-card .val.green {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      -webkit-background-clip: text;
+      background-clip: text
+    }
+
+    .stat-card .val.red {
+      background: linear-gradient(135deg, #ef4444, #f87171);
+      -webkit-background-clip: text;
+      background-clip: text
+    }
+
+    .stat-card .val.amber {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      -webkit-background-clip: text;
+      background-clip: text
+    }
+
+    .stat-card .lbl {
+      font-size: .68rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      text-transform: uppercase;
+      letter-spacing: .4px
+    }
+
+    /* quadrant cards */
+    .quad-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .qcard {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      border-left: 4px solid
+    }
+
+    .qcard:hover {
+      border-color: rgba(59, 130, 246, .3);
+      box-shadow: var(--shadow-glow)
+    }
+
+    .qcard.active {
+      background: rgba(255, 255, 255, .06);
+      box-shadow: var(--shadow-glow)
+    }
+
+    .qcard.dim {
+      opacity: .35
+    }
+
+    .qcard .qlbl {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--text-muted);
+      margin-bottom: 5px
+    }
+
+    .qcard .qnum {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1
+    }
+
+    .qcard .qsub {
+      font-size: .7rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+      line-height: 1.6
+    }
+
+    .qcard .qret {
+      font-size: .78rem;
+      font-weight: 600
+    }
+
+    .q1c {
+      border-left-color: #10b981
+    }
+
+    .q1c .qnum {
+      color: #10b981
+    }
+
+    .q2c {
+      border-left-color: #ef4444
+    }
+
+    .q2c .qnum {
+      color: #ef4444
+    }
+
+    .q3c {
+      border-left-color: #06b6d4
+    }
+
+    .q3c .qnum {
+      color: #06b6d4
+    }
+
+    .q4c {
+      border-left-color: #f59e0b
+    }
+
+    .q4c .qnum {
+      color: #f59e0b
+    }
+
+    /* card */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius);
+      padding: 18px;
+      backdrop-filter: blur(10px);
+      margin-bottom: 18px;
+      transition: var(--transition)
+    }
+
+    .card:hover {
+      border-color: rgba(59, 130, 246, .2);
+      box-shadow: var(--shadow-glow)
+    }
+
+    .card h2 {
+      font-size: .95rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: var(--text-primary)
+    }
+
+    /* toolbar */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px
+    }
+
+    .sort-grp {
+      display: flex;
+      gap: 0
+    }
+
+    .sort-grp .btn {
+      border-radius: 0;
+      border-right-width: 0
+    }
+
+    .sort-grp .btn:first-child {
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm)
+    }
+
+    .sort-grp .btn:last-child {
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      border-right-width: 1px
+    }
+
+    .quad-tabs {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-sm);
+      overflow: hidden
+    }
+
+    .qtab {
+      font-family: 'Inter', sans-serif;
+      font-size: .78rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      background: transparent;
+      color: var(--text-secondary);
+      border: none;
+      border-right: 1px solid var(--border-glass);
+      cursor: pointer;
+      transition: var(--transition)
+    }
+
+    .qtab:last-child {
+      border-right: none
+    }
+
+    .qtab.active {
+      background: var(--gradient-primary);
+      color: #fff
+    }
+
+    .qtab:hover:not(.active) {
+      background: var(--bg-glass);
+      color: var(--text-primary)
+    }
+
+    .ml {
+      margin-left: auto
+    }
+
+    /* chart */
+    .chart-wrap {
+      position: relative;
+      height: 340px;
+      width: 100%
+    }
+
+    /* table */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-glass)
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .77rem;
+      min-width: 900px
+    }
+
+    th {
+      background: rgba(59, 130, 246, .12);
+      color: var(--accent-cyan);
+      padding: 9px 10px;
+      text-align: center;
+      white-space: nowrap;
+      font-weight: 600;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border-glass);
+      transition: var(--transition)
+    }
+
+    th:hover {
+      background: rgba(59, 130, 246, .22)
+    }
+
+    th.sort-asc::after {
+      content: " ↑";
+      color: var(--accent-green)
+    }
+
+    th.sort-desc::after {
+      content: " ↓";
+      color: var(--accent-red)
+    }
+
+    td {
+      padding: 7px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, .04);
+      text-align: center;
+      white-space: nowrap;
+      transition: var(--transition)
+    }
+
+    td:first-child,
+    td:nth-child(2) {
+      text-align: left
+    }
+
+    tr:hover td {
+      background: rgba(59, 130, 246, .06) !important
+    }
+
+    .grp-hdr th {
+      background: rgba(139, 92, 246, .12) !important;
+      color: var(--accent-purple);
+      font-size: .66rem;
+      border-right: 1px solid rgba(255, 255, 255, .06)
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1px
+    }
+
+    .g2 {
+      background: rgba(16, 185, 129, .2);
+      color: #34d399
+    }
+
+    .g1 {
+      background: rgba(16, 185, 129, .1);
+      color: #6ee7b7
+    }
+
+    .a0 {
+      background: rgba(245, 158, 11, .15);
+      color: #fbbf24
+    }
+
+    .r1 {
+      background: rgba(239, 68, 68, .1);
+      color: #fca5a5
+    }
+
+    .r2 {
+      background: rgba(239, 68, 68, .25);
+      color: #fca5a5
+    }
+
+    .na {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: .68rem
+    }
+
+    .sym-link {
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-weight: 600
+    }
+
+    .sym-link:hover {
+      color: #fff;
+      text-decoration: underline
+    }
+
+    .no-data {
+      display: none;
+      padding: 50px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: .9rem
+    }
+
+    .rank {
+      color: var(--text-muted);
+      font-size: .68rem;
+      text-align: right !important
+    }
+
+    .bar-cell {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px
+    }
+
+    .bar-track {
+      width: 44px;
+      height: 3px;
+      background: rgba(255, 255, 255, .07);
+      border-radius: 2px;
+      display: inline-block;
+      flex-shrink: 0
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 2px
+    }
+
+    .footer {
+      text-align: center;
+      padding: 16px;
+      font-size: .72rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-glass);
+      margin-top: 32px
+    }
+
+    @media(max-width:900px) {
+      .quad-cards {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="header-inner">
+      <h1>📦 NSE Delivery Volume Screener</h1>
+      <div class="header-right">
+        <span class="meta" id="metaLabel">nsepython · bhavcopy · screener.in</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="conn-err" id="connErr">
+    ⚠ Cannot reach server at localhost:5050 — run: <code>py screener_server.py</code>
+  </div>
+
+  <div class="sbar">
+    <div class="sbar-dot dot-idle" id="sDot"></div>
+    <div class="sbar-txt" id="sTxt">Ready — click Run to load today's data</div>
+    <div class="cache-badge" id="cacheBadge">cache: —</div>
+    <div class="pbar-wrap">
+      <div class="pbar-fill" id="pFill"></div>
+    </div>
+  </div>
+
+  <div class="run-bar">
+    <div class="run-ctrl">
+      <label>Trade Date</label>
+      <input type="date" id="dateInput" style="width:148px">
+    </div>
+    <div class="run-ctrl">
+      <label>Market Cap</label>
+      <div style="display:flex;gap:4px">
+        <input type="number" id="mcapMin" value="0" min="0" step="100" placeholder="Min ₹Cr" style="width:90px"
+          oninput="renderTable()">
+        <input type="number" id="mcapMax" value="" min="0" step="100" placeholder="Max ₹Cr" style="width:90px"
+          oninput="renderTable()">
+      </div>
+    </div>
+    <div class="run-ctrl">
+      <label>Fetch Mkt Cap</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:.82rem;cursor:pointer;padding-top:4px">
+        <input type="checkbox" id="mcapTog" checked
+          style="accent-color:var(--accent-blue);cursor:pointer;width:auto;padding:0">
+        <span style="color:var(--text-secondary)">From Screener.in</span>
+      </label>
+    </div>
+    <div class="run-ctrl" style="justify-content:flex-end;margin-top:18px">
+      <button class="btn btn-run" id="runBtn" onclick="runScreener()">▶ Run Screener</button>
+    </div>
+    <div class="run-ctrl" style="justify-content:flex-end;margin-top:18px">
+      <button class="btn" onclick="exportCSV()">⬇ Export CSV</button>
+    </div>
+    <div class="run-ctrl" style="margin-left:auto">
+      <label>Last Run</label>
+      <span class="meta" id="lastRun" style="font-size:.8rem;padding-top:5px;display:block">—</span>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabBar">
+    <div class="tab active" onclick="switchTab('overview')" id="tab-overview">📊 Overview</div>
+    <div class="tab" onclick="switchTab('Q1')" id="tab-Q1">🟢 Q1 · Conviction Buy <span class="bc" id="bc-Q1">0</span>
+    </div>
+    <div class="tab" onclick="switchTab('Q2')" id="tab-Q2">🔴 Q2 · Distribution <span class="bc" id="bc-Q2">0</span>
+    </div>
+    <div class="tab" onclick="switchTab('Q3')" id="tab-Q3">🔵 Q3 · Low-Conv Rally <span class="bc" id="bc-Q3">0</span>
+    </div>
+    <div class="tab" onclick="switchTab('Q4')" id="tab-Q4">🟡 Q4 · Weak Selling <span class="bc" id="bc-Q4">0</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── OVERVIEW ── -->
+    <div class="tab-panel active" id="panel-overview">
+      <div class="stats-grid" id="overviewStats"></div>
+      <div class="quad-cards">
+        <div class="qcard q1c active" id="qcard-Q1" onclick="switchTab('Q1')">
+          <div class="qlbl">Q1 · Conviction Buy</div>
+          <div class="qnum" id="qnum-Q1">—</div>
+          <div class="qsub">Return &gt; 0 &nbsp;·&nbsp; Del.Vol &gt; 20d MA<br>
+            <span class="qret" style="color:#10b981" id="qavg-Q1"></span>
+          </div>
+        </div>
+        <div class="qcard q2c" id="qcard-Q2" onclick="switchTab('Q2')">
+          <div class="qlbl">Q2 · Distribution</div>
+          <div class="qnum" id="qnum-Q2">—</div>
+          <div class="qsub">Return &lt; 0 &nbsp;·&nbsp; Del.Vol &gt; 20d MA<br>
+            <span class="qret" style="color:#ef4444" id="qavg-Q2"></span>
+          </div>
+        </div>
+        <div class="qcard q3c" id="qcard-Q3" onclick="switchTab('Q3')">
+          <div class="qlbl">Q3 · Low-Conv Rally</div>
+          <div class="qnum" id="qnum-Q3">—</div>
+          <div class="qsub">Return &gt; 0 &nbsp;·&nbsp; Del.Vol &lt; 20d MA<br>
+            <span class="qret" style="color:#06b6d4" id="qavg-Q3"></span>
+          </div>
+        </div>
+        <div class="qcard q4c" id="qcard-Q4" onclick="switchTab('Q4')">
+          <div class="qlbl">Q4 · Weak Selling</div>
+          <div class="qnum" id="qnum-Q4">—</div>
+          <div class="qsub">Return &lt; 0 &nbsp;·&nbsp; Del.Vol &lt; 20d MA<br>
+            <span class="qret" style="color:#f59e0b" id="qavg-Q4"></span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2 id="ovChartTitle">Overview Chart</h2>
+        <div class="chart-wrap"><canvas id="ovChart" role="img" aria-label="Quadrant comparison chart">Delivery volume
+            screener quadrant comparison</canvas></div>
+      </div>
+    </div>
+
+    <!-- ── QUADRANT PANELS (Q1–Q4) ── -->
+    <div class="tab-panel" id="panel-Q1"></div>
+    <div class="tab-panel" id="panel-Q2"></div>
+    <div class="tab-panel" id="panel-Q3"></div>
+    <div class="tab-panel" id="panel-Q4"></div>
+
+  </div><!-- content -->
+
+  <div class="footer">
+    NSE Delivery Screener · Data via nsepython (sec_bhavdata_full) · Returns from bhavcopy CLOSE/PREV_CLOSE · 20d MA
+    from cached history · Market Cap from screener.in
+  </div>
+
+  <script>
+    const API = 'http://localhost:5050/api';
+    let _data = null, _summary = null, _activeTab = 'overview';
+    let _sortCol = { Q1: 'DELIV_QTY', Q2: 'DELIV_QTY', Q3: 'DELIV_QTY', Q4: 'DELIV_QTY' };
+    let _sortDir = { Q1: 'desc', Q2: 'desc', Q3: 'desc', Q4: 'desc' };
+    let _poll = null;
+    let _ovChart = null;
+
+    const QMETA = {
+      Q1: { color: '#10b981', dimColor: 'rgba(16,185,129,.6)', label: 'Conviction Buy' },
+      Q2: { color: '#ef4444', dimColor: 'rgba(239,68,68,.6)', label: 'Distribution' },
+      Q3: { color: '#06b6d4', dimColor: 'rgba(6,182,212,.6)', label: 'Low-Conv Rally' },
+      Q4: { color: '#f59e0b', dimColor: 'rgba(245,158,11,.6)', label: 'Weak Selling' },
+    };
+
+    // Column definitions — all table columns
+    const ALL_COLS = [
+      { k: '_rank', h: '#', grp: '', fmt: 'rank', sortable: false },
+      { k: 'SYMBOL', h: 'Symbol', grp: '', fmt: 'sym', sortable: true },
+      { k: 'SECTOR', h: 'Sector', grp: '', fmt: 'sector', sortable: true },
+      { k: 'CLOSE', h: 'CMP ₹', grp: 'Price', fmt: 'price', sortable: true },
+      { k: 'RETURN_PCT', h: 'Return %', grp: 'Price', fmt: 'pct', sortable: true },
+      { k: 'HIGH', h: 'High', grp: 'Price', fmt: 'price2', sortable: true },
+      { k: 'LOW', h: 'Low', grp: 'Price', fmt: 'price2', sortable: true },
+      { k: 'DELIV_QTY', h: 'Del. Vol', grp: 'Delivery', fmt: 'delvol', sortable: true },
+      { k: 'DELIV_PER', h: 'Del. %', grp: 'Delivery', fmt: 'delpct', sortable: true },
+      { k: 'DELIV_VS_MA_PCT', h: 'vs 20d MA', grp: 'Delivery', fmt: 'vsma', sortable: true },
+      { k: 'DELIV_MA20', h: '20d MA Vol', grp: 'Delivery', fmt: 'vol', sortable: true },
+      { k: 'SPIKE', h: 'Spike', grp: 'Delivery', fmt: 'spike', sortable: true },
+      { k: 'TOTTRDQTY', h: 'Traded Vol', grp: 'Volume', fmt: 'vol', sortable: true },
+      { k: 'TURNOVER_LACS', h: 'T/O ₹L', grp: 'Volume', fmt: 'to', sortable: true },
+      { k: 'MARKET_CAP_CR', h: 'MCap ₹Cr', grp: 'Fundamental', fmt: 'mcap', sortable: true },
+      { k: 'MCAP_BUCKET', h: 'Size', grp: 'Fundamental', fmt: 'bucket', sortable: true },
+      { k: 'STREAK', h: 'Streak', grp: 'Signal', fmt: 'streak', sortable: true },
+      { k: 'MIGRATION', h: 'Migration', grp: 'Signal', fmt: 'migrate', sortable: false },
+    ];
+
+    // ── Helpers ────────────────────────────────────────────────────────────────────
+    async function apig(p) { const r = await fetch(API + p, { signal: AbortSignal.timeout(7000) }); return r.json(); }
+    async function apip(p, b) { const r = await fetch(API + p, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b), signal: AbortSignal.timeout(7000) }); return r.json(); }
+
+    function fvol(v) { if (v == null || isNaN(v)) return '—'; if (v >= 1e7) return (v / 1e7).toFixed(2) + 'Cr'; if (v >= 1e5) return (v / 1e5).toFixed(1) + 'L'; if (v >= 1000) return (v / 1000).toFixed(1) + 'K'; return Math.round(v).toString(); }
+    function fmcap(v) { if (!v || isNaN(v)) return '—'; if (v >= 100000) return (v / 100000).toFixed(1) + 'L Cr'; if (v >= 1000) return (v / 1000).toFixed(1) + 'K Cr'; return v.toFixed(0) + ' Cr'; }
+    function fdate(s) { if (!s) return '—'; const d = new Date(s); return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); }
+
+    function pctBadge(v) {
+      if (v === null || v === undefined) return '<span class="na">—</span>';
+      const n = parseFloat(v); if (isNaN(n)) return '<span class="na">—</span>';
+      const c = n >= 15 ? 'g2' : n >= 5 ? 'g1' : n >= 0 ? 'a0' : n >= -10 ? 'r1' : 'r2';
+      return `<span class="badge ${c}">${n > 0 ? '+' : ''}${n.toFixed(2)}%</span>`;
+    }
+    function vsmaBadge(v) {
+      if (v === null || v === undefined) return '<span class="na">—</span>';
+      const n = parseFloat(v); if (isNaN(n)) return '<span class="na">—</span>';
+      const c = n >= 30 ? 'g2' : n >= 0 ? 'g1' : n >= -20 ? 'r1' : 'r2';
+      return `<span class="badge ${c}">${n > 0 ? '+' : ''}${n.toFixed(1)}%</span>`;
+    }
+    function fmtCell(fmt, v, row, maxDvol, qColor) {
+      if (fmt === 'rank') return '';
+      if (v === null || v === undefined) return '<span class="na">—</span>';
+      switch (fmt) {
+        case 'sym': return `<a class="sym-link" href="https://www.screener.in/company/${v}/" target="_blank" rel="noopener">${v}</a>`;
+        case 'sector': return `<span style="font-size:.7rem;color:var(--text-secondary)">${v || '—'}</span>`;
+        case 'price': return `<span style="color:var(--text-primary);font-weight:500">₹${parseFloat(v).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>`;
+        case 'price2': return `<span style="color:var(--text-secondary)">₹${parseFloat(v).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>`;
+        case 'pct': return pctBadge(v);
+        case 'delvol': {
+          const pct = Math.min((v / Math.max(maxDvol, 1)) * 100, 100);
+          return `<span class="bar-cell"><span class="bar-track"><span class="bar-fill" style="width:${pct.toFixed(0)}%;background:${qColor}"></span></span>${fvol(v)}</span>`;
+        }
+        case 'delpct': {
+          const p = Math.min(parseFloat(v) || 0, 100);
+          return `<span class="bar-cell"><span class="bar-track"><span class="bar-fill" style="width:${p.toFixed(0)}%;background:${qColor}"></span></span>${p.toFixed(1)}%</span>`;
+        }
+        case 'vsma': return vsmaBadge(v);
+        case 'vol': return `<span style="color:var(--text-secondary)">${fvol(v)}</span>`;
+        case 'to': return `<span style="color:var(--text-secondary)">${v ? parseFloat(v).toLocaleString('en-IN', { maximumFractionDigits: 0 }) : '—'}</span>`;
+        case 'mcap': return `<span style="font-size:.7rem;color:var(--text-muted);background:rgba(255,255,255,.05);border:1px solid var(--border-glass);padding:1px 5px;border-radius:3px">${fmcap(v)}</span>`;
+        case 'bucket': {
+          const colors = { Large: 'rgba(16,185,129,.15)', Mid: 'rgba(59,130,246,.15)', Small: 'rgba(245,158,11,.15)', Unknown: 'rgba(255,255,255,.05)' };
+          const tcolors = { Large: '#6ee7b7', Mid: '#93c5fd', Small: '#fbbf24', Unknown: '#64748b' };
+          const col = colors[v] || colors.Unknown; const tc = tcolors[v] || tcolors.Unknown;
+          return `<span style="font-size:.68rem;font-weight:600;background:${col};color:${tc};padding:2px 6px;border-radius:4px">${v || '—'}</span>`;
+        }
+        case 'spike':
+          return v ? `<span style="font-size:.68rem;font-weight:700;background:rgba(245,158,11,.2);color:#fbbf24;padding:2px 6px;border-radius:4px">⚡ SPIKE</span>`
+            : `<span style="color:var(--text-muted);font-size:.68rem">—</span>`;
+        case 'streak': {
+          const n = parseInt(v) || 1;
+          if (n <= 1) return `<span style="color:var(--text-muted);font-size:.75rem">1d</span>`;
+          const c = n >= 5 ? '#f59e0b' : n >= 3 ? '#06b6d4' : '#94a3b8';
+          const icon = n >= 5 ? '🔥' : n >= 3 ? '📈' : '';
+          return `<span style="font-size:.75rem;font-weight:600;color:${c}">${icon}${n}d</span>`;
+        }
+        case 'migrate':
+          if (!v) return `<span style="color:var(--text-muted);font-size:.68rem">—</span>`;
+          return `<span style="font-size:.68rem;font-weight:600;background:rgba(139,92,246,.2);color:#c4b5fd;padding:2px 6px;border-radius:4px">↔ ${v}</span>`;
+        default: return `<span>${v}</span>`;
+      }
+    }
+    function barColor(v) { if (v >= 20) return 'rgba(16,185,129,.7)'; if (v >= 0) return 'rgba(16,185,129,.4)'; if (v >= -20) return 'rgba(239,68,68,.4)'; return 'rgba(239,68,68,.7)'; }
+
+    // ── Init ───────────────────────────────────────────────────────────────────────
+    window.onload = async () => {
+      buildQuadPanels();
+      try {
+        const ltd = await apig('/last_trading_day');
+        document.getElementById('dateInput').value = ltd.date;
+        document.getElementById('connErr').style.display = 'none';
+      } catch {
+        document.getElementById('connErr').style.display = 'block';
+        setStatus('error', 'Server not reachable — run: py screener_server.py');
+        return;
+      }
+      try {
+        const d = await apig('/data');
+        if (d.status === 'done' && d.data) { loadData(d); return; }
+        if (d.status === 'running') { startPoll(); return; }
+      } catch { }
+      runScreener();
+    };
+
+    // ── Build Q panel HTML skeletons ───────────────────────────────────────────────
+    function buildQuadPanels() {
+      ['Q1', 'Q2', 'Q3', 'Q4'].forEach(q => {
+        const meta = QMETA[q];
+        document.getElementById('panel-' + q).innerHTML = `
+    <div class="stats-grid" id="stats-${q}"></div>
+    <div style="margin-bottom:10px;background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius);padding:12px 16px">
+      <div class="toolbar" style="margin-bottom:8px">
+        <div class="quad-tabs">
+          ${['Q1', 'Q2', 'Q3', 'Q4'].map(x => `<button class="qtab ${x === q ? 'active' : ''}" onclick="switchTab('${x}')">${x}: ${QMETA[x].label}</button>`).join('')}
+        </div>
+        <input type="text" id="srch-${q}" placeholder="Search symbol…" oninput="renderTable('${q}')" style="width:120px">
+        <select id="sec-${q}" onchange="renderTable('${q}')" style="width:160px">
+          <option value="">All Sectors</option>
+        </select>
+        <select id="bucket-${q}" onchange="renderTable('${q}')">
+          <option value="">All Sizes</option>
+          <option value="Large">Large Cap</option>
+          <option value="Mid">Mid Cap</option>
+          <option value="Small">Small Cap</option>
+        </select>
+        <label style="display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--text-secondary);cursor:pointer">
+          <input type="checkbox" id="spike-${q}" onchange="renderTable('${q}')" style="accent-color:var(--accent-amber);cursor:pointer;width:auto;padding:0">
+          ⚡ Spikes only
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--text-secondary);cursor:pointer">
+          <input type="checkbox" id="streak3-${q}" onchange="renderTable('${q}')" style="accent-color:var(--accent-cyan);cursor:pointer;width:auto;padding:0">
+          📈 Streak ≥3d
+        </label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--text-secondary);cursor:pointer">
+          <input type="checkbox" id="migr-${q}" onchange="renderTable('${q}')" style="accent-color:#c4b5fd;cursor:pointer;width:auto;padding:0">
+          ↔ Migrants only
+        </label>
+      </div>
+      <div class="toolbar">
+        <label style="font-size:.78rem;color:var(--text-muted)">Sort:</label>
+        <select id="scol-${q}" onchange="onSortColChange('${q}')">
+          <option value="DELIV_QTY">Del. Volume</option>
+          <option value="DELIV_PER">Del. %</option>
+          <option value="DELIV_VS_MA_PCT">vs 20d MA</option>
+          <option value="RETURN_PCT">Return %</option>
+          <option value="CLOSE">Price</option>
+          <option value="MARKET_CAP_CR">Mkt Cap</option>
+          <option value="TOTTRDQTY">Traded Vol</option>
+          <option value="TURNOVER_LACS">Turnover</option>
+          <option value="STREAK">Streak</option>
+        </select>
+        <div class="sort-grp">
+          <button class="btn active" id="sd-desc-${q}" onclick="setSortDir('${q}','desc')">High→Low</button>
+          <button class="btn" id="sd-asc-${q}" onclick="setSortDir('${q}','asc')">Low→High</button>
+        </div>
+        <label style="font-size:.78rem;color:var(--text-muted)">Top:</label>
+        <input type="number" id="topn-${q}" value="100" min="5" max="500" step="10" onchange="renderTable('${q}')" style="width:64px">
+        <span id="rowcount-${q}" style="font-size:.75rem;color:var(--text-muted)"></span>
+        <button class="btn ml" onclick="exportCSV('${q}')">⬇ CSV</button>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <h2 id="ctitle-${q}">Loading…</h2>
+      <div class="chart-wrap"><canvas id="chart-${q}" role="img" aria-label="${meta.label} chart">${meta.label}</canvas></div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="no-data" id="nodata-${q}">No stocks match the current filters.</div>
+      <div class="table-wrap">
+        <table id="tbl-${q}"><thead><tr class="grp-hdr" id="thead-grp-${q}"></tr><tr id="thead-col-${q}"></tr></thead><tbody id="tbody-${q}"></tbody></table>
+      </div>
+    </div>`;
+      });
+    }
+
+    // ── Run ────────────────────────────────────────────────────────────────────────
+    async function runScreener() {
+      const dv = document.getElementById('dateInput').value;
+      const fm = document.getElementById('mcapTog').checked;
+      document.getElementById('runBtn').disabled = true;
+      try {
+        const res = await apip('/run', { date: dv || undefined, fetch_mcaps: fm });
+        if (!res.ok) { alert(res.msg); document.getElementById('runBtn').disabled = false; return; }
+        setStatus('running', 'Pipeline started…');
+        startPoll();
+      } catch {
+        document.getElementById('connErr').style.display = 'block';
+        document.getElementById('runBtn').disabled = false;
+      }
+    }
+
+    // ── Polling ────────────────────────────────────────────────────────────────────
+    function startPoll() { clearInterval(_poll); _poll = setInterval(poll, 1500); }
+    async function poll() {
+      try {
+        const s = await apig('/status');
+        document.getElementById('connErr').style.display = 'none';
+        document.getElementById('pFill').style.width = (s.step || 0) + '%';
+        setStatus(s.status, s.progress || s.status);
+        if (s.cache_info) updateCacheBadge(s.cache_info);
+        if (s.status === 'done') {
+          clearInterval(_poll);
+          const d = await apig('/data');
+          loadData(d);
+          document.getElementById('runBtn').disabled = false;
+        } else if (s.status === 'error') {
+          clearInterval(_poll);
+          document.getElementById('runBtn').disabled = false;
+        }
+      } catch { }
+    }
+    function setStatus(st, msg) {
+      document.getElementById('sDot').className = 'sbar-dot dot-' + st;
+      document.getElementById('sTxt').textContent = msg;
+    }
+    function updateCacheBadge(ci) {
+      if (!ci || !ci.days) return;
+      document.getElementById('cacheBadge').textContent =
+        `cache: ${ci.days}d · ${ci.symbols} syms · ${ci.from}→${ci.to}`;
+    }
+
+    // ── Load data ──────────────────────────────────────────────────────────────────
+    function loadData(d) {
+      _data = d.data; _summary = d.summary;
+      if (d.trade_date) {
+        document.getElementById('metaLabel').textContent =
+          `Trade date: ${fdate(d.trade_date)}  ·  nsepython · bhavcopy`;
+      }
+      if (d.last_run) document.getElementById('lastRun').textContent = d.last_run;
+      if (d.cache_info) updateCacheBadge(d.cache_info);
+      setStatus('done', `Loaded ${fdate(d.trade_date)}`);
+      document.getElementById('pFill').style.width = '100%';
+      updateBadges();
+      renderOverview();
+      ['Q1', 'Q2', 'Q3', 'Q4'].forEach(q => renderQuadPanel(q));
+    }
+
+    function updateBadges() {
+      if (!_summary) return;
+      let total = 0;
+      ['Q1', 'Q2', 'Q3', 'Q4'].forEach(q => {
+        const s = _summary[q] || {};
+        const n = s.count || 0; total += n;
+        document.getElementById('bc-' + q).textContent = n;
+        document.getElementById('qnum-' + q).textContent = n;
+        if (n) {
+          const r = s.avg_return || 0;
+          const spk = s.spikes || 0; const stk = s.streak_3plus || 0;
+          document.getElementById('qavg-' + q).textContent =
+            (r > 0 ? '+' : '') + r.toFixed(2) + '% avg ret · ' + fvol(s.avg_dvol) + ' avg del.vol'
+            + (spk ? ` · ⚡${spk} spikes` : '') + (stk ? ` · 📈${stk} streaks` : '');
+        }
+      });
+      const allSpikes = ['Q1', 'Q2', 'Q3', 'Q4'].reduce((a, q) => a + (_summary[q]?.spikes || 0), 0);
+      const allStreak3 = ['Q1', 'Q2', 'Q3', 'Q4'].reduce((a, q) => a + (_summary[q]?.streak_3plus || 0), 0);
+      const totDvol = ['Q1', 'Q2', 'Q3', 'Q4'].reduce((a, q) => a + (_data && _data[q] ? _data[q].reduce((s, r) => s + (r.DELIV_QTY || 0), 0) : 0), 0);
+      const q1n = _summary.Q1?.count || 0, q2n = _summary.Q2?.count || 0;
+      const bsRatio = q2n > 0 ? (q1n / q2n).toFixed(2) : '∞';
+      const buyDV = (_data?.Q1 || []).reduce((a, r) => a + (r.DELIV_QTY || 0), 0) + (_data?.Q3 || []).reduce((a, r) => a + (r.DELIV_QTY || 0), 0);
+      const sellDV = (_data?.Q2 || []).reduce((a, r) => a + (r.DELIV_QTY || 0), 0) + (_data?.Q4 || []).reduce((a, r) => a + (r.DELIV_QTY || 0), 0);
+      const delPressure = sellDV > 0 ? (buyDV / sellDV).toFixed(2) : '∞';
+      document.getElementById('overviewStats').innerHTML =
+        `<div class="stat-card"><div class="val">${total}<span style="font-size:.85rem;color:var(--text-muted)">/500</span></div><div class="lbl">Stocks Classified</div></div>` +
+        `<div class="stat-card"><div class="val green">${q1n}</div><div class="lbl">Conviction Buy</div></div>` +
+        `<div class="stat-card"><div class="val red">${q2n}</div><div class="lbl">Distribution</div></div>` +
+        `<div class="stat-card"><div class="val" style="color:#06b6d4">${_summary.Q3?.count || 0}</div><div class="lbl">Low-Conv Rally</div></div>` +
+        `<div class="stat-card"><div class="val amber">${_summary.Q4?.count || 0}</div><div class="lbl">Weak Selling</div></div>` +
+        `<div class="stat-card"><div class="val">${bsRatio}</div><div class="lbl">Buy/Sell Ratio</div></div>` +
+        `<div class="stat-card"><div class="val">${delPressure}</div><div class="lbl">Del. Pressure (B/S)</div></div>` +
+        `<div class="stat-card"><div class="val">${fvol(totDvol)}</div><div class="lbl">Total Del. Volume</div></div>` +
+        `<div class="stat-card"><div class="val amber">${allSpikes}</div><div class="lbl">⚡ Del. Spikes</div></div>` +
+        `<div class="stat-card"><div class="val">${allStreak3}</div><div class="lbl">📈 Streak ≥3d</div></div>`;
+    }
+
+    // ── Overview chart ─────────────────────────────────────────────────────────────
+    function renderOverview() {
+      if (!_summary) return;
+      const labels = ['Q1: Conviction Buy', 'Q2: Distribution', 'Q3: Low-Conv Rally', 'Q4: Weak Selling'];
+      const counts = ['Q1', 'Q2', 'Q3', 'Q4'].map(q => _summary[q]?.count || 0);
+      const avgRets = ['Q1', 'Q2', 'Q3', 'Q4'].map(q => _summary[q]?.avg_return || 0);
+      const colors = ['rgba(16,185,129,.7)', 'rgba(239,68,68,.7)', 'rgba(6,182,212,.7)', 'rgba(245,158,11,.7)'];
+      document.getElementById('ovChartTitle').textContent = 'Quadrant Distribution — Stock Count & Avg Return';
+      if (_ovChart) _ovChart.destroy();
+      _ovChart = new Chart(document.getElementById('ovChart'), {
+        data: {
+          labels,
+          datasets: [
+            { type: 'bar', label: 'Stock Count', data: counts, backgroundColor: colors, borderRadius: 6, yAxisID: 'y', order: 2 },
+            {
+              type: 'line', label: 'Avg Return %', data: avgRets, borderColor: '#f1f5f9', backgroundColor: 'rgba(241,245,249,.15)',
+              pointBackgroundColor: colors, pointBorderColor: '#fff', pointRadius: 6, borderWidth: 2, yAxisID: 'y2', order: 1
+            }
+          ]
+        },
+        options: {
+          maintainAspectRatio: false, responsive: true,
+          plugins: {
+            legend: { display: true, position: 'top', labels: { color: '#94a3b8', boxWidth: 12 } },
+            tooltip: { backgroundColor: 'rgba(17,24,39,.95)', titleColor: '#f1f5f9', bodyColor: '#94a3b8', borderColor: 'rgba(59,130,246,.3)', borderWidth: 1 }
+          },
+          scales: {
+            y: { title: { display: true, text: 'Stock Count', color: '#64748b' }, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,.04)' } },
+            y2: { title: { display: true, text: 'Avg Return %', color: '#64748b' }, position: 'right', ticks: { color: '#94a3b8' }, grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    // ── Quadrant panel ─────────────────────────────────────────────────────────────
+    const _qCharts = {};
+    function renderQuadPanel(q) {
+      if (!_data || !_data[q]) return;
+      renderQStats(q);
+      renderQChart(q);
+      buildQHeaders(q);
+      renderTable(q);
+    }
+
+    function renderQStats(q) {
+      const s = _summary[q] || {}; const n = s.count || 0;
+      const rows = _data[q] || [];
+      const posRet = rows.filter(r => (r.RETURN_PCT || 0) > 0).length;
+      const aboveMA = rows.filter(r => (r.DELIV_VS_MA_PCT || 0) > 0).length;
+      const spikes = s.spikes || 0;
+      const streak3 = s.streak_3plus || 0;
+      const mcap = s.mcap_split || {};
+      document.getElementById('stats-' + q).innerHTML =
+        `<div class="stat-card"><div class="val">${n}</div><div class="lbl">N500 Stocks</div></div>` +
+        `<div class="stat-card"><div class="val ${s.avg_return >= 0 ? 'green' : 'red'}">${s.avg_return >= 0 ? '+' : ''}${(s.avg_return || 0).toFixed(2)}%</div><div class="lbl">Avg Return</div></div>` +
+        `<div class="stat-card"><div class="val">${fvol(s.avg_dvol)}</div><div class="lbl">Avg Del. Volume</div></div>` +
+        `<div class="stat-card"><div class="val">${(s.avg_dpct || 0).toFixed(1)}%</div><div class="lbl">Avg Del. %</div></div>` +
+        `<div class="stat-card"><div class="val ${s.avg_vsmapct >= 0 ? 'green' : 'red'}">${s.avg_vsmapct >= 0 ? '+' : ''}${(s.avg_vsmapct || 0).toFixed(1)}%</div><div class="lbl">Avg vs 20d MA</div></div>` +
+        `<div class="stat-card"><div class="val amber">${spikes}</div><div class="lbl">⚡ Del. Spikes</div></div>` +
+        `<div class="stat-card"><div class="val">${streak3}</div><div class="lbl">📈 Streak ≥3d</div></div>` +
+        `<div class="stat-card"><div class="val green">${mcap.Large || 0}</div><div class="lbl">Large Cap</div></div>` +
+        `<div class="stat-card"><div class="val">${mcap.Mid || 0}</div><div class="lbl">Mid Cap</div></div>` +
+        `<div class="stat-card"><div class="val amber">${mcap.Small || 0}</div><div class="lbl">Small Cap</div></div>`;
+
+      // Populate sector dropdown
+      const secSel = document.getElementById('sec-' + q);
+      if (secSel) {
+        const sectors = new Set(rows.map(r => r.SECTOR).filter(Boolean));
+        const prev = secSel.value;
+        secSel.innerHTML = '<option value="">All Sectors</option>' +
+          [...sectors].sort().map(s => `<option value="${s}">${s}</option>`).join('');
+        if ([...sectors].includes(prev)) secSel.value = prev;
+      }
+    }
+
+    function renderQChart(q) {
+      const rows = getFiltered(q).slice(0, 25);
+      const qColor = QMETA[q].color;
+      document.getElementById('ctitle-' + q).textContent =
+        `${QMETA[q].label} — Top ${rows.length} stocks by ${document.getElementById('scol-' + q)?.value || 'DELIV_QTY'}`;
+      if (_qCharts[q]) _qCharts[q].destroy();
+      const sortKey = document.getElementById('scol-' + q)?.value || 'DELIV_QTY';
+      const labels = rows.map(r => r.SYMBOL);
+      const vals = rows.map(r => r[sortKey] !== null && r[sortKey] !== undefined ? parseFloat(r[sortKey]) : null);
+      _qCharts[q] = new Chart(document.getElementById('chart-' + q), {
+        type: 'bar',
+        data: {
+          labels, datasets: [{
+            label: sortKey, data: vals, backgroundColor: rows.map(r => {
+              if (sortKey === 'RETURN_PCT') return (r.RETURN_PCT || 0) >= 0 ? 'rgba(16,185,129,.7)' : 'rgba(239,68,68,.7)';
+              if (sortKey === 'DELIV_VS_MA_PCT') return (r.DELIV_VS_MA_PCT || 0) >= 0 ? 'rgba(16,185,129,.7)' : 'rgba(239,68,68,.7)';
+              return qColor + 'bb';
+            }), borderRadius: 4, borderSkipped: false
+          }]
+        },
+        options: {
+          indexAxis: 'x', maintainAspectRatio: false, responsive: true,
+          plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(17,24,39,.95)', titleColor: '#f1f5f9', bodyColor: '#94a3b8', borderColor: 'rgba(59,130,246,.3)', borderWidth: 1 } },
+          scales: {
+            x: { ticks: { color: '#94a3b8', font: { size: 9 }, maxRotation: 45 }, grid: { display: false } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,.04)' } }
+          }
+        }
+      });
+    }
+
+    // ── Table headers ──────────────────────────────────────────────────────────────
+    function buildQHeaders(q) {
+      const grpRow = document.getElementById('thead-grp-' + q);
+      const colRow = document.getElementById('thead-col-' + q);
+      // Build group spans
+      const groups = {};
+      ALL_COLS.forEach(c => { if (!groups[c.grp]) groups[c.grp] = 0; groups[c.grp]++; });
+      let gHtml = '';
+      const grpOrder = ['', 'Price', 'Delivery', 'Volume', 'Fundamental'];
+      grpOrder.forEach(g => {
+        if (!groups[g]) return;
+        gHtml += `<th colspan="${groups[g]}">${g || '&nbsp;'}</th>`;
+      });
+      grpRow.innerHTML = gHtml;
+      // Col headers
+      const sc = _sortCol[q] || 'DELIV_QTY';
+      const sd = _sortDir[q] || 'desc';
+      colRow.innerHTML = ALL_COLS.map(c => {
+        if (!c.sortable) return `<th>${c.h}</th>`;
+        const cls = sc === c.k ? (sd === 'desc' ? 'sort-desc' : 'sort-asc') : '';
+        return `<th class="${cls}" onclick="tableSort('${q}','${c.k}')">${c.h}</th>`;
+      }).join('');
+    }
+
+    // ── Filter + render ────────────────────────────────────────────────────────────
+    function getFiltered(q) {
+      if (!_data || !_data[q]) return [];
+      const rows = [..._data[q]];
+      const srch = (document.getElementById('srch-' + q)?.value || '').trim().toUpperCase();
+      const secF = (document.getElementById('sec-' + q)?.value || '');
+      const bucketF = (document.getElementById('bucket-' + q)?.value || '');
+      const spikeOnly = document.getElementById('spike-' + q)?.checked || false;
+      const streak3Only = document.getElementById('streak3-' + q)?.checked || false;
+      const migrOnly = document.getElementById('migr-' + q)?.checked || false;
+      const mMin = parseFloat(document.getElementById('mcapMin')?.value) || 0;
+      const mMax = parseFloat(document.getElementById('mcapMax')?.value) || Infinity;
+      const sc = _sortCol[q] || 'DELIV_QTY';
+      const sd = _sortDir[q] || 'desc';
+      const tn = parseInt(document.getElementById('topn-' + q)?.value) || 100;
+
+      let f = rows.filter(r => {
+        if (srch && !(r.SYMBOL || '').includes(srch)) return false;
+        if (secF && r.SECTOR !== secF) return false;
+        if (bucketF && r.MCAP_BUCKET !== bucketF) return false;
+        if (spikeOnly && !r.SPIKE) return false;
+        if (streak3Only && (r.STREAK || 1) < 3) return false;
+        if (migrOnly && !r.MIGRATION) return false;
+        if (mMin > 0 && (r.MARKET_CAP_CR == null || r.MARKET_CAP_CR < mMin)) return false;
+        if (isFinite(mMax) && r.MARKET_CAP_CR != null && r.MARKET_CAP_CR > mMax) return false;
+        return true;
+      });
+      f.sort((a, b) => {
+        const av = a[sc] ?? -Infinity, bv = b[sc] ?? -Infinity;
+        if (typeof av === 'string') return sd === 'desc' ? bv.localeCompare(av) : av.localeCompare(bv);
+        return sd === 'desc' ? bv - av : av - bv;
+      });
+      const sliced = tn > 0 ? f.slice(0, tn) : f;
+      const rc = document.getElementById('rowcount-' + q);
+      if (rc) rc.textContent = `Showing ${sliced.length} of ${f.length}`;
+      return sliced;
+    }
+
+    function renderTable(q) {
+      if (!_data) return;
+      const rows = getFiltered(q);
+      const nd = document.getElementById('nodata-' + q);
+      const tbl = document.getElementById('tbl-' + q);
+      if (!rows.length) { nd.style.display = 'block'; tbl.style.display = 'none'; return; }
+      nd.style.display = 'none'; tbl.style.display = '';
+      buildQHeaders(q);
+      const qColor = QMETA[q].color;
+      const maxDvol = Math.max(...rows.map(r => r.DELIV_QTY || 0), 1);
+      const tbody = document.getElementById('tbody-' + q);
+      tbody.innerHTML = rows.map((r, i) => {
+        const cells = ALL_COLS.map((c, ci) => {
+          if (c.k === '_rank') return `<td class="rank">${i + 1}</td>`;
+          const v = r[c.k];
+          return `<td>${fmtCell(c.fmt, v, r, maxDvol, qColor)}</td>`;
+        }).join('');
+        return `<tr>${cells}</tr>`;
+      }).join('');
+      // re-render chart with current sorted data
+      renderQChart(q);
+    }
+
+    function tableSort(q, col) {
+      if (_sortCol[q] === col) { _sortDir[q] = _sortDir[q] === 'desc' ? 'asc' : 'desc'; }
+      else { _sortCol[q] = col; _sortDir[q] = 'desc'; }
+      const sel = document.getElementById('scol-' + q);
+      if (sel && [...sel.options].some(o => o.value === col)) sel.value = col;
+      renderTable(q);
+    }
+    function onSortColChange(q) { _sortCol[q] = document.getElementById('scol-' + q).value; renderTable(q); }
+    function setSortDir(q, d) {
+      _sortDir[q] = d;
+      document.getElementById('sd-desc-' + q).className = d === 'desc' ? 'btn active' : 'btn';
+      document.getElementById('sd-asc-' + q).className = d === 'asc' ? 'btn active' : 'btn';
+      renderTable(q);
+    }
+
+    // ── Tab switching ──────────────────────────────────────────────────────────────
+    function switchTab(t) {
+      _activeTab = t;
+      document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + t).classList.add('active');
+      document.getElementById('panel-' + t).classList.add('active');
+      // Update qcard active state
+      ['Q1', 'Q2', 'Q3', 'Q4'].forEach(q => {
+        const c = document.getElementById('qcard-' + q);
+        if (c) { c.classList.toggle('active', q === t); c.classList.toggle('dim', ['Q1', 'Q2', 'Q3', 'Q4'].includes(t) && q !== t); }
+      });
+    }
+
+    // ── CSV export ─────────────────────────────────────────────────────────────────
+    function exportCSV(q) {
+      const target = q || _activeTab;
+      if (!_data || !['Q1', 'Q2', 'Q3', 'Q4'].includes(target)) { alert('Select a quadrant tab first'); return; }
+      const rows = getFiltered(target);
+      const keys = ALL_COLS.filter(c => c.k !== '_rank').map(c => c.k);
+      const hdrs = ALL_COLS.filter(c => c.k !== '_rank').map(c => c.h);
+      const lines = [hdrs.join(','), ...rows.map(r => keys.map(k => { const v = r[k]; return v === null || v === undefined ? '' : String(v).replace(/,/g, ''); }).join(','))];
+      const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = `NSE_Delivery_${target}_${document.getElementById('dateInput').value || 'latest'}.csv`;
+      a.click();
+    }
+  </script>
+</body>
+
+</html>
