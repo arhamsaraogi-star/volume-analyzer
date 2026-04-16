@@ -418,24 +418,26 @@ def generate_dashboard(trade_date: date, quadrants: dict, all_data: pd.DataFrame
         "records": records
     }
     
-    # Load template
-    template_path = PUBLIC_SITE_DIR / "index.html"
-    if not template_path.exists():
-        log.error(f"Template not found at {template_path}")
+    # Use template system to avoid overwriting the placeholder
+    template_file = PUBLIC_SITE_DIR / "template.html"
+    index_file = PUBLIC_SITE_DIR / "index.html"
+    
+    if not template_file.exists():
+        log.error(f"Template not found at {template_file}")
         return
         
-    with open(template_path, "r", encoding="utf-8") as f:
+    with open(template_file, "r", encoding="utf-8") as f:
         html = f.read()
     
-    # Inject data
+    # Inject data into placeholder
     json_data = json.dumps(data_payload)
     html = html.replace("__DATA__", json_data)
     
-    # Save final index.html (overwrite)
-    with open(template_path, "w", encoding="utf-8") as f:
+    # Save final index.html
+    with open(index_file, "w", encoding="utf-8") as f:
         f.write(html)
     
-    log.info(f"Pipeline successful. Dashboard updated: {template_path}")
+    log.info(f"Pipeline successful. Dashboard updated: {index_file}")
 
 
 if __name__ == "__main__":
