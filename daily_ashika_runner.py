@@ -111,6 +111,12 @@ def main():
     generate_gateway_hub()
     
     log("Ashika Pipeline Complete.")
+    
+    # Auto-open dashboard
+    index_path = ROOT / "index.html"
+    if index_path.exists():
+        log(f"Opening dashboard: {index_path}")
+        os.startfile(index_path)
 
 if __name__ == "__main__":
     main()

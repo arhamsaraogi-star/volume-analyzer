@@ -86,9 +86,12 @@ def get_dates_to_process():
     Determine which dates need processing.
     Goes back to find first unprocessed date, up to SEASON_START.
     """
-    yesterday = datetime.today() - timedelta(days=1)
-    # Don't process today (results won't be out yet)
-    end_date = yesterday
+    today = datetime.today()
+    # Allow processing today if it's after 10 AM, otherwise stick to yesterday
+    if today.hour >= 10:
+        end_date = today
+    else:
+        end_date = today - timedelta(days=1)
 
     last_processed = get_last_processed_date()
 
