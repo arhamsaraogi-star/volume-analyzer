@@ -91,10 +91,6 @@
         }
         select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
 
-        .universe-toggle { display: flex; background: #1e293b; border-radius: 10px; padding: 4px; border: 1px solid var(--border); }
-        .u-btn { padding: 6px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: var(--text-dim); transition: 0.3s; }
-        .u-btn.active { background: var(--accent); color: white; }
-
         /* Table */
         .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); background: var(--card-bg); }
         table { width: 100%; border-collapse: collapse; min-width: 1000px; }
@@ -112,7 +108,8 @@
         .b-neg { background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid var(--error); }
         .b-spike { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.2); }
 
-        .company-name { font-weight: 600; color: var(--text); }
+        .company-name { font-weight: 600; color: var(--accent); text-decoration: none; }
+        .company-name:hover { text-decoration: underline; }
         .sector-name { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; }
 
         .footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 40px; }
@@ -120,10 +117,6 @@
         @media (max-width: 768px) {
             header { flex-direction: column; padding: 1rem; align-items: flex-start; gap: 1rem; }
             .nav-links { margin-left: 0; width: 100%; justify-content: space-between; }
-            .quad-grid { grid-template-columns: 1fr; }
-            .controls { flex-direction: column; align-items: stretch; gap: 1rem; }
-            .ctrl-group { flex-direction: column; align-items: flex-start; }
-            .u-btn, select, input { width: 100%; }
         }
     </style>
 </head>
@@ -169,13 +162,6 @@
 
         <div class="controls">
             <div class="ctrl-group">
-                <label>Universe</label>
-                <div class="universe-toggle">
-                    <div class="u-btn active" id="u-n500" onclick="setUniverse('n500')">Nifty 500</div>
-                    <div class="u-btn" id="u-all" onclick="setUniverse('all')">All Universe</div>
-                </div>
-            </div>
-            <div class="ctrl-group">
                 <label>Search</label>
                 <input type="text" id="searchInput" placeholder="Symbol..." oninput="refresh()">
             </div>
@@ -209,7 +195,7 @@
                         <th onclick="setSort('DELIV_VS_MA_PCT')">vs 20D MA</th>
                         <th onclick="setSort('DELIV_PER')">Deliv%</th>
                         <th onclick="setSort('MARKET_CAP_CR')">MCap (Cr)</th>
-                        <th onclick="setSort('SECTOR')">Sector</th>
+                        <th onclick="setSort('SECTOR')">Industry Subgroup</th>
                     </tr>
                 </thead>
                 <tbody id="dataTable">
@@ -220,12 +206,11 @@
     </div>
 
     <div class="footer">
-        Developed by Ashika Group · Data source: NSE Bhavcopy & Screener.in
+        Developed by Ashika Group · Data source: BSE 2000 & NSE Bhavcopy
     </div>
 
     <script>
         const DATA = __DATA__;
-        let currentUniverse = 'n500';
         let currentSort = 'DELIV_Z';
         let currentOrder = 'desc';
         let activeQuadrant = 'ALL';
@@ -238,13 +223,6 @@
             document.getElementById('count-Q2').textContent = DATA.quadrants.Q2;
             document.getElementById('count-Q3').textContent = DATA.quadrants.Q3;
             document.getElementById('count-Q4').textContent = DATA.quadrants.Q4;
-            refresh();
-        }
-
-        function setUniverse(u) {
-            currentUniverse = u;
-            document.getElementById('u-n500').classList.toggle('active', u === 'n500');
-            document.getElementById('u-all').classList.toggle('active', u === 'all');
             refresh();
         }
 
@@ -269,12 +247,13 @@
             const qFilt = document.getElementById('quadrantFilter').value;
             
             let filtered = DATA.records.filter(r => {
-                if (currentUniverse === 'n500' && !r.IN_N500) return false;
                 if (search && !r.SYMBOL.includes(search)) return false;
                 if (spikeOnly && r.DELIV_VS_MA_PCT < 200) return false;
+                
                 const isPos = r.RETURN_PCT > 0;
                 const aboveMA = r.DELIV_QTY > r.DELIV_MA20;
                 let q = isPos ? (aboveMA ? 'Q1' : 'Q3') : (aboveMA ? 'Q2' : 'Q4');
+                
                 if (qFilt !== 'ALL' && q !== qFilt) return false;
                 return true;
             });
@@ -297,7 +276,10 @@
                 const isSpike = r.DELIV_VS_MA_PCT >= 200;
                 
                 tr.innerHTML = `
-                    <td><div class="company-name">${r.SYMBOL}</div><div class="sector-name">${r.SECTOR}</div></td>
+                    <td>
+                        <a href="https://www.screener.in/company/${r.SYMBOL}/" target="_blank" class="company-name">${r.SYMBOL}</a>
+                        <div class="sector-name">${r.SECTOR}</div>
+                    </td>
                     <td style="font-weight:700">₹${r.CLOSE.toLocaleString()}</td>
                     <td><span class="badge ${isPos ? 'b-pos' : 'b-neg'}">${isPos ? '+' : ''}${r.RETURN_PCT.toFixed(2)}%</span></td>
                     <td style="color:var(--text-dim)">${r.DELIV_QTY.toLocaleString()}</td>
