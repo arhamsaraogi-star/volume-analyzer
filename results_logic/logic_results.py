@@ -766,9 +766,17 @@ window.addEventListener('hashchange', () => {
 });
 
 const D_PCT=new Set(["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%"]);
-const D_PP=new Set(["EBITDA Margin YoY pp","PAT Margin YoY pp","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"]);
-
-function badge(v,col){if(v===null||v===undefined)return'<span class="na">—</span>';const n=parseFloat(v);if(isNaN(n))return`<span style="font-size:.72rem">${v}</span>`;const pp=D_PP.has(col),pct=D_PCT.has(col);if(!pp&&!pct)return n.toLocaleString('en-IN',{maximumFractionDigits:0});let c;if(pp){const bps=Math.round(n*100);c=bps>=200?'pp-g2':bps>=0?'pp-g1':bps>=-200?'pp-r1':'pp-r2';return`<span class="badge ${c}">${bps>=0?'+':''}${bps}bps</span>`;}c=n>=15?'g2':n>=5?'g1':n>=0?'a0':n>=-10?'r1':'r2';return`<span class="badge ${c}">${n.toFixed(1)}%</span>`;}
+const D_PP=new Set(["EBITDA Margin YoY pp","PAT Margin YoY pp","EBITDA Margin QoQ pp","PAT Margin QoQfunction badge(v,col){
+  if(v===null||v===undefined)return'<span class="na">—</span>';
+  if(col==="Result Date"||col==="Quarter"||col==="Sector"||col==="Indices")return `<span style="font-size:.72rem">${v}</span>`;
+  const n=parseFloat(v);
+  if(isNaN(n))return`<span style="font-size:.72rem">${v}</span>`;
+  const pp=D_PP.has(col),pct=D_PCT.has(col);
+  if(!pp&&!pct)return n.toLocaleString('en-IN',{maximumFractionDigits:0});
+  let c;if(pp){const bps=Math.round(n*100);c=bps>=200?'pp-g2':bps>=0?'pp-g1':bps>=-200?'pp-r1':'pp-r2';return`<span class="badge ${c}">${bps>=0?'+':''}${bps}bps</span>`;}
+  c=n>=15?'g2':n>=5?'g1':n>=0?'a0':n>=-10?'r1':'r2';
+  return`<span class="badge ${c}">${n.toFixed(1)}%</span>`;
+}
 
 function sBadge(v,isPP){if(v===null||v===undefined)return'<span class="na">—</span>';const n=parseFloat(v);let c;if(isPP){const bps=Math.round(n*100);c=bps>=200?'pp-g2':bps>=0?'pp-g1':bps>=-200?'pp-r1':'pp-r2';return`<span class="badge ${c}">${bps>=0?'+':''}${bps}bps</span>`;}c=n>=15?'g2':n>=5?'g1':n>=0?'a0':n>=-10?'r1':'r2';return`<span class="badge ${c}">${n.toFixed(1)}%</span>`;}
 
@@ -795,7 +803,6 @@ function dRefreshSubsectors(){
   const sec=document.getElementById('dSector').value;
   const sub=document.getElementById('dSubsector');
   const prev=sub.value;
-  // Collect subsectors from data matching sector filter
   const subs=new Set();
   DAILY_DATA.forEach(r=>{if((!sec||r.Sector===sec)&&r.Subsector&&r.Subsector!=='')subs.add(r.Subsector);});
   sub.innerHTML='<option value="">All Subsectors</option>';
@@ -805,13 +812,27 @@ function dRefreshSubsectors(){
 
 (function(){
   const df=document.getElementById('dDateFrom'),dt=document.getElementById('dDateTo');
-  DAILY_DATES.forEach(d=>{df.innerHTML+=`<option value="${d}">${d}</option>`;dt.innerHTML+=`<option value="${d}">${d}</option>`;});
-  if(DAILY_DATES.length){df.value=DAILY_DATES[0];dt.value=DAILY_DATES[DAILY_DATES.length-1];dFrom=DAILY_DATES[0];dTo=DAILY_DATES[DAILY_DATES.length-1];}
-  const ss=document.getElementById('dSector');DAILY_SECTORS.forEach(s=>ss.innerHTML+=`<option value="${s}">${s}</option>`);ss.onchange=()=>{dRefreshSubsectors();dRefresh();};
+  if(df && dt) {
+    DAILY_DATES.forEach(d=>{df.innerHTML+=`<option value="${d}">${d}</option>`;dt.innerHTML+=`<option value="${d}">${d}</option>`;});
+    if(DAILY_DATES.length){df.value=DAILY_DATES[0];dt.value=DAILY_DATES[DAILY_DATES.length-1];dFrom=DAILY_DATES[0];dTo=DAILY_DATES[DAILY_DATES.length-1];}
+  }
+  const ss=document.getElementById('dSector');
+  if(ss) {
+    DAILY_SECTORS.forEach(s=>ss.innerHTML+=`<option value="${s}">${s}</option>`);
+    ss.onchange=()=>{dRefreshSubsectors();dRefresh();};
+  }
   dRefreshSubsectors();
-  const so=document.getElementById('dSort');D_SORT.filter(c=>D_COLS.includes(c)).forEach(c=>so.innerHTML+=`<option value="${c}">${c}</option>`);so.onchange=e=>{dSort=e.target.value;const _cm=document.getElementById('dChartMetric');if(D_CHART_M.includes(dSort))_cm.value=dSort;dRefresh();};
-  const cm=document.getElementById('dChartMetric');D_CHART_M.forEach(m=>cm.innerHTML+=`<option value="${m}">${m}</option>`);cm.onchange=()=>dRefresh();
-  document.getElementById('dailyCount').textContent=DAILY_DATA.length;
+  const so=document.getElementById('dSort');
+  if(so) {
+    D_SORT.filter(c=>D_COLS.includes(c)).forEach(c=>so.innerHTML+=`<option value="${c}">${c}</option>`);
+    so.onchange=e=>{dSort=e.target.value;const _cm=document.getElementById('dChartMetric');if(_cm && D_CHART_M.includes(dSort))_cm.value=dSort;dRefresh();};
+  }
+  const cm=document.getElementById('dChartMetric');
+  if(cm) {
+    D_CHART_M.forEach(m=>cm.innerHTML+=`<option value="${m}">${m}</option>`);
+    cm.onchange=()=>dRefresh();
+  }
+  const dc=document.getElementById('dailyCount'); if(dc) dc.textContent=DAILY_DATA.length;
 })();
 
 function dApplyDate(){dFrom=document.getElementById('dDateFrom').value;dTo=document.getElementById('dDateTo').value;dRefresh();}
@@ -819,9 +840,10 @@ function dResetDate(){dFrom=DAILY_DATES[0]||null;dTo=DAILY_DATES[DAILY_DATES.len
 function dSetOrder(o){dOrder=o;document.getElementById('dBtnDesc').className=o==='desc'?'btn active':'btn';document.getElementById('dBtnAsc').className=o==='asc'?'btn active':'btn';dRefresh();}
 
 function gGetGlobalFiltered(){
-  const mFloor=parseFloat(document.getElementById('gMCap').value)||0;
-  const mCeil=parseFloat(document.getElementById('gMCapMax').value);
-  const idx=document.getElementById('gIndex').value;
+  const gM=document.getElementById('gMCap'), gMM=document.getElementById('gMCapMax'), gI=document.getElementById('gIndex');
+  const mFloor=gM?parseFloat(gM.value)||0 : 0;
+  const mCeil=gMM?parseFloat(gMM.value) : NaN;
+  const idx=gI?gI.value : '';
   return DAILY_DATA.filter(r=>{
     if(mFloor>0&&(r["Market Cap (Cr)"]==null||parseFloat(r["Market Cap (Cr)"])<mFloor))return false;
     if(!isNaN(mCeil)&&(r["Market Cap (Cr)"]==null||parseFloat(r["Market Cap (Cr)"])>mCeil))return false;
@@ -845,7 +867,6 @@ function gRefreshAll(){
       SEC_DATA[m].push(secVals.length ? secVals.reduce((a,b)=>a+b,0)/secVals.length : null);
     });
   });
-
   if(typeof dRefresh === 'function') dRefresh();
   if(typeof sRefresh === 'function') sRefresh();
   

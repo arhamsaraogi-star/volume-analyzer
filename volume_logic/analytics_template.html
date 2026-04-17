@@ -191,6 +191,7 @@
                         <th>Result Date</th>
                         <th onclick="setSort('VOL_Z')">Intensity</th>
                         <th onclick="setSort('VOL_Z_5D')">Sustainable</th>
+                        <th onclick="setSort('DELIV_PCT')">Deliv %</th>
                         <th>Trend</th>
                     </tr>
                 </thead>
@@ -341,6 +342,7 @@
                     <td>${resHtml}</td>
                     <td class="${r.VOL_Z > 1.5 ? 'up' : ''}">${r.VOL_Z.toFixed(2)}σ</td>
                     <td>${r.VOL_Z_5D.toFixed(2)}σ</td>
+                    <td>${(r.DELIV_PCT || 0).toFixed(1)}%</td>
                     <td><div class="${diff > 0 ? 'up' : 'down'}" style="font-size: 0.75rem;">${diff > 0 ? '↑' : '↓'}</div></td>
                 `;
                 body.appendChild(tr);

@@ -232,43 +232,31 @@ def generate_dashboards(trade_date: date, df: pd.DataFrame, sector_stats: dict):
     df["ABOVE_MA"] = df["DELIV_QTY"] > df["DELIV_MA20"]
     df["DELIV_VS_MA_PCT"] = ((df["DELIV_QTY"] - df["DELIV_MA20"]) / df["DELIV_MA20"] * 100).round(1).fillna(0)
     
-    # Dashboard Quadrants (Restricted to Universe)
-    quads = {
-        "Q1": df[(df["RETURN_PCT"] > 0) & df["ABOVE_MA"]].to_dict(orient="records"),
-        "Q2": df[(df["RETURN_PCT"] < 0) & df["ABOVE_MA"]].to_dict(orient="records"),
-        "Q3": df[(df["RETURN_PCT"] > 0) & ~df["ABOVE_MA"]].to_dict(orient="records"),
-        "Q4": df[(df["RETURN_PCT"] < 0) & ~df["ABOVE_MA"]].to_dict(orient="records"),
-    }
-    
-    # Inject Master Data (Result Dates)
+    # 4. Inject Master Data (Result Dates)
     master_data = {}
     if MASTER_FILE.exists():
         with open(MASTER_FILE, "r") as f:
             master_data = json.load(f)
     
-    for r in df.to_dict(orient="records"):
-        sym = r["SYMBOL"]
-        m = master_data.get(sym, {})
-        r["LAST_RESULT"] = m.get("last_result")
-        r["NEXT_MEETING"] = m.get("upcoming_meeting")
-        r["MEETING_PURPOSE"] = m.get("purpose")
+    df["LAST_RESULT"] = df["SYMBOL"].map(lambda s: master_data.get(s, {}).get("last_result"))
+    df["NEXT_MEETING"] = df["SYMBOL"].map(lambda s: master_data.get(s, {}).get("upcoming_meeting"))
+    df["MEETING_PURPOSE"] = df["SYMBOL"].map(lambda s: master_data.get(s, {}).get("purpose"))
+
+    # 5. Build Dashboard Objects
+    quads = {
+        "Q1": df[(df["RETURN_PCT"] > 0) & df["ABOVE_MA"]],
+        "Q2": df[(df["RETURN_PCT"] < 0) & df["ABOVE_MA"]],
+        "Q3": df[(df["RETURN_PCT"] > 0) & ~df["ABOVE_MA"]],
+        "Q4": df[(df["RETURN_PCT"] < 0) & ~df["ABOVE_MA"]],
+    }
     
     payload = {
         "updated_at": datetime.now().strftime("%d %b %Y, %H:%M"),
         "trade_date": trade_date.strftime("%d %b %Y"),
         "quadrants": {q: len(v) for q, v in quads.items()},
-        "records": df.to_dict(orient="records"), # Wait, I need to update this after the loop
+        "records": df.to_dict(orient="records"),
         "sectors": sector_stats
     }
-    
-    # Update records with injected data
-    recs = df.to_dict(orient="records")
-    for r in recs:
-        m = master_data.get(r["SYMBOL"], {})
-        r["LAST_RESULT"] = m.get("last_result")
-        r["NEXT_MEETING"] = m.get("upcoming_meeting")
-        r["MEETING_PURPOSE"] = m.get("purpose")
-    payload["records"] = recs
     
     render("template.html", "volume_dashboard.html", payload)
     render("analytics_template.html", "analytics.html", payload)
