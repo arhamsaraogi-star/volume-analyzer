@@ -238,9 +238,10 @@ def generate_dashboards(trade_date: date, df: pd.DataFrame, sector_stats: dict):
         with open(MASTER_FILE, "r") as f:
             master_data = json.load(f)
     
-    df["LAST_RESULT"] = df["SYMBOL"].map(lambda s: master_data.get(s, {}).get("last_result"))
-    df["NEXT_MEETING"] = df["SYMBOL"].map(lambda s: master_data.get(s, {}).get("upcoming_meeting"))
-    df["MEETING_PURPOSE"] = df["SYMBOL"].map(lambda s: master_data.get(s, {}).get("purpose"))
+    df["SYMBOL"] = df["SYMBOL"].str.strip()
+    df["LAST_RESULT"] = df["SYMBOL"].map(lambda s: master_data.get(s, {}).get("last_result")).fillna("")
+    df["NEXT_MEETING"] = df["SYMBOL"].map(lambda s: master_data.get(s, {}).get("upcoming_meeting")).fillna("")
+    df["MEETING_PURPOSE"] = df["SYMBOL"].map(lambda s: master_data.get(s, {}).get("purpose")).fillna("")
 
     # 5. Build Dashboard Objects
     quads = {

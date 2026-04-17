@@ -766,7 +766,9 @@ window.addEventListener('hashchange', () => {
 });
 
 const D_PCT=new Set(["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%"]);
-const D_PP=new Set(["EBITDA Margin YoY pp","PAT Margin YoY pp","EBITDA Margin QoQ pp","PAT Margin QoQfunction badge(v,col){
+const D_PP=new Set(["EBITDA Margin YoY pp","PAT Margin YoY pp","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"]);
+
+function badge(v,col){
   if(v===null||v===undefined)return'<span class="na">—</span>';
   if(col==="Result Date"||col==="Quarter"||col==="Sector"||col==="Indices")return `<span style="font-size:.72rem">${v}</span>`;
   const n=parseFloat(v);
