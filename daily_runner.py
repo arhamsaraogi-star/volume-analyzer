@@ -140,7 +140,6 @@ def get_nifty500_data():
     log.info("Refreshing Nifty 500 universe...")
     mcap = scrape_n500_mcap()
     
-    # Base Sectors
     url = "https://archives.nseindia.com/content/indices/ind_nifty500list.csv"
     sector = {}
     try:
@@ -159,8 +158,10 @@ def get_nifty500_data():
     with open(N500_JSON, "w") as f: json.dump(data, f)
     return data
 
-def get_extra_sector(symbol, cache):
+def get_extra_sector(symbol, cache, enrich_all=False):
     if symbol in cache: return cache[symbol]
+    if not enrich_all: return "Other Markets"
+    
     try:
         log.info(f"Fetching sector for {symbol} via nsepython...")
         info = nse_eq(symbol)
@@ -176,9 +177,10 @@ def get_extra_sector(symbol, cache):
 def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.DataFrame:
     ts = pd.Timestamp(target_date)
     today_all = cache_df[cache_df["TRADE_DATE"] == ts]
+    # Process ALL symbols present in today's bhavcopy
     target_symbols = today_all["SYMBOL"].unique()
     
-    log.info(f"Computing advanced metrics for {len(target_symbols)} symbols...")
+    log.info(f"Computing advanced metrics for FULL MARKET ({len(target_symbols)} symbols)...")
     rows = []
     
     for sym, grp in cache_df[cache_df["SYMBOL"].isin(target_symbols)].groupby("SYMBOL"):
@@ -227,14 +229,15 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
 
 def run_pipeline(trade_date: date):
     ensure_dirs()
-    log.info(f"--- Pipeline Execution: {trade_date} ---")
+    log.info(f"--- Pipeline Execution (Full Market): {trade_date} ---")
     
     n500 = get_nifty500_data()
     watchlists = fetch_watchlists()
     watchlist_syms = set()
     for s in watchlists.values(): watchlist_syms.update(s)
     
-    all_target_syms = sorted(set(n500["symbols"]) | watchlist_syms)
+    # We now take EVERY stock for analytics, but keep these for tagging
+    target_enrichment_syms = set(n500["symbols"]) | watchlist_syms
     
     if not BHAV_PARQUET.exists():
         log.error("Historical data missing.")
@@ -243,8 +246,8 @@ def run_pipeline(trade_date: date):
     cache = pd.read_parquet(BHAV_PARQUET)
     ts = pd.Timestamp(trade_date)
     
+    # Reload logic if today is missing
     if trade_date not in pd.to_datetime(cache["TRADE_DATE"]).dt.date.unique():
-        log.info(f"Target date {trade_date} missing, fetching...")
         from backfill_history import fetch_one_bhav
         df_today = fetch_one_bhav(trade_date)
         if df_today is not None:
@@ -252,13 +255,13 @@ def run_pipeline(trade_date: date):
             cache.to_parquet(BHAV_PARQUET, index=False)
         else: return False
 
-    # 1. Sector Refinement (PSU vs Private Banks)
+    # 1. Sector Refinement
     psu_banks = set(fetch_sector_constituents("https://archives.nseindia.com/content/indices/ind_niftypsubanklist.csv"))
     pvt_banks = set(fetch_sector_constituents("https://archives.nseindia.com/content/indices/ind_niftyprivatebanklist.csv"))
     
     # 2. Enrichment
     today = cache[cache["TRADE_DATE"] == ts].copy()
-    today = today[today["SYMBOL"].isin(all_target_syms)].copy()
+    # DO NOT FILTER TODAY. Take all 2000+ companies.
     
     extra_cache = {}
     if SECTOR_MAPPING_CACHE.exists():
@@ -269,7 +272,9 @@ def run_pipeline(trade_date: date):
         if s in psu_banks: return "Public Sector Bank"
         if s in pvt_banks: return "Private Sector Bank"
         if s in sectors: return sectors[s]
-        return get_extra_sector(s, extra_cache)
+        # Only enrich via NSE API if it's in a watchlist or N500 to avoid rate limits
+        should_enrich = s in target_enrichment_syms
+        return get_extra_sector(s, extra_cache, enrich_all=should_enrich)
     
     today["SECTOR"] = today["SYMBOL"].apply(resolve_sector)
     with open(SECTOR_MAPPING_CACHE, "w") as f: json.dump(extra_cache, f)
@@ -277,13 +282,15 @@ def run_pipeline(trade_date: date):
     today["IN_N500"] = today["SYMBOL"].isin(n500["symbols"])
     today["MARKET_CAP_CR"] = today["SYMBOL"].map(n500["mcap"])
     
-    # 3. Advanced Metrics
+    # 3. Advanced Metrics (Processed for ALL symbols)
     metrics_df = compute_advanced_metrics(cache, trade_date)
     today = today.merge(metrics_df, on="SYMBOL", how="left")
     
     # 4. Sector Aggregation
     sector_stats = {}
     for sec, grp in today.groupby("SECTOR"):
+        # Filter out noisy Unknowns from heatmap if desired, or keep them.
+        # User wants "all companies", so we keep everything.
         sector_stats[sec] = {
             "avg_vol_z": float(grp["VOL_Z"].mean()),
             "avg_deliv_z": float(grp["DELIV_Z"].mean()),
@@ -304,10 +311,10 @@ def generate_dashboards(trade_date: date, df: pd.DataFrame, sector_stats: dict):
     df["DELIV_VS_MA_PCT"] = ((df["DELIV_QTY"] - df["DELIV_MA20"]) / df["DELIV_MA20"] * 100).round(1).fillna(0)
     
     quads = {
-        "Q1": df[(df["RETURN_PCT"] > 0) & df["ABOVE_MA"]].to_dict(orient="records"),
-        "Q2": df[(df["RETURN_PCT"] < 0) & df["ABOVE_MA"]].to_dict(orient="records"),
-        "Q3": df[(df["RETURN_PCT"] > 0) & ~df["ABOVE_MA"]].to_dict(orient="records"),
-        "Q4": df[(df["RETURN_PCT"] < 0) & ~df["ABOVE_MA"]].to_dict(orient="records"),
+        "Q1": df[(df["RETURN_PCT"] > 0) & df["ABOVE_MA"] & df["IN_N500"]].to_dict(orient="records"),
+        "Q2": df[(df["RETURN_PCT"] < 0) & df["ABOVE_MA"] & df["IN_N500"]].to_dict(orient="records"),
+        "Q3": df[(df["RETURN_PCT"] > 0) & ~df["ABOVE_MA"] & df["IN_N500"]].to_dict(orient="records"),
+        "Q4": df[(df["RETURN_PCT"] < 0) & ~df["ABOVE_MA"] & df["IN_N500"]].to_dict(orient="records"),
     }
     
     payload = {
