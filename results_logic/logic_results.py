@@ -510,34 +510,21 @@ body { font-family:'Outfit', sans-serif; background: var(--bg); color: var(--tex
 body::before { content:''; position:fixed; top:0;left:0;width:100%;height:100%; background: radial-gradient(ellipse at 20% 50%,rgba(59,130,246,.05) 0%,transparent 50%), radial-gradient(ellipse at 80% 20%,rgba(139,92,246,.04) 0%,transparent 50%); pointer-events:none; z-index:0; }
 
 header {
-    background: #0a0e14 !important; /* Force solid for sticky stability */
+    background: #0a0e14 !important;
     backdrop-filter: var(--glass);
     border-bottom: 1px solid var(--border);
     padding: 0.75rem 2%;
     position: sticky;
     top: 0;
     z-index: 1000;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
 }
 
-.header-left { display: flex; align-items: center; gap: 0.8rem; }
-.home-link { 
-    display: flex; align-items: center; justify-content: center;
-    width: 34px; height: 34px; border-radius: 8px; 
-    background: var(--card-bg); border: 1px solid var(--border);
-    color: var(--text); text-decoration: none; transition: 0.3s;
-    font-size: 1.1rem;
-}
-.home-link:hover { background: var(--accent); border-color: var(--accent); color: white; transform: scale(1.05); }
-
-.logo { font-size: 0.95rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
-.logo span { color: var(--accent); }
-.nav-links { display: flex; gap: 0.3rem; }
-.nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 600; font-size: 0.8rem; transition: 0.3s; padding: 0.4rem 0.6rem; border-radius: 6px; }
-.nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.05); }
-.nav-links a.active { color: var(--accent); }
+.header-left { justify-self: start; display: flex; align-items: center; gap: 0.8rem; }
+.nav-links { justify-self: center; display: flex; gap: 0.3rem; }
+.header-right { justify-self: end; font-size: 0.75rem; color: var(--text-dim); }
 
 .tabs { display:flex; gap:8px; padding:12px 32px; background:rgba(10,14,20,0.8); backdrop-filter:var(--glass); border-bottom:1px solid var(--border); position:sticky; top:54px; z-index:900; }
 .tab { padding:10px 24px; border-radius:12px; font-size:.85rem; font-weight:600; cursor:pointer; transition:0.3s; color:var(--text-dim); border:1px solid var(--border); background: var(--card-bg); }
@@ -658,7 +645,9 @@ canvas { width:100%!important; }
       <a href="results_dashboard.html" id="nav-results">Results</a>
       <a href="results_dashboard.html#board" id="nav-board" onclick="switchTab('board')">Board</a>
   </nav>
-  <span class="meta" style="font-size:0.75rem; color:var(--text-dim); opacity:0.8;">Updated __TIMESTAMP__</span>
+  <div class="header-right">
+      <span class="meta">Updated __TIMESTAMP__</span>
+  </div>
 </header>
 <div class="tabs" id="tabBar">
   <div class="tab active" onclick="switchTab('daily')" id="tab-daily">📅 Daily Results <span class="badge-count" id="dailyCount">0</span></div>
