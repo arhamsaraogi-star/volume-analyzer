@@ -50,6 +50,11 @@
         .big-val { font-size: 2.5rem; font-weight: 700; color: var(--text); }
         .sub-text { font-size: 0.9rem; color: var(--text-dim); margin-top: 0.5rem; }
 
+        /* Mode Switcher */
+        .mode-switcher { display: flex; background: #1e293b; border-radius: 10px; padding: 4px; border: 1px solid var(--border); margin-bottom: 1.5rem; width: fit-content; }
+        .mode-btn { padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: var(--text-dim); transition: 0.3s; }
+        .mode-btn.active { background: var(--accent); color: white; }
+
         .sector-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
         .sector-item { 
             padding: 1rem; border-radius: 12px; border: 1px solid var(--border); text-align: center; 
@@ -98,7 +103,7 @@
     <div class="container">
         <div class="stats-grid">
             <div class="glass-card">
-                <div class="card-title">Top Sector Momentum <span class="badge">Z-SCORE</span></div>
+                <div class="card-title">Top Sector Momentum <span class="badge" id="momentum-badge">DAILY Z</span></div>
                 <div id="top-sector-val" class="big-val">--</div>
                 <div id="top-sector-name" class="sub-text">Loading...</div>
             </div>
@@ -114,7 +119,14 @@
             </div>
         </div>
 
-        <h2 style="margin-bottom: 1.5rem; font-weight: 600;">Sector Money Flow Intensity <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-dim); font-weight: normal; margin-left: 10px;">(Click to filter)</span></h2>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+            <h2 style="font-weight: 600;">Sector Money Flow Intensity <span style="font-size: 0.8rem; color: var(--text-dim); font-weight: normal; margin-left: 10px;">(Click to filter)</span></h2>
+            <div class="mode-switcher">
+                <div class="mode-btn active" id="mode-daily" onclick="setMode('daily')">Daily Spikes</div>
+                <div class="mode-btn" id="mode-sustainable" onclick="setMode('sustainable')">Sustainable Flow (5D)</div>
+            </div>
+        </div>
+        
         <div id="sector-grid" class="sector-board">
             <!-- Dynamically populated -->
         </div>
@@ -131,9 +143,9 @@
                         <th style="cursor:pointer" onclick="setSort('SYMBOL')">Symbol</th>
                         <th style="cursor:pointer" onclick="setSort('CLOSE')">Price (%Chg)</th>
                         <th style="cursor:pointer" onclick="setSort('CONVICTION_SCORE')">Conviction</th>
-                        <th style="cursor:pointer" onclick="setSort('VOL_Z')">Vol Z-Score</th>
-                        <th style="cursor:pointer" onclick="setSort('DELIV_Z')">Deliv Z-Score</th>
-                        <th>Trend (DMA)</th>
+                        <th style="cursor:pointer" onclick="setSort('VOL_Z')">Intensity (Daily)</th>
+                        <th style="cursor:pointer" onclick="setSort('VOL_Z_5D')">Sustainable (5D)</th>
+                        <th>Trend vs 6M Avg</th>
                         <th>52W High</th>
                     </tr>
                 </thead>
@@ -149,6 +161,7 @@
         let activeSector = null;
         let currentSort = 'CONVICTION_SCORE';
         let sortDir = 'desc';
+        let viewMode = 'daily'; // 'daily' or 'sustainable'
 
         function init() {
             if (!DATA || !DATA.records) return;
@@ -159,30 +172,56 @@
             const breadthPct = DATA.records.length > 0 ? ((above200 / DATA.records.length) * 100).toFixed(1) : '0';
             document.getElementById('market-breadth').textContent = breadthPct + '%';
 
+            updateTopSector();
             renderSectors();
             refreshTable();
+        }
+
+        function setMode(mode) {
+            viewMode = mode;
+            document.getElementById('mode-daily').classList.toggle('active', mode === 'daily');
+            document.getElementById('mode-sustainable').classList.toggle('active', mode === 'sustainable');
+            document.getElementById('momentum-badge').textContent = mode === 'daily' ? 'DAILY Z' : 'Sustainable Flow';
+            
+            updateTopSector();
+            renderSectors();
+        }
+
+        function updateTopSector() {
+            const sectors = Object.entries(DATA.sectors).sort((a, b) => {
+                const valA = viewMode === 'daily' ? a[1].avg_vol_z : a[1].avg_vol_z_5d;
+                const valB = viewMode === 'daily' ? b[1].avg_vol_z : b[1].avg_vol_z_5d;
+                return valB - valA;
+            });
+            
+            if (sectors.length > 0) {
+                const val = viewMode === 'daily' ? sectors[0][1].avg_vol_z : sectors[0][1].avg_vol_z_5d;
+                document.getElementById('top-sector-val').textContent = (val > 0 ? '+' : '') + val.toFixed(2);
+                document.getElementById('top-sector-name').textContent = sectors[0][0];
+            }
         }
 
         function renderSectors() {
             const grid = document.getElementById('sector-grid');
             grid.innerHTML = '';
-            const sectors = Object.entries(DATA.sectors).sort((a, b) => b[1].avg_vol_z - a[1].avg_vol_z);
+            const sectors = Object.entries(DATA.sectors).sort((a, b) => {
+                const valA = viewMode === 'daily' ? a[1].avg_vol_z : a[1].avg_vol_z_5d;
+                const valB = viewMode === 'daily' ? b[1].avg_vol_z : b[1].avg_vol_z_5d;
+                return valB - valA;
+            });
             
-            if (sectors.length > 0 && !activeSector) {
-                document.getElementById('top-sector-val').textContent = (sectors[0][1].avg_vol_z > 0 ? '+' : '') + sectors[0][1].avg_vol_z.toFixed(2);
-                document.getElementById('top-sector-name').textContent = sectors[0][0];
-            }
-
             sectors.forEach(([name, stats]) => {
                 const div = document.createElement('div');
                 div.className = `sector-item ${activeSector === name ? 'active' : ''}`;
-                const color = stats.avg_vol_z > 0 ? `rgba(16, 185, 129, ${Math.min(stats.avg_vol_z / 2, 0.4)})` : `rgba(239, 68, 68, ${Math.min(Math.abs(stats.avg_vol_z) / 2, 0.4)})`;
+                const val = viewMode === 'daily' ? stats.avg_vol_z : stats.avg_vol_z_5d;
+                
+                const color = val > 0 ? `rgba(16, 185, 129, ${Math.min(val / 2, 0.4)})` : `rgba(239, 68, 68, ${Math.min(Math.abs(val) / 2, 0.4)})`;
                 div.style.background = color;
                 div.onclick = () => setSectorFilter(name);
                 
                 div.innerHTML = `
                     <div class="sector-name">${name}</div>
-                    <div class="sector-score">${stats.avg_vol_z > 0 ? '+' : ''}${stats.avg_vol_z.toFixed(2)}</div>
+                    <div class="sector-score">${val > 0 ? '+' : ''}${val.toFixed(2)}</div>
                     <div style="font-size: 0.7rem; color: var(--text-dim); margin-top:4px;">${stats.count} Stocks</div>
                 `;
                 grid.appendChild(div);
@@ -237,6 +276,11 @@
                 const convClass = r.CONVICTION_SCORE > 80 ? 'high-conv' : 'med-conv';
                 const trendDist = r.DMA200 ? ((r.CLOSE - r.DMA200) / r.DMA200 * 100).toFixed(1) : '--';
                 const w52Dist = r.HIGH52 ? ((r.HIGH52 - r.CLOSE) / r.HIGH52 * 100).toFixed(1) : '--';
+                
+                // Historical trend comparison (Sustainable vs 6M Average)
+                const histDiff = (r.VOL_Z_5D - r.VOL_Z_125D).toFixed(2);
+                const trendText = histDiff > 0 ? `+${histDiff} over 6M` : `${histDiff} vs 6M`;
+                const trendClass = histDiff > 0 ? 'up' : 'down';
 
                 tr.innerHTML = `
                     <td>
@@ -251,10 +295,10 @@
                     </td>
                     <td><span class="conv-pill ${convClass}">${r.CONVICTION_SCORE.toFixed(1)}</span></td>
                     <td class="${r.VOL_Z > 1.5 ? 'up' : ''}">${r.VOL_Z.toFixed(2)}σ</td>
-                    <td class="${r.DELIV_Z > 1.5 ? 'up' : ''}">${r.DELIV_Z.toFixed(2)}σ</td>
+                    <td class="${r.VOL_Z_5D > 1 ? 'up' : ''}" style="font-weight:600">${r.VOL_Z_5D.toFixed(2)}σ</td>
                     <td>
-                        <div style="font-size: 0.85rem;">${r.CLOSE > (r.DMA50 || 0) ? 'Above 50rd' : 'Below 50rd'}</div>
-                        <div style="font-size: 0.75rem; color: var(--text-dim);">${trendDist}% v 200rd</div>
+                        <div class="${trendClass}" style="font-size: 0.85rem;">${trendText}</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim);">6M Avg: ${r.VOL_Z_125D.toFixed(2)}σ</div>
                     </td>
                     <td>
                         <div style="font-size: 0.85rem;">₹${(r.HIGH52 || 0).toFixed(2)}</div>

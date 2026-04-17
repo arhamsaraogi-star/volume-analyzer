@@ -28,7 +28,7 @@ SCREENER_PASS = os.getenv("SCREENER_PASSWORD", "Dilipsir@1234")
 
 WATCHLIST_IDS = ["10259781", "10259808"]
 MA_WINDOW = 20
-BACKFILL_DAYS = 250 # Support 200rd DMA
+BACKFILL_DAYS = 250 # Support 200rd DMA and 125rd Sustainability score
 
 SCREENER_HDRS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
@@ -180,47 +180,76 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
     # Process ALL symbols present in today's bhavcopy
     target_symbols = today_all["SYMBOL"].unique()
     
-    log.info(f"Computing advanced metrics for FULL MARKET ({len(target_symbols)} symbols)...")
+    log.info(f"Computing sustainable analytics for FULL MARKET ({len(target_symbols)} symbols)...")
     rows = []
     
+    # Pre-sort and pre-calculate columns to speed up processing
     for sym, grp in cache_df[cache_df["SYMBOL"].isin(target_symbols)].groupby("SYMBOL"):
         grp = grp.sort_values("TRADE_DATE")
+        
+        # Current data point
         today = grp[grp["TRADE_DATE"] == ts]
         if today.empty: continue
-        hist = grp[grp["TRADE_DATE"] <= ts]
         
-        # DMAs
-        dma20 = hist["CLOSE"].tail(20).mean()
-        dma50 = hist["CLOSE"].tail(50).mean() if len(hist) >= 50 else dma20
-        dma200 = hist["CLOSE"].tail(200).mean() if len(hist) >= 200 else dma50
+        # 1. Volatility & Intensity Baselines
+        grp['VOL_MA20'] = grp['TOTTRDQTY'].rolling(20).mean()
+        grp['VOL_STD20'] = grp['TOTTRDQTY'].rolling(20).std()
+        grp['VOL_Z'] = (grp['TOTTRDQTY'] - grp['VOL_MA20']) / grp['VOL_STD20']
         
-        # Vol/Deliv Metrics
-        vol_tail = hist["TOTTRDQTY"].tail(20)
-        deliv_tail = hist["DELIV_QTY"].tail(20)
-        v_mean, v_std = vol_tail.mean(), vol_tail.std()
-        d_mean, d_std = deliv_tail.mean(), deliv_tail.std()
-        v_today, d_today = today["TOTTRDQTY"].iloc[0], today["DELIV_QTY"].iloc[0]
+        grp['DELIV_MA20'] = grp['DELIV_QTY'].rolling(20).mean()
+        grp['DELIV_STD20'] = grp['DELIV_QTY'].rolling(20).std()
+        grp['DELIV_Z'] = (grp['DELIV_QTY'] - grp['DELIV_MA20']) / grp['DELIV_STD20']
         
-        vol_z = (v_today - v_mean) / v_std if (v_std and v_std > 0) else 0
-        deliv_z = (d_today - d_mean) / d_std if (d_std and d_std > 0) else 0
+        # 2. Sustainability Metrics (Rollups of Intensity)
+        # 5-Day Avg Intensity
+        grp['VOL_Z_5D'] = grp['VOL_Z'].rolling(5).mean()
+        grp['DELIV_Z_5D'] = grp['DELIV_Z'].rolling(5).mean()
         
-        # 52W High
-        high52 = hist["CLOSE"].tail(250).max()
+        # 6-Month (125-Day) Avg Intensity
+        grp['VOL_Z_125D'] = grp['VOL_Z'].rolling(125).mean()
+        grp['DELIV_Z_125D'] = grp['DELIV_Z'].rolling(125).mean()
         
-        # Conviction Score
-        vz_score = min(max(vol_z * 20, 0), 100)
-        dz_score = min(max(deliv_z * 20, 0), 100)
-        price_trend = 100 if (today["CLOSE"].iloc[0] > dma20 and today["RETURN_PCT"].iloc[0] > 0) else 50
-        conv_score = (vz_score * 0.4) + (dz_score * 0.4) + (price_trend * 0.2)
+        # 3. Pull values for the target date
+        idx = today.index[0]
+        cur = grp.loc[idx]
+        
+        vol_z = float(cur['VOL_Z']) if not pd.isna(cur['VOL_Z']) else 0
+        deliv_z = float(cur['DELIV_Z']) if not pd.isna(cur['DELIV_Z']) else 0
+        
+        vol_z_5d = float(cur['VOL_Z_5D']) if not pd.isna(cur['VOL_Z_5D']) else vol_z
+        deliv_z_5d = float(cur['DELIV_Z_5D']) if not pd.isna(cur['DELIV_Z_5D']) else deliv_z
+        
+        vol_z_125d = float(cur['VOL_Z_125D']) if not pd.isna(cur['VOL_Z_125D']) else 0
+        deliv_z_125d = float(cur['DELIV_Z_125D']) if not pd.isna(cur['DELIV_Z_125D']) else 0
+        
+        # Sustainability Ratio (5D Avg vs 6M Avg)
+        # If 5D avg is significantly higher than 6M avg, it's a "Sustainable Spike"
+        sus_score = vol_z_5d # Use 5D intensity as the base sustainable score
+        
+        close = float(cur['CLOSE'])
+        dma20 = grp['CLOSE'].tail(20).mean()
+        dma50 = grp['CLOSE'].tail(50).mean() if len(grp) >= 50 else dma20
+        dma200 = grp['CLOSE'].tail(200).mean() if len(grp) >= 200 else dma200
+        
+        # Conviction Score (Same as before, based on daily intensity)
+        vz_s = min(max(vol_z * 20, 0), 100)
+        dz_s = min(max(deliv_z * 20, 0), 100)
+        price_trend = 100 if (close > dma20 and cur['RETURN_PCT'] > 0) else 50
+        conv_score = (vz_s * 0.4) + (dz_s * 0.4) + (price_trend * 0.2)
         
         rows.append({
             "SYMBOL": sym,
             "DMA50": float(dma50),
             "DMA200": float(dma200),
-            "VOL_Z": float(vol_z),
-            "DELIV_Z": float(deliv_z),
-            "DELIV_MA20": float(d_mean),
-            "HIGH52": float(high52),
+            "VOL_Z": vol_z,
+            "DELIV_Z": deliv_z,
+            "VOL_Z_5D": vol_z_5d,
+            "VOL_Z_125D": vol_z_125d,
+            "DELIV_Z_5D": deliv_z_5d,
+            "DELIV_Z_125D": deliv_z_125d,
+            "SUSTAINABLE_SCORE": vol_z_5d, # Higher is more persistent
+            "DELIV_MA20": float(cur['DELIV_MA20']),
+            "HIGH52": float(grp['CLOSE'].tail(250).max()),
             "CONVICTION_SCORE": float(conv_score)
         })
     return pd.DataFrame(rows)
@@ -229,14 +258,12 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
 
 def run_pipeline(trade_date: date):
     ensure_dirs()
-    log.info(f"--- Pipeline Execution (Full Market): {trade_date} ---")
+    log.info(f"--- Pipeline Execution (Sustainability Track): {trade_date} ---")
     
     n500 = get_nifty500_data()
     watchlists = fetch_watchlists()
     watchlist_syms = set()
     for s in watchlists.values(): watchlist_syms.update(s)
-    
-    # We now take EVERY stock for analytics, but keep these for tagging
     target_enrichment_syms = set(n500["symbols"]) | watchlist_syms
     
     if not BHAV_PARQUET.exists():
@@ -246,8 +273,8 @@ def run_pipeline(trade_date: date):
     cache = pd.read_parquet(BHAV_PARQUET)
     ts = pd.Timestamp(trade_date)
     
-    # Reload logic if today is missing
     if trade_date not in pd.to_datetime(cache["TRADE_DATE"]).dt.date.unique():
+        log.info(f"Fetching fresh bhavcopy for {trade_date}...")
         from backfill_history import fetch_one_bhav
         df_today = fetch_one_bhav(trade_date)
         if df_today is not None:
@@ -255,13 +282,10 @@ def run_pipeline(trade_date: date):
             cache.to_parquet(BHAV_PARQUET, index=False)
         else: return False
 
-    # 1. Sector Refinement
     psu_banks = set(fetch_sector_constituents("https://archives.nseindia.com/content/indices/ind_niftypsubanklist.csv"))
     pvt_banks = set(fetch_sector_constituents("https://archives.nseindia.com/content/indices/ind_niftyprivatebanklist.csv"))
     
-    # 2. Enrichment
     today = cache[cache["TRADE_DATE"] == ts].copy()
-    # DO NOT FILTER TODAY. Take all 2000+ companies.
     
     extra_cache = {}
     if SECTOR_MAPPING_CACHE.exists():
@@ -272,9 +296,7 @@ def run_pipeline(trade_date: date):
         if s in psu_banks: return "Public Sector Bank"
         if s in pvt_banks: return "Private Sector Bank"
         if s in sectors: return sectors[s]
-        # Only enrich via NSE API if it's in a watchlist or N500 to avoid rate limits
-        should_enrich = s in target_enrichment_syms
-        return get_extra_sector(s, extra_cache, enrich_all=should_enrich)
+        return get_extra_sector(s, extra_cache, enrich_all=(s in target_enrichment_syms))
     
     today["SECTOR"] = today["SYMBOL"].apply(resolve_sector)
     with open(SECTOR_MAPPING_CACHE, "w") as f: json.dump(extra_cache, f)
@@ -282,18 +304,17 @@ def run_pipeline(trade_date: date):
     today["IN_N500"] = today["SYMBOL"].isin(n500["symbols"])
     today["MARKET_CAP_CR"] = today["SYMBOL"].map(n500["mcap"])
     
-    # 3. Advanced Metrics (Processed for ALL symbols)
+    # 3. Advanced Metrics with Sustainability Rolling Averages
     metrics_df = compute_advanced_metrics(cache, trade_date)
     today = today.merge(metrics_df, on="SYMBOL", how="left")
     
-    # 4. Sector Aggregation
+    # 4. Sector Aggregation (Compute Daily and Sustainable Stats)
     sector_stats = {}
     for sec, grp in today.groupby("SECTOR"):
-        # Filter out noisy Unknowns from heatmap if desired, or keep them.
-        # User wants "all companies", so we keep everything.
         sector_stats[sec] = {
             "avg_vol_z": float(grp["VOL_Z"].mean()),
-            "avg_deliv_z": float(grp["DELIV_Z"].mean()),
+            "avg_vol_z_5d": float(grp["VOL_Z_5D"].mean()),
+            "avg_vol_z_125d": float(grp["VOL_Z_125D"].mean()),
             "avg_conv": float(grp["CONVICTION_SCORE"].mean()),
             "count": int(len(grp))
         }
