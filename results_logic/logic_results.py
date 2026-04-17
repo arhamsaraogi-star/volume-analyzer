@@ -521,7 +521,7 @@ header {
     top: 0;
     z-index: 1000;
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 320px 1fr 320px;
     align-items: center;
 }
 
