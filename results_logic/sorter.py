@@ -1573,7 +1573,7 @@ def build_daily_dashboard(df_date, output_path, date_label=""):
     # Columns shown in the company table (skip raw prev-qtr/prev-fy reference cols)
     DISPLAY_COLS = [
         "Result Date", "Company Name", "Sector",
-        "Quarter",
+        "Market Cap (Cr)", "Quarter",
         "Sales (Cr)", "EBITDA (Cr)", "Net Profit (Cr)", "EPS (Rs)",
         "EBITDA Margin%", "PAT Margin%",
         "Sales YoY Q%", "EBITDA YoY Q%", "NP YoY Q%", "EPS YoY Q%",
@@ -1587,7 +1587,7 @@ def build_daily_dashboard(df_date, output_path, date_label=""):
         "Sales YoY Q%", "EBITDA YoY Q%", "NP YoY Q%", "EPS YoY Q%",
         "Sales QoQ%", "NP QoQ%",
         "FY Sales YoY%", "FY NP YoY%",
-        "Company Name",
+        "Market Cap (Cr)", "Company Name",
     ]
     PCT_DAILY = {
         "Sales YoY Q%", "EBITDA YoY Q%", "NP YoY Q%", "EPS YoY Q%",

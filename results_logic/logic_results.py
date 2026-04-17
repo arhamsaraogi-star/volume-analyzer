@@ -676,7 +676,7 @@ canvas { width:100%!important; }
     <div style="width:1px;height:24px;background:var(--border-glass)"></div>
   </div>
   <div class="ctrl"><select id="gIndex" onchange="gRefreshAll()"><option value="">All Indices</option><option value="Nifty 50">Nifty 50</option><option value="Nifty 500">Nifty 500</option><option value="Nifty Midcap 150">Nifty Midcap 150</option><option value="Nifty Smallcap 250">Nifty Smallcap 250</option></select></div>
-  <div class="ctrl"><label>Minimum Sales (Cr)</label><input type="number" id="gMCap" value="0" min="0" step="100" placeholder="Min Sales" oninput="gRefreshAll()"></div>
+  <div class="ctrl"><label>Market Cap (Cr)</label><div style="display:flex;gap:4px;align-items:center;"><input style="width:110px" type="number" id="gMCap" value="0" min="0" step="100" placeholder="Min MCap" oninput="gRefreshAll()"><span style="color:var(--text-dim)">-</span><input style="width:110px" type="number" id="gMCapMax" value="" min="0" step="100" placeholder="Max MCap" oninput="gRefreshAll()"></div></div>
 </div>
 <div class="content">
 <!-- Daily Results Panel -->
@@ -775,9 +775,9 @@ function sBadge(v,isPP){if(v===null||v===undefined)return'<span class="na">—</
 function barColor(v,isPP){if(v===null)return'rgba(100,116,139,.3)';if(isPP){const bps=v*100;return bps>=200?'rgba(16,185,129,.7)':bps>=0?'rgba(16,185,129,.4)':bps>=-200?'rgba(239,68,68,.4)':'rgba(239,68,68,.7)';}return v>=15?'rgba(16,185,129,.7)':v>=5?'rgba(16,185,129,.4)':v>=0?'rgba(245,158,11,.4)':v>=-10?'rgba(239,68,68,.4)':'rgba(239,68,68,.7)';}
 
 // ── DAILY RESULTS ──
-const D_COLS=["Result Date","Company Name","Sector","Indices","Quarter","Sales (Cr)","EBITDA (Cr)","Net Profit (Cr)","EPS (Rs)","EBITDA Margin%","PAT Margin%","Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp","Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"];
-const D_SORT=["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp","Sales QoQ%","NP QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY Sales YoY%","FY NP YoY%","Company Name"];
-const D_GROUPS=[{label:"Identity",cols:["Result Date","Company Name","Sector","Indices","Quarter"]},{label:"Quarterly Financials",cols:["Sales (Cr)","EBITDA (Cr)","Net Profit (Cr)","EPS (Rs)","EBITDA Margin%","PAT Margin%"]},{label:"YoY Growth",cols:["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp"]},{label:"QoQ Growth",cols:["Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp"]},{label:"Annual FY YoY",cols:["FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"]}];
+const D_COLS=["Result Date","Company Name","Sector","Indices","Market Cap (Cr)","Quarter","Sales (Cr)","EBITDA (Cr)","Net Profit (Cr)","EPS (Rs)","EBITDA Margin%","PAT Margin%","Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp","Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"];
+const D_SORT=["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp","Sales QoQ%","NP QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY Sales YoY%","FY NP YoY%","Market Cap (Cr)","Company Name"];
+const D_GROUPS=[{label:"Identity",cols:["Result Date","Company Name","Sector","Indices","Market Cap (Cr)","Quarter"]},{label:"Quarterly Financials",cols:["Sales (Cr)","EBITDA (Cr)","Net Profit (Cr)","EPS (Rs)","EBITDA Margin%","PAT Margin%"]},{label:"YoY Growth",cols:["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp"]},{label:"QoQ Growth",cols:["Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp"]},{label:"Annual FY YoY",cols:["FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"]}];
 const D_CHART_M=D_SORT.filter(m=>D_COLS.includes(m)&&m!=="Company Name");
 let dSort='Sales YoY Q%',dOrder='desc',dFrom=null,dTo=null,dChart=null;
 let dSec='fin';
@@ -819,10 +819,12 @@ function dResetDate(){dFrom=DAILY_DATES[0]||null;dTo=DAILY_DATES[DAILY_DATES.len
 function dSetOrder(o){dOrder=o;document.getElementById('dBtnDesc').className=o==='desc'?'btn active':'btn';document.getElementById('dBtnAsc').className=o==='asc'?'btn active':'btn';dRefresh();}
 
 function gGetGlobalFiltered(){
-  const sFloor=parseFloat(document.getElementById('gMCap').value)||0;
+  const mFloor=parseFloat(document.getElementById('gMCap').value)||0;
+  const mCeil=parseFloat(document.getElementById('gMCapMax').value);
   const idx=document.getElementById('gIndex').value;
   return DAILY_DATA.filter(r=>{
-    if(sFloor>0&&(r["Sales (Cr)"]==null||parseFloat(r["Sales (Cr)"])<sFloor))return false;
+    if(mFloor>0&&(r["Market Cap (Cr)"]==null||parseFloat(r["Market Cap (Cr)"])<mFloor))return false;
+    if(!isNaN(mCeil)&&(r["Market Cap (Cr)"]==null||parseFloat(r["Market Cap (Cr)"])>mCeil))return false;
     if(idx && !(r["Indices"]||"").split(',').map(s=>s.trim()).includes(idx))return false;
     return true;
   });
