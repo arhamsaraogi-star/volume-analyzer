@@ -990,5 +990,13 @@
   "INFOLLION": {
     "sector": "Diversified Commercial Services",
     "mcap": null
+  },
+  "MBAPL": {
+    "sector": "Fertilizers",
+    "mcap": null
+  },
+  "LLOYDS": {
+    "sector": "Wellness",
+    "mcap": null
   }
 }

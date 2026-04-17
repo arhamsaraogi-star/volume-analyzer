@@ -202,10 +202,9 @@
                         <th onclick="setSort('SYMBOL')">Symbol</th>
                         <th onclick="setSort('CLOSE')">Price</th>
                         <th onclick="setSort('RETURN_PCT')">Chg%</th>
-                        <th onclick="setSort('VOL_Z')">vs 20D MA</th>
+                        <th onclick="setSort('VOL_Z')">Volume σ</th>
                         <th onclick="setSort('DELIV_PCT')">Deliv %</th>
-                        <th>Result Date</th>
-                        <th onclick="setSort('MCAP')">MCap</th>
+                        <th>Next/Last Result</th>
                     </tr>
                 </thead>
                 <tbody id="dataTable">
@@ -290,7 +289,6 @@
                     <td><span class="badge ${r.VOL_Z > 1.5 ? 'b-spike' : ''}">${r.VOL_Z.toFixed(1)}σ</span></td>
                     <td>${(r.DELIV_PCT || 0).toFixed(1)}%</td>
                     <td>${resHtml}</td>
-                    <td>${r.MCAP ? Math.round(r.MCAP) : '—'}</td>
                 `;
                 tbody.appendChild(tr);
             });

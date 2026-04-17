@@ -199,6 +199,12 @@ def run_pipeline(trade_date: date):
     today = today[today["SYMBOL"].isin(target_symbols)]
     today = today.merge(metrics_df, on="SYMBOL", how="inner")
     
+    # Ensure Delivery % is named correctly for the template
+    if "DELIV_PER" in today.columns:
+        today["DELIV_PCT"] = today["DELIV_PER"]
+    else:
+        today["DELIV_PCT"] = 0.0
+    
     # 3. Enrichment
     today["SECTOR"] = today["SYMBOL"].map(sector_map).fillna("Unknown")
     

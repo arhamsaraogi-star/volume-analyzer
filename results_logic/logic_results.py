@@ -113,7 +113,7 @@ def get_dates_to_process():
         d += timedelta(days=1)
 
     log(f"Dates to process: {len(dates)} "
-        f"({dates[0].strftime('%d %b')} → {dates[-1].strftime('%d %b')})")
+        f"({dates[0].strftime('%d %b')} -> {dates[-1].strftime('%d %b')})")
     return dates
 
 
@@ -488,7 +488,7 @@ def _generate_unified_html(daily_data, sector_data, board_data):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ashika Results Dashboard</title>
-<meta name="description" content="Daily company results, sector analysis, and upcoming board meetings dashboard. MCap ≥ 1000 Cr universe.">
+<meta name="description" content="Daily company results, sector analysis, and upcoming board meetings dashboard.">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -676,7 +676,7 @@ canvas { width:100%!important; }
     <div style="width:1px;height:24px;background:var(--border-glass)"></div>
   </div>
   <div class="ctrl"><select id="gIndex" onchange="gRefreshAll()"><option value="">All Indices</option><option value="Nifty 50">Nifty 50</option><option value="Nifty 500">Nifty 500</option><option value="Nifty Midcap 150">Nifty Midcap 150</option><option value="Nifty Smallcap 250">Nifty Smallcap 250</option></select></div>
-  <div class="ctrl"><div style="display:flex;gap:4px;align-items:center;"><input style="width:110px" type="number" id="gMCap" value="0" min="0" step="100" placeholder="Min MCap (Cr)" oninput="gRefreshAll()"><span style="color:var(--text-muted)">-</span><input style="width:110px" type="number" id="gMCapMax" value="" min="0" step="100" placeholder="Max MCap (Cr)" oninput="gRefreshAll()"></div></div>
+  <div class="ctrl"><label>Minimum Sales (Cr)</label><input type="number" id="gMCap" value="0" min="0" step="100" placeholder="Min Sales" oninput="gRefreshAll()"></div>
 </div>
 <div class="content">
 <!-- Daily Results Panel -->
@@ -726,7 +726,7 @@ canvas { width:100%!important; }
 </div>
 </div>
 
-<div class="footer">All Market Caps · YoY/QoQ in % · Margins in bps (1bps = 0.01pp) · Data from Screener.in & BSE India · Updated __TIMESTAMP__</div>
+<div class="footer">YoY/QoQ in % · Margins in bps (1bps = 0.01pp) · Data from Screener.in & BSE India · Updated __TIMESTAMP__</div>
 
 <script>
 const DAILY_DATA=__DAILY_DATA__;
@@ -775,9 +775,9 @@ function sBadge(v,isPP){if(v===null||v===undefined)return'<span class="na">—</
 function barColor(v,isPP){if(v===null)return'rgba(100,116,139,.3)';if(isPP){const bps=v*100;return bps>=200?'rgba(16,185,129,.7)':bps>=0?'rgba(16,185,129,.4)':bps>=-200?'rgba(239,68,68,.4)':'rgba(239,68,68,.7)';}return v>=15?'rgba(16,185,129,.7)':v>=5?'rgba(16,185,129,.4)':v>=0?'rgba(245,158,11,.4)':v>=-10?'rgba(239,68,68,.4)':'rgba(239,68,68,.7)';}
 
 // ── DAILY RESULTS ──
-const D_COLS=["Result Date","Company Name","Sector","Indices","Market Cap (Cr)","Quarter","Sales (Cr)","EBITDA (Cr)","Net Profit (Cr)","EPS (Rs)","EBITDA Margin%","PAT Margin%","Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp","Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"];
-const D_SORT=["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp","Sales QoQ%","NP QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY Sales YoY%","FY NP YoY%","Market Cap (Cr)","Company Name"];
-const D_GROUPS=[{label:"Identity",cols:["Result Date","Company Name","Sector","Indices","Market Cap (Cr)","Quarter"]},{label:"Quarterly Financials",cols:["Sales (Cr)","EBITDA (Cr)","Net Profit (Cr)","EPS (Rs)","EBITDA Margin%","PAT Margin%"]},{label:"YoY Growth",cols:["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp"]},{label:"QoQ Growth",cols:["Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp"]},{label:"Annual FY YoY",cols:["FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"]}];
+const D_COLS=["Result Date","Company Name","Sector","Indices","Quarter","Sales (Cr)","EBITDA (Cr)","Net Profit (Cr)","EPS (Rs)","EBITDA Margin%","PAT Margin%","Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp","Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"];
+const D_SORT=["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp","Sales QoQ%","NP QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY Sales YoY%","FY NP YoY%","Company Name"];
+const D_GROUPS=[{label:"Identity",cols:["Result Date","Company Name","Sector","Indices","Quarter"]},{label:"Quarterly Financials",cols:["Sales (Cr)","EBITDA (Cr)","Net Profit (Cr)","EPS (Rs)","EBITDA Margin%","PAT Margin%"]},{label:"YoY Growth",cols:["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","EBITDA Margin YoY pp","PAT Margin YoY pp"]},{label:"QoQ Growth",cols:["Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","EBITDA Margin QoQ pp","PAT Margin QoQ pp"]},{label:"Annual FY YoY",cols:["FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"]}];
 const D_CHART_M=D_SORT.filter(m=>D_COLS.includes(m)&&m!=="Company Name");
 let dSort='Sales YoY Q%',dOrder='desc',dFrom=null,dTo=null,dChart=null;
 let dSec='fin';
@@ -871,7 +871,7 @@ function dRenderStats(rows){
   const secs=new Set(rows.map(r=>r.Sector).filter(Boolean)).size;
   const metric=dSort;
   const isPP=D_PP.has(metric);
-  const lbl=metric.replace(' YoY Q%',' YoY').replace(' QoQ%',' QoQ').replace(' YoY pp',' YoY').replace(' QoQ pp',' QoQ').replace('EBITDA Margin','EM').replace('PAT Margin','PM').replace('FY ','').replace(' YoY%',' YoY').replace('Market Cap (Cr)','MCap').replace('Company Name','Name');
+  const lbl=metric.replace(' YoY Q%',' YoY').replace(' QoQ%',' QoQ').replace(' YoY pp',' YoY').replace(' QoQ pp',' QoQ').replace('EBITDA Margin','EM').replace('PAT Margin','PM').replace('FY ','').replace(' YoY%',' YoY').replace('Company Name','Name');
   const vld=rows.filter(r=>r[metric]!==null&&r[metric]!==undefined&&!isNaN(parseFloat(r[metric])));
   const pos=vld.filter(r=>parseFloat(r[metric])>=0).length;
   const neg=vld.filter(r=>parseFloat(r[metric])<0).length;

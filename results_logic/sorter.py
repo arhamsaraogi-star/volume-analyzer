@@ -1169,12 +1169,36 @@ def build_html_dashboard(df_sum, n500_avgs, output_path):
   }}
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   body {{ font-family: Arial, sans-serif; background: #f5f7fa; color: #222; }}
-  header {{
-    background: var(--navy); color: #fff; padding: 18px 28px;
-    display: flex; align-items: center; justify-content: space-between;
-  }}
-  header h1 {{ font-size: 1.3rem; }}
-  header span {{ font-size: 0.85rem; opacity: .7; }}
+  header {
+    background: #0a0e14 !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 0.75rem 2%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: grid;
+    grid-template-columns: 320px 1fr 320px;
+    align-items: center;
+    color: #fff;
+  }
+  .header-left { justify-self: start; display: flex; align-items: center; gap: 0.8rem; }
+  .logo { font-size: 0.95rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+  .logo span { color: #3b82f6; }
+  .nav-links { justify-self: center; display: flex; gap: 0.3rem; }
+  .nav-links a { 
+      color: #94a3b8; 
+      text-decoration: none; 
+      font-weight: 600; 
+      font-size: 0.82rem; 
+      transition: 0.3s; 
+      padding: 0.4rem 0.8rem; 
+      border-radius: 8px; 
+      display: inline-block;
+  }
+  .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.08); }
+  .nav-links a.active { color: #3b82f6 !important; background: rgba(255,255,255,0.06); }
+  .header-right { justify-self: end; font-size: 0.75rem; color: #94a3b8; }
   .controls {{
     background: #fff; padding: 16px 28px; display: flex; gap: 16px;
     flex-wrap: wrap; align-items: center; border-bottom: 2px solid #e0e4ed;
@@ -1235,8 +1259,18 @@ def build_html_dashboard(df_sum, n500_avgs, output_path):
 </head>
 <body>
 <header>
-  <h1>📊 Sector Dashboard · MCap >= {MCAP_FLOOR} Cr Universe</h1>
-  <span id="ts">Generated: {ts}</span>
+  <div class="header-left">
+    <div class="logo">Ashika <span>Results</span></div>
+  </div>
+  <nav class="nav-links">
+    <a href="volume_dashboard.html">Quadrants</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="results_dashboard.html">Results</a>
+    <a href="results_dashboard.html#board">Board</a>
+  </nav>
+  <div class="header-right">
+    <span id="ts">Generated: {ts}</span>
+  </div>
 </header>
 
 <div class="controls">
@@ -1281,7 +1315,7 @@ def build_html_dashboard(df_sum, n500_avgs, output_path):
   </table>
 </div>
 
-<footer>MCap >= {MCAP_FLOOR} Cr universe · Growth rates in % · Margin changes in percentage points (pp) · Benchmark = broad market avg</footer>
+<footer>Sector Analysis Dashboard · Growth rates in % · Margin changes in percentage points (pp) · Benchmark = broad market avg</footer>
 
 <script>
 const SECTORS    = {sector_js};
@@ -1539,7 +1573,7 @@ def build_daily_dashboard(df_date, output_path, date_label=""):
     # Columns shown in the company table (skip raw prev-qtr/prev-fy reference cols)
     DISPLAY_COLS = [
         "Result Date", "Company Name", "Sector",
-        "Market Cap (Cr)", "Quarter",
+        "Quarter",
         "Sales (Cr)", "EBITDA (Cr)", "Net Profit (Cr)", "EPS (Rs)",
         "EBITDA Margin%", "PAT Margin%",
         "Sales YoY Q%", "EBITDA YoY Q%", "NP YoY Q%", "EPS YoY Q%",
@@ -1553,7 +1587,7 @@ def build_daily_dashboard(df_date, output_path, date_label=""):
         "Sales YoY Q%", "EBITDA YoY Q%", "NP YoY Q%", "EPS YoY Q%",
         "Sales QoQ%", "NP QoQ%",
         "FY Sales YoY%", "FY NP YoY%",
-        "Market Cap (Cr)", "Company Name",
+        "Company Name",
     ]
     PCT_DAILY = {
         "Sales YoY Q%", "EBITDA YoY Q%", "NP YoY Q%", "EPS YoY Q%",
@@ -1619,9 +1653,36 @@ def build_daily_dashboard(df_date, output_path, date_label=""):
   }}
   *{{box-sizing:border-box;margin:0;padding:0}}
   body{{font-family:Arial,sans-serif;background:#f5f7fa;color:#222}}
-  header{{background:var(--navy);color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}}
-  header h1{{font-size:1.2rem}}
-  header span{{font-size:.82rem;opacity:.7}}
+  header {
+    background: #0a0e14 !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 0.75rem 2%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: grid;
+    grid-template-columns: 320px 1fr 320px;
+    align-items: center;
+    color: #fff;
+  }
+  .header-left { justify-self: start; display: flex; align-items: center; gap: 0.8rem; }
+  .logo { font-size: 0.95rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+  .logo span { color: #3b82f6; }
+  .nav-links { justify-self: center; display: flex; gap: 0.3rem; }
+  .nav-links a { 
+      color: #94a3b8; 
+      text-decoration: none; 
+      font-weight: 600; 
+      font-size: 0.82rem; 
+      transition: 0.3s; 
+      padding: 0.4rem 0.8rem; 
+      border-radius: 8px; 
+      display: inline-block;
+  }
+  .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.08); }
+  .nav-links a.active { color: #3b82f6 !important; background: rgba(255,255,255,0.06); }
+  .header-right { justify-self: end; font-size: 0.75rem; color: #94a3b8; }
   .controls{{background:#fff;padding:12px 24px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;border-bottom:2px solid #e0e4ed}}
   .ctrl-group{{display:flex;flex-direction:column;gap:4px}}
   .ctrl-group label{{font-size:.75rem;font-weight:bold;color:var(--navy)}}
@@ -1666,8 +1727,18 @@ def build_daily_dashboard(df_date, output_path, date_label=""):
 </head>
 <body>
 <header>
-  <h1>📅 Daily Results Dashboard · MCap >= {MCAP_FLOOR} Cr</h1>
-  <span id="headerDate">{date_label} &nbsp;·&nbsp; Generated: {ts}</span>
+  <div class="header-left">
+    <div class="logo">Ashika <span>Results</span></div>
+  </div>
+  <nav class="nav-links">
+    <a href="volume_dashboard.html">Quadrants</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="results_dashboard.html">Results</a>
+    <a href="results_dashboard.html#board">Board</a>
+  </nav>
+  <div class="header-right">
+    <span id="headerDate">{date_label} &nbsp;·&nbsp; Generated: {ts}</span>
+  </div>
 </header>
 
 <div class="controls">
