@@ -1,0 +1,994 @@
+{
+  "ICICIPRULI": {
+    "sector": "Financial Services",
+    "mcap": 81780.0
+  },
+  "NUVOCO": {
+    "sector": "Construction Materials",
+    "mcap": 10736.0
+  },
+  "ARSSBL": {
+    "sector": "Financial Services",
+    "mcap": 3734.0
+  },
+  "DEN": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": 1380.0
+  },
+  "EIMCOELECO": {
+    "sector": "Capital Goods",
+    "mcap": 930.0
+  },
+  "KAPILRAJ": {
+    "sector": "Financial Services",
+    "mcap": 34.0
+  },
+  "HATHWAYB": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": 11.1
+  },
+  "SURYACHAKRA": {
+    "sector": "Power",
+    "mcap": 8.83
+  },
+  "ICICIGI": {
+    "sector": "Financial Services",
+    "mcap": 92236.0
+  },
+  "HDBFS": {
+    "sector": "Financial Services",
+    "mcap": 52875.0
+  },
+  "ELECON": {
+    "sector": "Capital Goods",
+    "mcap": 9627.0
+  },
+  "TEJASNET": {
+    "sector": "Telecommunication",
+    "mcap": 7997.0
+  },
+  "MMWL": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": 1220.0
+  },
+  "RIIL": {
+    "sector": "Services",
+    "mcap": 1135.0
+  },
+  "LOTUSCHO": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 1039.0
+  },
+  "SPELS": {
+    "sector": "Capital Goods",
+    "mcap": 717.0
+  },
+  "BOMBWIR": {
+    "sector": "Capital Goods",
+    "mcap": 26.3
+  },
+  "CITIPOR": {
+    "sector": "Financial Services",
+    "mcap": 10.9
+  },
+  "NIKKIGL": {
+    "sector": "Financial Services",
+    "mcap": 7.54
+  },
+  "CONTICON": {
+    "sector": "Capital Goods",
+    "mcap": 6.22
+  },
+  "TULSI": {
+    "sector": "Capital Goods",
+    "mcap": 2.72
+  },
+  "GTPL": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": NaN
+  },
+  "WIPRO": {
+    "sector": "Information Technology",
+    "mcap": 217846.0
+  },
+  "HDFCLIFE": {
+    "sector": "Financial Services",
+    "mcap": 137885.0
+  },
+  "VSTIND": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 4004.0
+  },
+  "AMIRCHAND": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 1271.0
+  },
+  "POOJAENT": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": 608.0
+  },
+  "GANHOLD": {
+    "sector": "Services",
+    "mcap": 8.21
+  },
+  "WAAREERTL": {
+    "sector": "Capital Goods",
+    "mcap": NaN
+  },
+  "SGFIN": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "ROSELABS": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "PAEL": {
+    "sector": "Automobile and Auto Components",
+    "mcap": NaN
+  },
+  "HDFCAMC": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "CRISIL": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "ANGELONE": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "ALOKINDS": {
+    "sector": "Textiles",
+    "mcap": NaN
+  },
+  "MASTEK": {
+    "sector": "Information Technology",
+    "mcap": 5045.0
+  },
+  "NATIONSTD": {
+    "sector": "Realty",
+    "mcap": 2798.0
+  },
+  "HATHWAY": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": 2050.0
+  },
+  "BIRLAMONEY": {
+    "sector": "Financial Services",
+    "mcap": 776.0
+  },
+  "SEL": {
+    "sector": "Realty",
+    "mcap": 11.4
+  },
+  "YURANUS": {
+    "sector": "Construction",
+    "mcap": NaN
+  },
+  "WITS": {
+    "sector": "Information Technology",
+    "mcap": NaN
+  },
+  "SECURCRED": {
+    "sector": "Services",
+    "mcap": NaN
+  },
+  "JIOFIN": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "INFOMEDIA": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": NaN
+  },
+  "ECOHOTELS": {
+    "sector": "Consumer Services",
+    "mcap": NaN
+  },
+  "BAJAJCON": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": NaN
+  },
+  "HDFCBANK": {
+    "sector": "Financial Services",
+    "mcap": 1246478.0
+  },
+  "ICICIBANK": {
+    "sector": "Financial Services",
+    "mcap": 962072.0
+  },
+  "YESBANK": {
+    "sector": "Financial Services",
+    "mcap": 60595.0
+  },
+  "BHARATCOAL": {
+    "sector": "Oil  Gas & Consumable Fuels",
+    "mcap": 15498.0
+  },
+  "NETWORK18": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": 5403.0
+  },
+  "DKUAL": {
+    "sector": "Consumer Durables",
+    "mcap": 21.7
+  },
+  "BANSTEA": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 9.44
+  },
+  "VIRGOGLOB": {
+    "sector": "Information Technology",
+    "mcap": 5.3
+  },
+  "PUNCTRD": {
+    "sector": "Services",
+    "mcap": NaN
+  },
+  "PNBHOUSING": {
+    "sector": "Financial Services",
+    "mcap": 22474.0
+  },
+  "SMLMAH": {
+    "sector": "Capital Goods",
+    "mcap": 6206.0
+  },
+  "UGROCAP": {
+    "sector": "Financial Services",
+    "mcap": 1558.0
+  },
+  "NAVKARCORP": {
+    "sector": "Services",
+    "mcap": 1483.0
+  },
+  "PNBGILTS": {
+    "sector": "Financial Services",
+    "mcap": 1358.0
+  },
+  "BINNY": {
+    "sector": "Realty",
+    "mcap": 315.0
+  },
+  "JUPITERIN": {
+    "sector": "Consumer Services",
+    "mcap": 65.7
+  },
+  "NESTLEIND": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 240393.0
+  },
+  "CMPDI": {
+    "sector": "Services",
+    "mcap": 12102.0
+  },
+  "CYIENTDLM": {
+    "sector": "Capital Goods",
+    "mcap": 2615.0
+  },
+  "PERSISTENT": {
+    "sector": "Information Technology",
+    "mcap": NaN
+  },
+  "TATAINVEST": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "360ONE": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "HCLTECH": {
+    "sector": "Information Technology",
+    "mcap": NaN
+  },
+  "SBILIFE": {
+    "sector": "Financial Services",
+    "mcap": 197559.0
+  },
+  "LTTS": {
+    "sector": "Information Technology",
+    "mcap": 36422.0
+  },
+  "AMAL": {
+    "sector": "Chemicals",
+    "mcap": 814.0
+  },
+  "TECHM": {
+    "sector": "Information Technology",
+    "mcap": NaN
+  },
+  "SKYLMILAR": {
+    "sector": "Realty",
+    "mcap": NaN
+  },
+  "TATACOMM": {
+    "sector": "Telecommunication",
+    "mcap": NaN
+  },
+  "HAVELLS": {
+    "sector": "Consumer Durables",
+    "mcap": NaN
+  },
+  "MAHSCOOTER": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "ADANIENSOL": {
+    "sector": "Power",
+    "mcap": 142352.0
+  },
+  "TATACAP": {
+    "sector": "Financial Services",
+    "mcap": 138935.0
+  },
+  "LTM": {
+    "sector": "Information Technology",
+    "mcap": 135778.0
+  },
+  "CIEINDIA": {
+    "sector": "Automobile and Auto Components",
+    "mcap": NaN
+  },
+  "INFY": {
+    "sector": "Information Technology",
+    "mcap": NaN
+  },
+  "MAHLOG": {
+    "sector": "Services",
+    "mcap": NaN
+  },
+  "UTIAMC": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "CHENNPETRO": {
+    "sector": "Oil  Gas & Consumable Fuels",
+    "mcap": 14519.0
+  },
+  "VINYLINDIA": {
+    "sector": "Chemicals",
+    "mcap": 445.0
+  },
+  "INDUSINDBK": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "ATUL": {
+    "sector": "Chemicals",
+    "mcap": NaN
+  },
+  "ADANIGREEN": {
+    "sector": "Power",
+    "mcap": NaN
+  },
+  "IDFCFIRSTB": {
+    "sector": "Financial Services",
+    "mcap": 57666.0
+  },
+  "SBFC": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "INDIACEM": {
+    "sector": "Construction Materials",
+    "mcap": NaN
+  },
+  "AVANTEL": {
+    "sector": "Capital Goods",
+    "mcap": NaN
+  },
+  "ULTRACEMCO": {
+    "sector": "Construction Materials",
+    "mcap": 346631.0
+  },
+  "COALINDIA": {
+    "sector": "Oil  Gas & Consumable Fuels",
+    "mcap": 267771.0
+  },
+  "ATGL": {
+    "sector": "Oil  Gas & Consumable Fuels",
+    "mcap": 64526.0
+  },
+  "NAM-INDIA": {
+    "sector": "Financial Services",
+    "mcap": 61348.0
+  },
+  "GRSE": {
+    "sector": "Capital Goods",
+    "mcap": 29701.0
+  },
+  "TMB": {
+    "sector": "Financial Services",
+    "mcap": 10630.0
+  },
+  "MHRIL": {
+    "sector": "Consumer Services",
+    "mcap": 5469.0
+  },
+  "CRAMC": {
+    "sector": "Financial Services",
+    "mcap": 5295.0
+  },
+  "BAJAJHFL": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "MARUTI": {
+    "sector": "Automobile and Auto Components",
+    "mcap": 419602.0
+  },
+  "STARHEALTH": {
+    "sector": "Financial Services",
+    "mcap": 28855.0
+  },
+  "BANDHANBNK": {
+    "sector": "Financial Services",
+    "mcap": 28144.0
+  },
+  "CASTROLIND": {
+    "sector": "Oil  Gas & Consumable Fuels",
+    "mcap": 17779.0
+  },
+  "CEATLTD": {
+    "sector": "Automobile and Auto Components",
+    "mcap": 14721.0
+  },
+  "MAHLIFE": {
+    "sector": "Realty",
+    "mcap": 7316.0
+  },
+  "DHANBANK": {
+    "sector": "Financial Services",
+    "mcap": 1053.0
+  },
+  "APTPACK": {
+    "sector": "Capital Goods",
+    "mcap": 206.0
+  },
+  "FEDERALBNK": {
+    "sector": "Financial Services",
+    "mcap": 71415.0
+  },
+  "KFINTECH": {
+    "sector": "Financial Services",
+    "mcap": 15974.0
+  },
+  "HEG": {
+    "sector": "Capital Goods",
+    "mcap": 11373.0
+  },
+  "CEMPRO": {
+    "sector": "Construction",
+    "mcap": 10941.0
+  },
+  "ACCELYA": {
+    "sector": "Information Technology",
+    "mcap": 1719.0
+  },
+  "NDTV": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": 888.0
+  },
+  "NAVINFLUOR": {
+    "sector": "Chemicals",
+    "mcap": NaN
+  },
+  "MPHASIS": {
+    "sector": "Information Technology",
+    "mcap": NaN
+  },
+  "CAPITALSFB": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "BENARAS": {
+    "sector": "Consumer Services",
+    "mcap": NaN
+  },
+  "BAJFINANCE": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "ADANIPOWER": {
+    "sector": "Power",
+    "mcap": NaN
+  },
+  "ADANIPORTS": {
+    "sector": "Services",
+    "mcap": 348243.0
+  },
+  "CHOLAFIN": {
+    "sector": "Financial Services",
+    "mcap": 132492.0
+  },
+  "LAURUSLABS": {
+    "sector": "Healthcare",
+    "mcap": 60337.0
+  },
+  "PSPPROJECT": {
+    "sector": "Construction",
+    "mcap": 2838.0
+  },
+  "NSDL": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "LALPATHLAB": {
+    "sector": "Healthcare",
+    "mcap": NaN
+  },
+  "KSOLVES": {
+    "sector": "Information Technology",
+    "mcap": NaN
+  },
+  "GODREJAGRO": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": NaN
+  },
+  "BAJAJFINSV": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "HINDUNILVR": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": NaN
+  },
+  "LGBBROSLTD": {
+    "sector": "Automobile and Auto Components",
+    "mcap": NaN
+  },
+  "EXIDEIND": {
+    "sector": "Automobile and Auto Components",
+    "mcap": 28092.0
+  },
+  "LATENTVIEW": {
+    "sector": "Information Technology",
+    "mcap": 6291.0
+  },
+  "DESCO": {
+    "sector": "Construction",
+    "mcap": NaN
+  },
+  "CAMS": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "CSBBANK": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "M&M": {
+    "sector": "Automobile and Auto Components",
+    "mcap": 408344.0
+  },
+  "COFORGE": {
+    "sector": "Information Technology",
+    "mcap": 42517.0
+  },
+  "UBL": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 38820.0
+  },
+  "GHCL": {
+    "sector": "Chemicals",
+    "mcap": NaN
+  },
+  "POONAWALLA": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "BAJAJ-AUTO": {
+    "sector": "Automobile and Auto Components",
+    "mcap": 275920.0
+  },
+  "GODREJCP": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 111442.0
+  },
+  "BLUESTARCO": {
+    "sector": "Consumer Durables",
+    "mcap": 36986.0
+  },
+  "APTUS": {
+    "sector": "Financial Services",
+    "mcap": 11424.0
+  },
+  "RML": {
+    "sector": "Automobile and Auto Components",
+    "mcap": 2133.0
+  },
+  "HINDHARD": {
+    "sector": "Automobile and Auto Components",
+    "mcap": 121.0
+  },
+  "KANSAINER": {
+    "sector": "Consumer Durables",
+    "mcap": NaN
+  },
+  "SHREECEM": {
+    "sector": "Construction Materials",
+    "mcap": NaN
+  },
+  "BAJAJHLDNG": {
+    "sector": "Financial Services",
+    "mcap": 111929.0
+  },
+  "DABUR": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 77040.0
+  },
+  "NOCIL": {
+    "sector": "Chemicals",
+    "mcap": 2806.0
+  },
+  "GLOBUSSPR": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 2719.0
+  },
+  "PIDILITIND": {
+    "sector": "Chemicals",
+    "mcap": NaN
+  },
+  "RSSOFTWARE": {
+    "sector": "Information Technology",
+    "mcap": NaN
+  },
+  "RAIN": {
+    "sector": "Chemicals",
+    "mcap": 4304.0
+  },
+  "ABB": {
+    "sector": "Capital Goods",
+    "mcap": NaN
+  },
+  "ORIENTPPR": {
+    "sector": "Forest Materials",
+    "mcap": 397.0
+  },
+  "DLINKINDIA": {
+    "sector": "Information Technology",
+    "mcap": NaN
+  },
+  "AURIONPRO": {
+    "sector": "Information Technology",
+    "mcap": 4960.0
+  },
+  "ANANTRAJ": {
+    "sector": "Realty",
+    "mcap": NaN
+  },
+  "MFSL": {
+    "sector": "Financial Services",
+    "mcap": 58961.0
+  },
+  "BERGEPAINT": {
+    "sector": "Consumer Durables",
+    "mcap": 54365.0
+  },
+  "BBL": {
+    "sector": "Capital Goods",
+    "mcap": NaN
+  },
+  "DRREDDY": {
+    "sector": "Healthcare",
+    "mcap": NaN
+  },
+  "FOSECOIND": {
+    "sector": "Chemicals",
+    "mcap": NaN
+  },
+  "NOVARTIND": {
+    "sector": "Healthcare",
+    "mcap": NaN
+  },
+  "CIPLA": {
+    "sector": "Healthcare",
+    "mcap": 98844.0
+  },
+  "JSWSTEEL": {
+    "sector": "Metals & Mining",
+    "mcap": 296805.0
+  },
+  "ENDURANCE": {
+    "sector": "Automobile and Auto Components",
+    "mcap": 33759.0
+  },
+  "MUKANDLTD": {
+    "sector": "Metals & Mining",
+    "mcap": NaN
+  },
+  "JTEKTINDIA": {
+    "sector": "Automobile and Auto Components",
+    "mcap": NaN
+  },
+  "ALLCARGO": {
+    "sector": "Services",
+    "mcap": NaN
+  },
+  "GICHSGFIN": {
+    "sector": "Financial Services",
+    "mcap": 827.0
+  },
+  "GANGOTRI": {
+    "sector": "Textiles",
+    "mcap": NaN
+  },
+  "RANEHOLDIN": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "TVTODAY": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": NaN
+  },
+  "BASF": {
+    "sector": "Chemicals",
+    "mcap": 15882.0
+  },
+  "MINDTECK": {
+    "sector": "Information Technology",
+    "mcap": 603.0
+  },
+  "BOSCH-HCIL": {
+    "sector": "Consumer Durables",
+    "mcap": NaN
+  },
+  "BOSCHLTD": {
+    "sector": "Automobile and Auto Components",
+    "mcap": NaN
+  },
+  "ADCINDIA": {
+    "sector": "Telecommunication",
+    "mcap": 761.0
+  },
+  "CENTRUM": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "HINDALCO": {
+    "sector": "Metals & Mining",
+    "mcap": 228037.0
+  },
+  "TTKPRESTIG": {
+    "sector": "Consumer Durables",
+    "mcap": NaN
+  },
+  "INDOBELL": {
+    "sector": "Capital Goods",
+    "mcap": NaN
+  },
+  "NESCO": {
+    "sector": "Services",
+    "mcap": 8082.0
+  },
+  "ARE&M": {
+    "sector": "Automobile and Auto Components",
+    "mcap": NaN
+  },
+  "NIRLON": {
+    "sector": "Services",
+    "mcap": NaN
+  },
+  "PGHL": {
+    "sector": "Healthcare",
+    "mcap": 8201.0
+  },
+  "TIMEX": {
+    "sector": "Consumer Durables",
+    "mcap": NaN
+  },
+  "CUMMINSIND": {
+    "sector": "Capital Goods",
+    "mcap": 140044.0
+  },
+  "ESABINDIA": {
+    "sector": "Capital Goods",
+    "mcap": NaN
+  },
+  "GILLETTE": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": NaN
+  },
+  "PGHH": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 32169.0
+  },
+  "SONALAD": {
+    "sector": "Chemicals",
+    "mcap": 23.3
+  },
+  "MEDPLUS": {
+    "sector": "Consumer Services",
+    "mcap": 10464.0
+  },
+  "KOTHARIPRO": {
+    "sector": "Services",
+    "mcap": 413.0
+  },
+  "IPRINGLTD": {
+    "sector": "Automobile and Auto Components",
+    "mcap": 138.0
+  },
+  "UNIROYAL": {
+    "sector": "Textiles",
+    "mcap": 14.9
+  },
+  "SAMRATPH": {
+    "sector": "Healthcare",
+    "mcap": 65.8
+  },
+  "ICSL": {
+    "sector": "Services",
+    "mcap": 16.6
+  },
+  "509073": {
+    "sector": "TV Broadcasting & Software Production",
+    "mcap": 10.9
+  },
+  "539679": {
+    "sector": "Non Banking Financial Company (NBFC)",
+    "mcap": 34.0
+  },
+  "PARIN": {
+    "sector": "Furniture, Home Furnishing",
+    "mcap": 704.0
+  },
+  "MAXGROW": {
+    "sector": "Consumer Durables",
+    "mcap": 172.0
+  },
+  "SAHARA": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": 33.7
+  },
+  "GLCL": {
+    "sector": "Services",
+    "mcap": 13.9
+  },
+  "STERPOW": {
+    "sector": "Capital Goods",
+    "mcap": 11.3
+  },
+  "IKOMA": {
+    "sector": "Capital Goods",
+    "mcap": 80.0
+  },
+  "ALKA": {
+    "sector": "Textiles",
+    "mcap": 9.94
+  },
+  "KESAR": {
+    "sector": "Realty",
+    "mcap": 3480.0
+  },
+  "AQYLON": {
+    "sector": "Media  Entertainment & Publication",
+    "mcap": 1202.0
+  },
+  "JLL": {
+    "sector": "Financial Services",
+    "mcap": 21.0
+  },
+  "TCS": {
+    "sector": "Information Technology",
+    "mcap": 921527.0
+  },
+  "ANANDRATHI": {
+    "sector": "Financial Services",
+    "mcap": 30390.0
+  },
+  "GMBREW": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 2233.0
+  },
+  "RSL": {
+    "sector": "Capital Goods",
+    "mcap": 1053.0
+  },
+  "AGRITECH": {
+    "sector": "Fast Moving Consumer Goods",
+    "mcap": 72.6
+  },
+  "GSPCROP": {
+    "sector": "Chemicals",
+    "mcap": 1895.0
+  },
+  "URAVIDEF": {
+    "sector": "Automobile and Auto Components",
+    "mcap": 177.0
+  },
+  "B2BSOFT": {
+    "sector": "Information Technology",
+    "mcap": 53.9
+  },
+  "SWADHATURE": {
+    "sector": "Services",
+    "mcap": 4.48
+  },
+  "ICICIAMC": {
+    "sector": "Financial Services",
+    "mcap": 157520.0
+  },
+  "SWARAJENG": {
+    "sector": "Capital Goods",
+    "mcap": 5050.0
+  },
+  "INNOVISION": {
+    "sector": "Services",
+    "mcap": 759.0
+  },
+  "INDBNK": {
+    "sector": "Financial Services",
+    "mcap": NaN
+  },
+  "JUSTDIAL": {
+    "sector": "Consumer Services",
+    "mcap": NaN
+  },
+  "523465": {
+    "sector": "Housing Finance Company",
+    "mcap": null
+  },
+  "531039": {
+    "sector": "Diversified Commercial Services",
+    "mcap": null
+  },
+  "531268": {
+    "sector": "Software Products",
+    "mcap": null
+  },
+  "532011": {
+    "sector": "Film Production, Distribution & Exhibition",
+    "mcap": null
+  },
+  "KRISHANA": {
+    "sector": "Fertilizers",
+    "mcap": null
+  },
+  "543542": {
+    "sector": "Residential, Commercial Projects",
+    "mcap": null
+  },
+  "539947": {
+    "sector": "Investment Company",
+    "mcap": null
+  },
+  "530889": {
+    "sector": "Other Textile Products",
+    "mcap": null
+  },
+  "531460": {
+    "sector": "Other Electrical Equipment",
+    "mcap": null
+  },
+  "531272": {
+    "sector": "Non Banking Financial Company (NBFC)",
+    "mcap": null
+  },
+  "504648": {
+    "sector": "Iron & Steel Products",
+    "mcap": null
+  },
+  "523475": {
+    "sector": "Packaged Foods",
+    "mcap": null
+  },
+  "512267": {
+    "sector": "Film Production, Distribution & Exhibition",
+    "mcap": null
+  },
+  "531324": {
+    "sector": "Other Financial Services",
+    "mcap": null
+  },
+  "504397": {
+    "sector": "Diversified Commercial Services",
+    "mcap": null
+  },
+  "INFOLLION": {
+    "sector": "Diversified Commercial Services",
+    "mcap": null
+  }
+}

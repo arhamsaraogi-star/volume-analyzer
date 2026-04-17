@@ -22,10 +22,10 @@
         body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 50px; overflow-x: hidden; }
 
         header {
-            background: rgba(10, 14, 20, 0.8);
+            background: rgba(10, 14, 20, 0.9);
             backdrop-filter: var(--glass);
             border-bottom: 1px solid var(--border);
-            padding: 1rem 5%;
+            padding: 0.75rem 2%;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -34,19 +34,22 @@
             justify-content: space-between;
         }
 
-        .header-left { display: flex; align-items: center; gap: 1rem; }
-        .back-btn { 
+        .header-left { display: flex; align-items: center; gap: 0.8rem; }
+        .home-link { 
             display: flex; align-items: center; justify-content: center;
-            width: 38px; height: 38px; border-radius: 50%; 
+            width: 34px; height: 34px; border-radius: 8px; 
             background: var(--card-bg); border: 1px solid var(--border);
             color: var(--text); text-decoration: none; transition: 0.3s;
+            font-size: 1.1rem;
         }
-        .back-btn:hover { background: var(--border); transform: translateX(-3px); }
+        .home-link:hover { background: var(--accent); border-color: var(--accent); color: white; transform: scale(1.05); }
 
-        .logo { font-size: 1.2rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
-        .nav-links { display: flex; gap: 0.5rem; }
-        .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: 0.3s; padding: 0.5rem 0.8rem; border-radius: 8px; }
-        .nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--card-bg); }
+        .logo { font-size: 0.95rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 0.3rem; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 600; font-size: 0.8rem; transition: 0.3s; padding: 0.4rem 0.6rem; border-radius: 6px; }
+        .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.05); }
+        .nav-links a.active { color: var(--accent); }
 
         .container { width: 94%; max-width: 1400px; margin: 1.5rem auto; }
 
@@ -110,12 +113,14 @@
 <body>
     <header>
         <div class="header-left">
-            <a href="index.html" class="back-btn">←</a>
-            <div class="logo">Analytics</div>
+            <a href="index.html" class="home-link" title="Go to Hub">🏠</a>
+            <div class="logo">Ashika <span>Analytics</span></div>
         </div>
         <nav class="nav-links">
-            <a href="index.html">Dash</a>
-            <a href="analytics.html" class="active">Smart</a>
+            <a href="volume_dashboard.html">Quadrants</a>
+            <a href="analytics.html" class="active">Analytics</a>
+            <a href="results_dashboard.html">Results</a>
+            <a href="results_dashboard.html#panel-board">Board</a>
         </nav>
     </header>
 
@@ -143,9 +148,15 @@
                 <span class="search-icon">🔍</span>
                 <input type="text" id="global-search" class="search-bar" placeholder="Search symbol or industry..." oninput="onSearch()">
             </div>
-            <div class="mode-switcher">
-                <div class="mode-btn active" id="mode-daily" onclick="setMode('daily')">Daily</div>
-                <div class="mode-btn" id="mode-sustainable" onclick="setMode('sustainable')">Sustainable</div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <div class="mode-switcher">
+                    <div class="mode-btn active" id="map-segregated" onclick="setMapLayout('segregated')">Segregated</div>
+                    <div class="mode-btn" id="map-combined" onclick="setMapLayout('combined')">Combined</div>
+                </div>
+                <div class="mode-switcher">
+                    <div class="mode-btn active" id="mode-daily" onclick="setMode('daily')">Daily</div>
+                    <div class="mode-btn" id="mode-sustainable" onclick="setMode('sustainable')">Sustainable</div>
+                </div>
             </div>
         </div>
         
@@ -163,6 +174,7 @@
                         <th onclick="setSort('SYMBOL')">Symbol</th>
                         <th onclick="setSort('CLOSE')">Price</th>
                         <th onclick="setSort('CONVICTION_SCORE')">Score</th>
+                        <th>Result Date</th>
                         <th onclick="setSort('VOL_Z')">Intensity</th>
                         <th onclick="setSort('VOL_Z_5D')">Sustainable</th>
                         <th>Trend</th>
@@ -178,6 +190,7 @@
     <script>
         const DATA = __DATA__;
         let viewMode = 'daily';
+        let mapLayout = 'segregated';
         let currentSort = 'CONVICTION_SCORE';
         let sortDir = 'desc';
         let searchText = '';
@@ -198,6 +211,27 @@
             document.getElementById('momentum-badge').textContent = mode === 'daily' ? 'DAILY Z' : 'Sustainable';
             updateTopSector();
             onSearch();
+        }
+
+        function setMapLayout(layout) {
+            mapLayout = layout;
+            document.getElementById('map-segregated').classList.toggle('active', layout === 'segregated');
+            document.getElementById('map-combined').classList.toggle('active', layout === 'combined');
+            
+            const upHdr = document.querySelector('.board-header.up');
+            const downHdr = document.querySelector('.board-header.down');
+            const downGrid = document.getElementById('sector-grid-down');
+            
+            if (layout === 'combined') {
+                upHdr.textContent = "Sector Intensity Map";
+                downHdr.style.display = 'none';
+                downGrid.style.display = 'none';
+            } else {
+                upHdr.textContent = "Bullish Accumulation (Price Up)";
+                downHdr.style.display = 'block';
+                downGrid.style.display = 'grid';
+            }
+            renderSectors();
         }
 
         function onSearch() {
@@ -248,8 +282,12 @@
                 div.onclick = () => window.location.href = `sector.html?s=${encodeURIComponent(name)}`;
                 div.innerHTML = `<div class="sector-name">${name}</div><div class="sector-score">${val > 0 ? '+' : ''}${val.toFixed(2)}</div>`;
                 
-                if (isUp) gridUp.appendChild(div);
-                else gridDown.appendChild(div);
+                if (mapLayout === 'combined') {
+                    gridUp.appendChild(div);
+                } else {
+                    if (isUp) gridUp.appendChild(div);
+                    else gridDown.appendChild(div);
+                }
             });
         }
 
@@ -274,10 +312,19 @@
             display.forEach(r => {
                 const tr = document.createElement('tr');
                 const diff = (r.VOL_Z_5D - (r.VOL_Z_125D || 0)).toFixed(2);
+                
+                let resHtml = '<span class="na">—</span>';
+                if (r.NEXT_MEETING) {
+                    resHtml = `<div class="badge" style="background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid #f59e0b;">🗓️ ${r.NEXT_MEETING}</div>`;
+                } else if (r.LAST_RESULT) {
+                    resHtml = `<div class="badge" style="background:rgba(16,185,129,0.2); color:#10b981; border:1px solid #10b981;">✅ ${r.LAST_RESULT}</div>`;
+                }
+
                 tr.innerHTML = `
                     <td><a href="https://www.screener.in/company/${r.SYMBOL}/" target="_blank" class="company-link">${r.SYMBOL}</a><div style="font-size: 0.65rem; color: var(--text-dim);">${r.SECTOR}</div></td>
                     <td><div>₹${r.CLOSE.toFixed(1)}</div><div class="${r.RETURN_PCT >= 0 ? 'up' : 'down'}" style="font-size: 0.75rem;">${r.RETURN_PCT > 0 ? '+' : ''}${r.RETURN_PCT.toFixed(1)}%</div></td>
                     <td><span class="pill ${r.CONVICTION_SCORE > 80 ? 'high' : 'med'}">${r.CONVICTION_SCORE.toFixed(1)}</span></td>
+                    <td>${resHtml}</td>
                     <td class="${r.VOL_Z > 1.5 ? 'up' : ''}">${r.VOL_Z.toFixed(2)}σ</td>
                     <td>${r.VOL_Z_5D.toFixed(2)}σ</td>
                     <td><div class="${diff > 0 ? 'up' : 'down'}" style="font-size: 0.75rem;">${diff > 0 ? '↑' : '↓'}</div></td>

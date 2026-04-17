@@ -1,15 +1,15 @@
 @echo off
-TITLE Volume Analyzer Pipeline
+TITLE Ashika Dashboard Pipeline
 cd /d "%~dp0"
 echo ==================================================
-echo   🚀 NSE Volume Analyzer - Daily Update
+echo   🚀 Ashika Dashboard - Daily Mega Update
 echo ==================================================
 echo.
-python daily_runner.py
+python daily_ashika_runner.py
 echo.
 echo ==================================================
 echo   ✅ Update Complete!
-echo   Opening dashboard...
+echo   Opening Ashika Dashboard Hub...
 echo ==================================================
 start "" "index.html"
 pause

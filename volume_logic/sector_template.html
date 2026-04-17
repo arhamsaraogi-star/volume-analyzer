@@ -22,17 +22,34 @@
         body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 50px; }
 
         header {
-            background: rgba(10, 14, 20, 0.8);
+            background: rgba(10, 14, 20, 0.9);
             backdrop-filter: var(--glass);
             border-bottom: 1px solid var(--border);
-            padding: 1rem 5%;
+            padding: 0.75rem 2%;
             position: sticky;
             top: 0;
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            justify-content: space-between;
         }
+
+        .header-left { display: flex; align-items: center; gap: 0.8rem; }
+        .home-link { 
+            display: flex; align-items: center; justify-content: center;
+            width: 34px; height: 34px; border-radius: 8px; 
+            background: var(--card-bg); border: 1px solid var(--border);
+            color: var(--text); text-decoration: none; transition: 0.3s;
+            font-size: 1.1rem;
+        }
+        .home-link:hover { background: var(--accent); border-color: var(--accent); color: white; transform: scale(1.05); }
+
+        .logo { font-size: 0.95rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 0.3rem; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 600; font-size: 0.8rem; transition: 0.3s; padding: 0.4rem 0.6rem; border-radius: 6px; }
+        .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.05); }
+        .nav-links a.active { color: var(--accent); }
 
         .back-btn { 
             display: flex; align-items: center; justify-content: center;
@@ -82,8 +99,16 @@
 </head>
 <body>
     <header>
-        <a href="analytics.html" class="back-btn">←</a>
-        <div style="font-size: 1.1rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">Industry Deep-Dive</div>
+        <div class="header-left">
+            <a href="analytics.html" class="home-link" title="Back to Analytics">←</a>
+            <div class="logo">Sector <span>Focus</span></div>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="volume_dashboard.html">Quadrants</a>
+            <a href="analytics.html">Analytics</a>
+            <a href="results_dashboard.html">Results</a>
+        </nav>
     </header>
 
     <div class="container">
