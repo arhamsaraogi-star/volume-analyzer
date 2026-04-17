@@ -819,12 +819,10 @@ function dResetDate(){dFrom=DAILY_DATES[0]||null;dTo=DAILY_DATES[DAILY_DATES.len
 function dSetOrder(o){dOrder=o;document.getElementById('dBtnDesc').className=o==='desc'?'btn active':'btn';document.getElementById('dBtnAsc').className=o==='asc'?'btn active':'btn';dRefresh();}
 
 function gGetGlobalFiltered(){
-  const mFloor=parseFloat(document.getElementById('gMCap').value)||0;
-  const mCeil=parseFloat(document.getElementById('gMCapMax').value);
+  const sFloor=parseFloat(document.getElementById('gMCap').value)||0;
   const idx=document.getElementById('gIndex').value;
   return DAILY_DATA.filter(r=>{
-    if(mFloor>0&&(r["Market Cap (Cr)"]==null||parseFloat(r["Market Cap (Cr)"])<mFloor))return false;
-    if(!isNaN(mCeil)&&(r["Market Cap (Cr)"]==null||parseFloat(r["Market Cap (Cr)"])>mCeil))return false;
+    if(sFloor>0&&(r["Sales (Cr)"]==null||parseFloat(r["Sales (Cr)"])<sFloor))return false;
     if(idx && !(r["Indices"]||"").split(',').map(s=>s.trim()).includes(idx))return false;
     return true;
   });
