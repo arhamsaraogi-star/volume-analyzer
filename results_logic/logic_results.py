@@ -375,34 +375,55 @@ def _read_daily_dashboard_data():
 
 
 
+DEFAULT_SEC_METRICS = [
+    "Avg Sales YoY Q%", "Avg EBITDA YoY Q%", "Avg NP YoY Q%", "Avg EPS YoY Q%",
+    "Avg EBITDA Margin%", "Avg PAT Margin%",
+    "Avg EBITDA Margin YoY pp", "Avg PAT Margin YoY pp", "Avg EBITDA Margin QoQ pp", "Avg PAT Margin QoQ pp",
+    "Avg FY Sales YoY%", "Avg FY EBITDA YoY%", "Avg FY NP YoY%", "Avg FY EPS YoY%",
+    "Avg FY EBITDA Margin%", "Avg FY PAT Margin%", "Avg FY EBITDA Margin YoY pp", "Avg FY PAT Margin YoY pp"
+]
+
 def _read_sector_dashboard_data():
     """Extract JS data from Sector_Dashboard.html."""
-    if not os.path.exists(SECTOR_DASHBOARD):
-        return {"sectors": [], "metrics": [], "benchmark": {}, "data": {}}
-
-    with open(SECTOR_DASHBOARD, "r", encoding="utf-8") as f:
-        html = f.read()
-
-    import re
-    m = re.search(r'const SECTORS\s*=\s*(\[.*?\]);', html)
-    sectors = json.loads(m.group(1)) if m else []
-
-    m = re.search(r'const METRICS\s*=\s*(\[.*?\]);', html)
-    metrics = json.loads(m.group(1)) if m else []
-
-    m = re.search(r'const PP_METRICS\s*=\s*new Set\((\[.*?\])\)', html)
-    pp_metrics = json.loads(m.group(1)) if m else []
-
-    m = re.search(r'const BENCHMARK\s*=\s*(\{.*?\});', html)
-    benchmark = json.loads(m.group(1)) if m else {}
-
-    m = re.search(r'const DATA\s*=\s*(\{.*?\});', html, re.DOTALL)
-    data = json.loads(m.group(1)) if m else {}
-
-    return {
-        "sectors": sectors, "metrics": metrics,
-        "pp_metrics": pp_metrics, "benchmark": benchmark, "data": data
+    fallback = {
+        "sectors": [],
+        "metrics": DEFAULT_SEC_METRICS,
+        "pp_metrics": [m for m in DEFAULT_SEC_METRICS if " pp" in m],
+        "benchmark": {m: 0 for m in DEFAULT_SEC_METRICS},
+        "data": {m: [] for m in DEFAULT_SEC_METRICS}
     }
+
+    if not os.path.exists(SECTOR_DASHBOARD):
+        log(f"{SECTOR_DASHBOARD} missing — using fallback metrics", "WARN")
+        return fallback
+
+    try:
+        with open(SECTOR_DASHBOARD, "r", encoding="utf-8") as f:
+            html = f.read()
+
+        import re
+        m = re.search(r'const SECTORS\s*=\s*(\[.*?\]);', html)
+        sectors = json.loads(m.group(1)) if m else []
+
+        m = re.search(r'const METRICS\s*=\s*(\[.*?\]);', html)
+        metrics = json.loads(m.group(1)) if m else DEFAULT_SEC_METRICS
+
+        m = re.search(r'const PP_METRICS\s*=\s*new Set\((\[.*?\])\)', html)
+        pp_metrics = json.loads(m.group(1)) if m else [m for m in metrics if " pp" in m]
+
+        m = re.search(r'const BENCHMARK\s*=\s*(\{.*?\});', html)
+        benchmark = json.loads(m.group(1)) if m else {m: 0 for m in metrics}
+
+        m = re.search(r'const DATA\s*=\s*(\{.*?\});', html, re.DOTALL)
+        data = json.loads(m.group(1)) if m else {m: [] for m in metrics}
+
+        return {
+            "sectors": sectors, "metrics": metrics,
+            "pp_metrics": pp_metrics, "benchmark": benchmark, "data": data
+        }
+    except Exception as e:
+        log(f"Error scraping sector dashboard: {e}", "WARN")
+        return fallback
 
 
 def _read_board_meetings_data():
@@ -732,12 +753,25 @@ canvas { width:100%!important; }
 const DAILY_DATA=__DAILY_DATA__;
 const DAILY_DATES=__DAILY_DATES__;
 const DAILY_SECTORS=__DAILY_SECTORS__;
-const SEC_SECTORS=__SEC_SECTORS__;
-const SEC_METRICS=__SEC_METRICS__;
+let SEC_SECTORS=__SEC_SECTORS__;
+let SEC_METRICS=__SEC_METRICS__;
 const SEC_PP=new Set(__SEC_PP__);
 let SEC_BENCHMARK={};
 let SEC_DATA={};
 const BOARD_DATA=__BOARD_DATA__;
+
+// Fallback for sectors and metrics if empty
+if(!SEC_SECTORS || SEC_SECTORS.length === 0) SEC_SECTORS = DAILY_SECTORS;
+if(!SEC_METRICS || SEC_METRICS.length === 0) {
+  SEC_METRICS = [
+    "Avg Sales YoY Q%", "Avg EBITDA YoY Q%", "Avg NP YoY Q%", "Avg EPS YoY Q%",
+    "Avg EBITDA Margin%", "Avg PAT Margin%",
+    "Avg EBITDA Margin YoY pp", "Avg PAT Margin YoY pp", "Avg EBITDA Margin QoQ pp", "Avg PAT Margin QoQ pp",
+    "Avg FY Sales YoY%", "Avg FY EBITDA YoY%", "Avg FY NP YoY%", "Avg FY EPS YoY%",
+    "Avg FY EBITDA Margin%", "Avg FY PAT Margin%", "Avg FY EBITDA Margin YoY pp", "Avg FY PAT Margin YoY pp"
+  ];
+}
+
 // Recalculate daysAway dynamically from parsedDate (fixes timezone/time-of-day offset)
 (function(){const t=new Date();t.setHours(0,0,0,0);BOARD_DATA.forEach(m=>{if(m.parsedDate){const d=new Date(m.parsedDate+'T00:00:00');m.daysAway=Math.round((d-t)/86400000);}});})();
 
