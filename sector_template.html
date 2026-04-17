@@ -25,42 +25,42 @@
             background: rgba(10, 14, 20, 0.8);
             backdrop-filter: var(--glass);
             border-bottom: 1px solid var(--border);
-            padding: 1.2rem 5%;
+            padding: 1rem 5%;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .back-btn { 
             display: flex; align-items: center; justify-content: center;
-            width: 40px; height: 40px; border-radius: 50%; 
+            width: 38px; height: 38px; border-radius: 50%; 
             background: var(--card-bg); border: 1px solid var(--border);
             color: var(--text); text-decoration: none; transition: 0.3s;
         }
         .back-btn:hover { background: var(--border); transform: translateX(-3px); }
 
-        .container { width: 92%; max-width: 1400px; margin: 2.5rem auto; }
+        .container { width: 94%; max-width: 1400px; margin: 1.5rem auto; }
 
-        .hero { margin-bottom: 3rem; }
-        .hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .hero p { color: var(--text-dim); font-size: 1.1rem; }
+        .hero { margin-bottom: 2rem; }
+        .hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .hero p { color: var(--text-dim); font-size: 1rem; }
 
-        .search-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
-        .search-bar { background: #1e293b; color: white; border: 1px solid var(--border); padding: 10px 18px; border-radius: 10px; width: 300px; outline: none; transition: 0.3s; }
+        .stats-strip { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .stat-item { flex: 1; min-width: 200px; padding: 1.2rem; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); }
+        .stat-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+        .stat-val { font-size: 1.6rem; font-weight: 700; }
+
+        .search-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem; }
+        .search-bar { background: #1e293b; color: white; border: 1px solid var(--border); padding: 10px 18px; border-radius: 10px; width: 100%; max-width: 350px; outline: none; transition: 0.3s; font-size: 0.9rem; }
         .search-bar:focus { border-color: var(--accent); }
 
-        .stats-strip { display: flex; gap: 2rem; margin-bottom: 2rem; padding: 1.5rem; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); }
-        .stat-item { flex: 1; }
-        .stat-label { font-size: 0.8rem; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
-        .stat-val { font-size: 1.8rem; font-weight: 700; }
-
         .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); background: var(--card-bg); }
-        table { width: 100%; border-collapse: collapse; min-width: 1000px; }
-        th { background: rgba(255,255,255,0.03); padding: 1.2rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border); cursor: pointer; }
-        td { padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th { background: rgba(255,255,255,0.03); padding: 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border); cursor: pointer; }
+        td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         tr:hover td { background: rgba(255,255,255,0.02); }
 
         .company-link { color: var(--accent); text-decoration: none; font-weight: 600; }
@@ -68,21 +68,28 @@
 
         .up { color: var(--success); }
         .down { color: var(--error); }
-        .badge { padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; border: 1px solid transparent; }
+        .badge { padding: 3px 8px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; border: 1px solid transparent; display: inline-block; }
         .b-pos { background: rgba(16, 185, 129, 0.1); color: var(--success); border-color: var(--success); }
         .b-neg { background: rgba(239, 68, 68, 0.1); color: var(--error); border-color: var(--error); }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.6rem; }
+            .stat-val { font-size: 1.4rem; }
+            .stat-item { min-width: 100%; }
+            .search-bar { max-width: 100%; }
+        }
     </style>
 </head>
 <body>
     <header>
         <a href="analytics.html" class="back-btn">←</a>
-        <div style="font-size: 1.3rem; font-weight: 700; color: var(--accent);">Industry Deep-Dive</div>
+        <div style="font-size: 1.1rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">Industry Deep-Dive</div>
     </header>
 
     <div class="container">
         <div class="hero">
             <h1 id="sector-title">BSE 2000 Industry</h1>
-            <p id="sector-desc">Detailed institutional flow within this specific subgroup.</p>
+            <p id="sector-desc">Detailed institutional flow within this dedicated subgroup.</p>
         </div>
 
         <div class="stats-strip">
@@ -91,18 +98,18 @@
                 <div id="stat-daily" class="stat-val">--</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">Sustainable Flow (5D)</div>
+                <div class="stat-label">Sustainable (5D)</div>
                 <div id="stat-sust" class="stat-val">--</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">Total Stocks</div>
+                <div class="stat-label">Stocks Count</div>
                 <div id="stat-count" class="stat-val">--</div>
             </div>
         </div>
 
         <div class="search-row">
-            <h2 style="font-weight: 600;">Constituent Analytics</h2>
-            <input type="text" id="sec-search" class="search-bar" placeholder="Filter industry stocks..." oninput="refreshTable()">
+            <h2 style="font-size: 1.1rem; font-weight: 600;">Constituent Analytics</h2>
+            <input type="text" id="sec-search" class="search-bar" placeholder="Search symbol..." oninput="refreshTable()">
         </div>
 
         <div class="table-wrap">
@@ -112,13 +119,13 @@
                         <th onclick="setSort('SYMBOL')">Symbol</th>
                         <th onclick="setSort('CLOSE')">Price</th>
                         <th onclick="setSort('RETURN_PCT')">Return %</th>
-                        <th onclick="setSort('VOL_Z')">Daily Z</th>
+                        <th onclick="setSort('VOL_Z')">Intensity</th>
                         <th onclick="setSort('VOL_Z_5D')">Sustainable</th>
-                        <th onclick="setSort('DELIV_PER')">Deliv %</th>
+                        <th>Deliv %</th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
-                    <!-- Rows here -->
+                    <!-- Data here -->
                 </tbody>
             </table>
         </div>
@@ -162,10 +169,10 @@
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td><a href="https://www.screener.in/company/${r.SYMBOL}/" target="_blank" class="company-link">${r.SYMBOL}</a></td>
-                    <td style="font-weight: 700;">₹${r.CLOSE.toFixed(2)}</td>
-                    <td><span class="badge ${r.RETURN_PCT >=0 ? 'b-pos' : 'b-neg'}">${r.RETURN_PCT > 0 ? '+' : ''}${r.RETURN_PCT.toFixed(2)}%</span></td>
+                    <td style="font-weight: 700;">₹${r.CLOSE.toFixed(1)}</td>
+                    <td><span class="badge ${r.RETURN_PCT >=0 ? 'b-pos' : 'b-neg'}">${r.RETURN_PCT > 0 ? '+' : ''}${r.RETURN_PCT.toFixed(1)}%</span></td>
                     <td class="${r.VOL_Z > 1.5 ? 'up' : ''}">${r.VOL_Z.toFixed(2)}σ</td>
-                    <td class="${r.VOL_Z_5D > 1 ? 'up' : ''}">${r.VOL_Z_5D.toFixed(2)}σ</td>
+                    <td>${r.VOL_Z_5D.toFixed(2)}σ</td>
                     <td>${r.DELIV_PER.toFixed(1)}%</td>
                 `;
                 body.appendChild(tr);

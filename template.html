@@ -30,143 +30,136 @@
             background: rgba(10, 14, 20, 0.8);
             backdrop-filter: var(--glass);
             border-bottom: 1px solid var(--border);
-            padding: 1.2rem 5%;
+            padding: 1rem 5%;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 2rem;
+            justify-content: space-between;
         }
 
+        .header-left { display: flex; align-items: center; gap: 1rem; }
         .back-btn { 
             display: flex; align-items: center; justify-content: center;
-            width: 40px; height: 40px; border-radius: 50%; 
+            width: 38px; height: 38px; border-radius: 50%; 
             background: var(--card-bg); border: 1px solid var(--border);
             color: var(--text); text-decoration: none; transition: 0.3s;
         }
         .back-btn:hover { background: var(--border); transform: translateX(-3px); }
 
-        .logo { font-size: 1.3rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
-        .nav-links { display: flex; gap: 1rem; margin-left: auto; }
-        .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 500; transition: 0.3s; padding: 0.5rem 1rem; border-radius: 8px; }
+        .logo { font-size: 1.1rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 0.5rem; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 500; font-size: 0.85rem; transition: 0.3s; padding: 0.4rem 0.7rem; border-radius: 8px; }
         .nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--card-bg); }
 
-        .container { width: 92%; max-width: 1400px; margin: 2rem auto; animation: fadeIn 0.6s ease-out; }
+        .container { width: 94%; max-width: 1400px; margin: 1.5rem auto; animation: fadeIn 0.6s ease-out; }
+        .header-meta { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 1.2rem; }
 
-        .header-meta { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem; }
-
-        /* Quadrant Cards */
-        .quad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+        .quad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
         .q-card { 
             background: var(--card-bg); backdrop-filter: var(--glass); border: 1px solid var(--border); 
-            border-radius: 20px; padding: 1.5rem; transition: 0.3s; cursor: pointer; position: relative;
+            border-radius: 16px; padding: 1.2rem; transition: 0.3s; cursor: pointer; position: relative;
             overflow: hidden;
         }
-        .q-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.2); }
+        .q-card:hover { transform: translateY(-3px); filter: brightness(1.1); }
         .q-card.active { border: 2px solid var(--accent); box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
         
-        .q-card h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 0.8rem; }
-        .q-card .count { font-size: 2.5rem; font-weight: 800; line-height: 1; margin-bottom: 0.5rem; }
-        .q-card .desc { font-size: 0.85rem; color: var(--text-dim); }
+        .q-card h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 0.6rem; }
+        .q-card .count { font-size: 2rem; font-weight: 800; line-height: 1; margin-bottom: 0.4rem; }
+        .q-card .desc { font-size: 0.75rem; color: var(--text-dim); }
 
         .q-1 { border-left: 4px solid var(--success); } .q-1 .count { color: var(--success); }
         .q-2 { border-left: 4px solid var(--error); } .q-2 .count { color: var(--error); }
         .q-3 { border-left: 4px solid var(--cyan); } .q-3 .count { color: var(--cyan); }
         .q-4 { border-left: 4px solid var(--amber); } .q-4 .count { color: var(--amber); }
 
-        /* Controls */
         .controls { 
-            display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; 
-            margin-bottom: 2rem; background: var(--card-bg); padding: 1.2rem; 
-            border-radius: 16px; border: 1px solid var(--border); 
+            display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; 
+            margin-bottom: 1.5rem; background: var(--card-bg); padding: 1rem; 
+            border-radius: 12px; border: 1px solid var(--border); 
         }
-        .ctrl-group { display: flex; align-items: center; gap: 10px; }
-        .ctrl-group label { font-size: 0.75rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; }
+        .ctrl-group { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 200px; }
+        .ctrl-group label { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; white-space: nowrap; }
 
         select, input { 
-            background: #1e293b; color: white; border: 1px solid var(--border); 
-            padding: 10px 14px; border-radius: 10px; font-size: 0.85rem; 
+            width: 100%; background: #1e293b; color: white; border: 1px solid var(--border); 
+            padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; 
             outline: none; transition: 0.3s; 
         }
-        select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        select:focus, input:focus { border-color: var(--accent); }
 
-        /* Table */
         .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); background: var(--card-bg); }
-        table { width: 100%; border-collapse: collapse; min-width: 1000px; }
-        th { 
-            background: rgba(255,255,255,0.03); padding: 1.2rem 1rem; text-align: left; 
-            font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); 
-            letter-spacing: 1px; border-bottom: 1px solid var(--border); cursor: pointer;
-        }
-        th:hover { background: rgba(59,130,246,0.1); color: white; }
-        td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th { background: rgba(255,255,255,0.03); padding: 1rem; text-align: left; font-size: 0.7rem; text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border); cursor: pointer; }
+        td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
         tr:hover td { background: rgba(255,255,255,0.02); }
-
-        .badge { padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
-        .b-pos { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid var(--success); }
-        .b-neg { background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid var(--error); }
-        .b-spike { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.2); }
 
         .company-name { font-weight: 600; color: var(--accent); text-decoration: none; }
         .company-name:hover { text-decoration: underline; }
-        .sector-name { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; }
+        .sector-name { font-size: 0.7rem; color: var(--text-dim); margin-top: 2px; }
 
-        .footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 40px; }
+        .badge { padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+        .b-pos { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .b-neg { background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid var(--error); }
+        .b-spike { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid #8b5cf6; }
 
-        @media (max-width: 768px) {
-            header { flex-direction: column; padding: 1rem; align-items: flex-start; gap: 1rem; }
-            .nav-links { margin-left: 0; width: 100%; justify-content: space-between; }
+        @media (max-width: 600px) {
+            header { padding: 0.8rem 4%; }
+            .nav-links { gap: 0.3rem; }
+            .nav-links a { font-size: 0.8rem; padding: 0.3rem 0.5rem; }
+            .quad-grid { grid-template-columns: 1fr; }
+            .ctrl-group { min-width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="analytics.html" class="back-btn">←</a>
-        <div class="logo">Volume Optimizer</div>
+        <div class="header-left">
+            <a href="analytics.html" class="back-btn">←</a>
+            <div class="logo">Optimizer</div>
+        </div>
         <nav class="nav-links">
-            <a href="index.html" class="active">Dashboard</a>
-            <a href="analytics.html">Analytics</a>
+            <a href="index.html" class="active">Dash</a>
+            <a href="analytics.html">Smart</a>
         </nav>
     </header>
 
     <div class="container">
         <div class="header-meta">
             <span id="tradeDate">Loading...</span> | 
-            Last Updated: <span id="updatedAt">...</span>
+            Updated: <span id="updatedAt">...</span>
         </div>
 
         <div class="quad-grid">
             <div class="q-card q-1" id="card-Q1" onclick="setFilter('Q1')">
                 <h3>Conviction Buy</h3>
                 <div class="count" id="count-Q1">0</div>
-                <div class="desc">Price Action + High Delivery</div>
+                <div class="desc">Price + Delivery Spike</div>
             </div>
             <div class="q-card q-2" id="card-Q2" onclick="setFilter('Q2')">
                 <h3>Distribution</h3>
                 <div class="count" id="count-Q2">0</div>
-                <div class="desc">Negative Price + High Delivery</div>
+                <div class="desc">Negative + Delivery Spike</div>
             </div>
             <div class="q-card q-3" id="card-Q3" onclick="setFilter('Q3')">
                 <h3>Low-Conv Rally</h3>
                 <div class="count" id="count-Q3">0</div>
-                <div class="desc">Positive Price + Low Delivery</div>
+                <div class="desc">Price Up + Low Vol</div>
             </div>
             <div class="q-card q-4" id="card-Q4" onclick="setFilter('Q4')">
                 <h3>Weak Selling</h3>
                 <div class="count" id="count-Q4">0</div>
-                <div class="desc">Negative Price + Low Delivery</div>
+                <div class="desc">Price Down + Low Vol</div>
             </div>
         </div>
 
         <div class="controls">
             <div class="ctrl-group">
-                <label>Search</label>
-                <input type="text" id="searchInput" placeholder="Symbol..." oninput="refresh()">
+                <input type="text" id="searchInput" placeholder="Search symbol or industry..." oninput="refresh()">
             </div>
             <div class="ctrl-group">
-                <label>Filter</label>
                 <select id="quadrantFilter" onchange="refresh()">
                     <option value="ALL">All Quadrants</option>
                     <option value="Q1">Q1: Conviction Buy</option>
@@ -176,10 +169,9 @@
                 </select>
             </div>
             <div class="ctrl-group">
-                <label>Spike</label>
                 <select id="spikeFilter" onchange="refresh()">
-                    <option value="ALL">All Delivery</option>
-                    <option value="SPIKE">High Delivery (>200% MA)</option>
+                    <option value="ALL">All Loads</option>
+                    <option value="SPIKE">Delivery Spike (>200% MA)</option>
                 </select>
             </div>
         </div>
@@ -191,22 +183,16 @@
                         <th onclick="setSort('SYMBOL')">Symbol</th>
                         <th onclick="setSort('CLOSE')">Price</th>
                         <th onclick="setSort('RETURN_PCT')">Chg%</th>
-                        <th onclick="setSort('DELIV_QTY')">Deliv Qty</th>
                         <th onclick="setSort('DELIV_VS_MA_PCT')">vs 20D MA</th>
-                        <th onclick="setSort('DELIV_PER')">Deliv%</th>
-                        <th onclick="setSort('MARKET_CAP_CR')">MCap (Cr)</th>
-                        <th onclick="setSort('SECTOR')">Industry Subgroup</th>
+                        <th onclick="setSort('DELIV_PER')">Deliv %</th>
+                         <th onclick="setSort('MARKET_CAP_CR')">MCap</th>
                     </tr>
                 </thead>
                 <tbody id="dataTable">
-                    <!-- Rows injected here -->
+                    <!-- Rows here -->
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <div class="footer">
-        Developed by Ashika Group · Data source: BSE 2000 & NSE Bhavcopy
     </div>
 
     <script>
@@ -217,7 +203,7 @@
 
         function init() {
             if (!DATA || !DATA.records) return;
-            document.getElementById('tradeDate').textContent = "Trade Date: " + DATA.trade_date;
+            document.getElementById('tradeDate').textContent = "Date: " + DATA.trade_date;
             document.getElementById('updatedAt').textContent = DATA.updated_at;
             document.getElementById('count-Q1').textContent = DATA.quadrants.Q1;
             document.getElementById('count-Q2').textContent = DATA.quadrants.Q2;
@@ -247,13 +233,11 @@
             const qFilt = document.getElementById('quadrantFilter').value;
             
             let filtered = DATA.records.filter(r => {
-                if (search && !r.SYMBOL.includes(search)) return false;
+                if (search && !r.SYMBOL.includes(search) && !r.SECTOR.toUpperCase().includes(search)) return false;
                 if (spikeOnly && r.DELIV_VS_MA_PCT < 200) return false;
-                
                 const isPos = r.RETURN_PCT > 0;
                 const aboveMA = r.DELIV_QTY > r.DELIV_MA20;
                 let q = isPos ? (aboveMA ? 'Q1' : 'Q3') : (aboveMA ? 'Q2' : 'Q4');
-                
                 if (qFilt !== 'ALL' && q !== qFilt) return false;
                 return true;
             });
@@ -272,7 +256,6 @@
             rows.forEach(r => {
                 const tr = document.createElement('tr');
                 const isPos = r.RETURN_PCT > 0;
-                const aboveMA = r.DELIV_VS_MA_PCT > 0;
                 const isSpike = r.DELIV_VS_MA_PCT >= 200;
                 
                 tr.innerHTML = `
@@ -281,12 +264,10 @@
                         <div class="sector-name">${r.SECTOR}</div>
                     </td>
                     <td style="font-weight:700">₹${r.CLOSE.toLocaleString()}</td>
-                    <td><span class="badge ${isPos ? 'b-pos' : 'b-neg'}">${isPos ? '+' : ''}${r.RETURN_PCT.toFixed(2)}%</span></td>
-                    <td style="color:var(--text-dim)">${r.DELIV_QTY.toLocaleString()}</td>
-                    <td><span class="badge ${aboveMA ? 'b-pos' : 'b-neg'} ${isSpike ? 'b-spike' : ''}">${aboveMA ? '+' : ''}${r.DELIV_VS_MA_PCT.toFixed(1)}%</span></td>
+                    <td><span class="badge ${isPos ? 'b-pos' : 'b-neg'}">${isPos ? '+' : ''}${r.RETURN_PCT.toFixed(1)}%</span></td>
+                    <td><span class="badge ${r.DELIV_VS_MA_PCT > 0 ? 'b-pos' : 'b-neg'} ${isSpike ? 'b-spike' : ''}">${r.DELIV_VS_MA_PCT > 0 ? '+' : ''}${Math.round(r.DELIV_VS_MA_PCT)}%</span></td>
                     <td>${r.DELIV_PER.toFixed(1)}%</td>
-                    <td style="color:var(--text-dim)">${r.MARKET_CAP_CR ? Math.round(r.MARKET_CAP_CR).toLocaleString() : '—'}</td>
-                    <td style="font-size:0.75rem; color:var(--text-dim)">${r.SECTOR}</td>
+                    <td style="color:var(--text-dim)">${r.MARKET_CAP_CR ? Math.round(r.MARKET_CAP_CR / 1000) + 'k' : '—'}</td>
                 `;
                 tbody.appendChild(tr);
             });
