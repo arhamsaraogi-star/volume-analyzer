@@ -181,7 +181,7 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
         dma50 = hist["CLOSE"].tail(50).mean() if len(hist) >= 50 else dma20
         dma200 = hist["CLOSE"].tail(200).mean() if len(hist) >= 200 else dma50
         
-        # Vol/Deliv Z-Scores (Rolling 20)
+        # Vol/Deliv Metrics
         vol_tail = hist["TOTTRDQTY"].tail(20)
         deliv_tail = hist["DELIV_QTY"].tail(20)
         
@@ -191,18 +191,19 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
         v_today = today["TOTTRDQTY"].iloc[0]
         d_today = today["DELIV_QTY"].iloc[0]
         
-        vol_z = (v_today - v_mean) / v_std if v_std > 0 else 0
-        deliv_z = (d_today - d_mean) / d_std if d_std > 0 else 0
+        vol_z = (v_today - v_mean) / v_std if (v_std and v_std > 0) else 0
+        deliv_z = (d_today - d_mean) / d_std if (d_std and d_std > 0) else 0
+        
+        # Backward compatibility for index.html
+        deliv_ma20 = float(d_mean)
         
         # 52W High
         high52 = hist["CLOSE"].tail(250).max()
         
         # Conviction Score
-        # Components: VolZ intensity (weight 0.4), DelivZ intensity (0.4), Price Trend (0.2)
-        vz_score = min(max(vol_z * 20, 0), 100) # Score 0-100 based on Z
+        vz_score = min(max(vol_z * 20, 0), 100)
         dz_score = min(max(deliv_z * 20, 0), 100)
         price_trend = 100 if (today["CLOSE"].iloc[0] > dma20 and today["RETURN_PCT"].iloc[0] > 0) else 50
-        
         conv_score = (vz_score * 0.4) + (dz_score * 0.4) + (price_trend * 0.2)
         
         rows.append({
@@ -211,6 +212,7 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
             "DMA200": float(dma200),
             "VOL_Z": float(vol_z),
             "DELIV_Z": float(deliv_z),
+            "DELIV_MA20": deliv_ma20,
             "HIGH52": float(high52),
             "CONVICTION_SCORE": float(conv_score)
         })
@@ -230,13 +232,12 @@ def run_pipeline(trade_date: date):
     
     all_target_syms = sorted(set(n500["symbols"]) | watchlist_syms)
     
-    # Ensure today is in cache
-    ts = pd.Timestamp(trade_date)
     if not BHAV_PARQUET.exists():
         log.error("Historical data missing. Run backfill_history.py first.")
         return False
         
     cache = pd.read_parquet(BHAV_PARQUET)
+    ts = pd.Timestamp(trade_date)
     
     # Check if target date is in cache, if not fetch it
     cached_dates = pd.to_datetime(cache["TRADE_DATE"]).dt.date.unique()
@@ -249,12 +250,11 @@ def run_pipeline(trade_date: date):
             cache.to_parquet(BHAV_PARQUET, index=False)
         else:
             log.warning(f"Could not fetch data for {trade_date}.")
-            # Check if we should fallback
             return False
 
     # 2. Enrichment
     today = cache[cache["TRADE_DATE"] == ts].copy()
-    today = today[today["SYMBOL"].isin(all_target_syms) | today["SYMBOL"].isin(watchlist_syms)]
+    today = today[today["SYMBOL"].isin(all_target_syms)].copy()
     
     # Extra Sectors
     extra_cache = {}
@@ -268,6 +268,10 @@ def run_pipeline(trade_date: date):
     
     today["SECTOR"] = today["SYMBOL"].apply(resolve_sector)
     with open(SECTOR_MAPPING_CACHE, "w") as f: json.dump(extra_cache, f)
+    
+    # Universe Flags
+    today["IN_N500"] = today["SYMBOL"].isin(n500["symbols"])
+    today["MARKET_CAP_CR"] = today["SYMBOL"].map(n500["mcap"])
     
     # 3. Advanced Metrics
     metrics_df = compute_advanced_metrics(cache, trade_date)
@@ -295,8 +299,12 @@ def generate_dashboards(trade_date: date, df: pd.DataFrame, sector_stats: dict):
     if "TRADE_DATE" in df.columns:
         df["TRADE_DATE"] = df["TRADE_DATE"].dt.strftime("%Y-%m-%d")
     
-    df["ABOVE_MA"] = df["DELIV_Z"] > 0
-    df["DELIV_VS_MA_PCT"] = (df["DELIV_Z"] * 50).round(1) # Visual scale
+    # Calculate fields for old dashboard
+    # DELIV_MA20 is already in df from compute_advanced_metrics
+    df["ABOVE_MA"] = df["DELIV_QTY"] > df["DELIV_MA20"]
+    # For backward compatibility, we'll keep the spike % calculation similar to old one
+    # or just use the Z-score logic scaled to match visual expectations
+    df["DELIV_VS_MA_PCT"] = ((df["DELIV_QTY"] - df["DELIV_MA20"]) / df["DELIV_MA20"] * 100).round(1).fillna(0)
     
     quads = {
         "Q1": df[(df["RETURN_PCT"] > 0) & df["ABOVE_MA"]].to_dict(orient="records"),
@@ -329,7 +337,6 @@ def render(template_name, output_name, data):
 
 if __name__ == "__main__":
     t_date = date.today()
-    # Check if markets closed today
     if t_date.weekday() >= 5: # Sat/Sun, fallback to Fri
         t_date -= timedelta(days=t_date.weekday() - 4)
     
