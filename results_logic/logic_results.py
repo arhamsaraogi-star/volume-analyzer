@@ -527,6 +527,18 @@ header {
 
 .header-left { justify-self: start; display: flex; align-items: center; gap: 0.8rem; }
 .nav-links { justify-self: center; display: flex; gap: 0.3rem; }
+.nav-links a { 
+    color: var(--text-dim); 
+    text-decoration: none; 
+    font-weight: 600; 
+    font-size: 0.82rem; 
+    transition: 0.3s; 
+    padding: 0.4rem 0.8rem; 
+    border-radius: 8px; 
+    display: inline-block;
+}
+.nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.08); }
+.nav-links a#nav-results { color: var(--accent) !important; background: rgba(255,255,255,0.06); }
 .header-right { justify-self: end; font-size: 0.75rem; color: var(--text-dim); }
 
 .tabs { display:flex; gap:8px; padding:12px 32px; background:rgba(10,14,20,0.8); backdrop-filter:var(--glass); border-bottom:1px solid var(--border); position:sticky; top:54px; z-index:900; }

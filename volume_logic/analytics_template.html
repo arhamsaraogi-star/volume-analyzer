@@ -49,9 +49,17 @@
 
         .logo { font-size: 0.95rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
         .logo span { color: var(--accent); }
-        .nav-links { display: flex; gap: 0.3rem; }
-        .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 600; font-size: 0.8rem; transition: 0.3s; padding: 0.4rem 0.6rem; border-radius: 6px; }
-        .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.05); }
+        .nav-links a { 
+            color: var(--text-dim); 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 0.82rem; 
+            transition: 0.3s; 
+            padding: 0.4rem 0.8rem; 
+            border-radius: 8px; 
+            display: inline-block;
+        }
+        .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.08); }
         .nav-links a.active { color: var(--accent); }
 
         .container { width: 94%; max-width: 1400px; margin: 1.5rem auto; }
