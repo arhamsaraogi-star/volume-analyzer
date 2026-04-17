@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sector Insights | Smart Money Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e14;
+            --card-bg: rgba(23, 28, 36, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --glass: blur(12px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 50px; }
+
+        header {
+            background: rgba(10, 14, 20, 0.8);
+            backdrop-filter: var(--glass);
+            border-bottom: 1px solid var(--border);
+            padding: 1.2rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .back-btn { 
+            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; border-radius: 50%; 
+            background: var(--card-bg); border: 1px solid var(--border);
+            color: var(--text); text-decoration: none; transition: 0.3s;
+        }
+        .back-btn:hover { background: var(--border); transform: translateX(-3px); }
+
+        .logo { font-size: 1.2rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+
+        .container { width: 92%; max-width: 1400px; margin: 2rem auto; }
+
+        .sector-header { margin-bottom: 2.5rem; }
+        .sector-title { font-size: 2.5rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+        .sector-meta { color: var(--text-dim); font-size: 1.1rem; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .glass-card { background: var(--card-bg); backdrop-filter: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem; }
+        .card-label { font-size: 0.8rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.8rem; }
+        .card-val { font-size: 2rem; font-weight: 700; color: var(--text); }
+
+        .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); background: var(--card-bg); }
+        table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+        th { background: rgba(255,255,255,0.03); padding: 1.2rem 1rem; text-align: left; font-size: 0.8rem; text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+        td { padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+
+        .conv-pill { padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; }
+        .high-conv { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .med-conv { background: rgba(59, 130, 246, 0.1); color: var(--accent); border: 1px solid var(--accent); }
+        
+        .up { color: var(--success); }
+        .down { color: var(--error); }
+
+        @media (max-width: 768px) {
+            .sector-title { font-size: 1.8rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="analytics.html" class="back-btn">←</a>
+        <div class="logo">Sector Deep Dive</div>
+    </header>
+
+    <div class="container">
+        <div class="sector-header">
+            <h1 id="sector-display-name" class="sector-title">Loading Sector...</h1>
+            <div id="sector-display-meta" class="sector-meta">Institutional intensity analysis</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="glass-card">
+                <div class="card-label">Sustainable Momentum (5D)</div>
+                <div id="stat-sus" class="card-val">--</div>
+            </div>
+            <div class="glass-card">
+                <div class="card-label">Daily Intensity Surge</div>
+                <div id="stat-daily" class="card-val">--</div>
+            </div>
+            <div class="glass-card">
+                <div class="card-label">Conviction Average</div>
+                <div id="stat-conv" class="card-val">--</div>
+            </div>
+            <div class="glass-card">
+                <div class="card-label">Coverage Pool</div>
+                <div id="stat-count" class="card-val">--</div>
+            </div>
+        </div>
+
+        <h2 style="margin-bottom: 1.5rem; font-weight: 600;">Constituent Performance</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price (%Chg)</th>
+                        <th>Conviction</th>
+                        <th>Intensity (Daily)</th>
+                        <th>Sustainable (5D)</th>
+                        <th>Trend vs 6M Avg</th>
+                        <th>52W High</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Rows injected here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const DATA = __DATA__;
+
+        function init() {
+            const params = new URLSearchParams(window.location.search);
+            const sectorName = params.get('s');
+
+            if (!sectorName || !DATA || !DATA.sectors[sectorName]) {
+                document.getElementById('sector-display-name').textContent = "Sector Not Found";
+                return;
+            }
+
+            document.getElementById('sector-display-name').textContent = sectorName;
+            
+            const stats = DATA.sectors[sectorName];
+            document.getElementById('stat-sus').textContent = (stats.avg_vol_z_5d > 0 ? '+' : '') + stats.avg_vol_z_5d.toFixed(2) + 'σ';
+            document.getElementById('stat-daily').textContent = (stats.avg_vol_z > 0 ? '+' : '') + stats.avg_vol_z.toFixed(2) + 'σ';
+            document.getElementById('stat-conv').textContent = stats.avg_conv.toFixed(1);
+            document.getElementById('stat-count').textContent = stats.count + ' Stocks';
+
+            // Filter records for this sector
+            const records = DATA.records.filter(r => r.SECTOR === sectorName);
+            records.sort((a, b) => b.CONVICTION_SCORE - a.CONVICTION_SCORE);
+
+            const body = document.getElementById('table-body');
+            records.forEach(r => {
+                const tr = document.createElement('tr');
+                const convClass = r.CONVICTION_SCORE > 80 ? 'high-conv' : 'med-conv';
+                const trendDist = r.DMA200 ? ((r.CLOSE - r.DMA200) / r.DMA200 * 100).toFixed(1) : '--';
+                const w52Dist = r.HIGH52 ? ((r.HIGH52 - r.CLOSE) / r.HIGH52 * 100).toFixed(1) : '--';
+                
+                const histDiff = (r.VOL_Z_5D - r.VOL_Z_125D).toFixed(2);
+                const trendText = histDiff > 0 ? `+${histDiff} over 6M` : `${histDiff} vs 6M`;
+                const trendClass = histDiff > 0 ? 'up' : 'down';
+
+                tr.innerHTML = `
+                    <td><div style="font-weight: 600;">${r.SYMBOL}</div></td>
+                    <td>
+                        <div>₹${r.CLOSE.toFixed(2)}</div>
+                        <div class="${r.RETURN_PCT >= 0 ? 'up' : 'down'}" style="font-size: 0.85rem;">
+                            ${r.RETURN_PCT > 0 ? '+' : ''}${r.RETURN_PCT.toFixed(2)}%
+                        </div>
+                    </td>
+                    <td><span class="conv-pill ${convClass}">${r.CONVICTION_SCORE.toFixed(1)}</span></td>
+                    <td class="${r.VOL_Z > 1.5 ? 'up' : ''}">${r.VOL_Z.toFixed(2)}σ</td>
+                    <td class="${r.VOL_Z_5D > 1 ? 'up' : ''}">${r.VOL_Z_5D.toFixed(2)}σ</td>
+                    <td>
+                        <div class="${trendClass}" style="font-size: 0.85rem;">${trendText}</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim);">6M Avg: ${r.VOL_Z_125D.toFixed(2)}σ</div>
+                    </td>
+                    <td>
+                        <div style="font-size: 0.85rem;">₹${(r.HIGH52 || 0).toFixed(2)}</div>
+                        <div style="font-size: 0.75rem; color: var(--text-dim);">${w52Dist}% away</div>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

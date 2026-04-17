@@ -35,12 +35,20 @@
             top: 0;
             z-index: 100;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 2rem;
         }
 
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .back-btn { 
+            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; border-radius: 50%; 
+            background: var(--card-bg); border: 1px solid var(--border);
+            color: var(--text); text-decoration: none; transition: 0.3s;
+        }
+        .back-btn:hover { background: var(--border); transform: translateX(-3px); }
+
+        .logo { font-size: 1.3rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 1rem; margin-left: auto; }
         .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 500; transition: 0.3s; padding: 0.5rem 1rem; border-radius: 8px; }
         .nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--card-bg); }
 
@@ -110,7 +118,8 @@
         .footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 40px; }
 
         @media (max-width: 768px) {
-            header { padding: 1rem 5%; flex-direction: column; gap: 1rem; }
+            header { flex-direction: column; padding: 1rem; align-items: flex-start; gap: 1rem; }
+            .nav-links { margin-left: 0; width: 100%; justify-content: space-between; }
             .quad-grid { grid-template-columns: 1fr; }
             .controls { flex-direction: column; align-items: stretch; gap: 1rem; }
             .ctrl-group { flex-direction: column; align-items: flex-start; }
@@ -121,10 +130,11 @@
 <body>
 
     <header>
+        <a href="analytics.html" class="back-btn">←</a>
         <div class="logo">Volume Optimizer</div>
         <nav class="nav-links">
             <a href="index.html" class="active">Dashboard</a>
-            <a href="analytics.html">Smart Analytics</a>
+            <a href="analytics.html">Analytics</a>
         </nav>
     </header>
 
@@ -241,8 +251,6 @@
         function setFilter(q) {
             activeQuadrant = (activeQuadrant === q) ? 'ALL' : q;
             document.getElementById('quadrantFilter').value = activeQuadrant;
-            
-            // UI state
             for(let i=1; i<=4; i++) {
                 document.getElementById('card-Q'+i).classList.toggle('active', activeQuadrant === 'Q'+i);
             }
@@ -264,11 +272,9 @@
                 if (currentUniverse === 'n500' && !r.IN_N500) return false;
                 if (search && !r.SYMBOL.includes(search)) return false;
                 if (spikeOnly && r.DELIV_VS_MA_PCT < 200) return false;
-                
                 const isPos = r.RETURN_PCT > 0;
                 const aboveMA = r.DELIV_QTY > r.DELIV_MA20;
                 let q = isPos ? (aboveMA ? 'Q1' : 'Q3') : (aboveMA ? 'Q2' : 'Q4');
-                
                 if (qFilt !== 'ALL' && q !== qFilt) return false;
                 return true;
             });
@@ -276,10 +282,8 @@
             filtered.sort((a, b) => {
                 let va = a[currentSort], vb = b[currentSort];
                 if (va === null) return 1; if (vb === null) return -1;
-                if (typeof va === 'string') return currentOrder === 'desc' ? vb.localeCompare(va) : va.localeCompare(vb);
                 return currentOrder === 'desc' ? vb - va : va - vb;
             });
-            
             render(filtered);
         }
 

@@ -186,8 +186,6 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
     # Pre-sort and pre-calculate columns to speed up processing
     for sym, grp in cache_df[cache_df["SYMBOL"].isin(target_symbols)].groupby("SYMBOL"):
         grp = grp.sort_values("TRADE_DATE")
-        
-        # Current data point
         today = grp[grp["TRADE_DATE"] == ts]
         if today.empty: continue
         
@@ -201,37 +199,24 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
         grp['DELIV_Z'] = (grp['DELIV_QTY'] - grp['DELIV_MA20']) / grp['DELIV_STD20']
         
         # 2. Sustainability Metrics (Rollups of Intensity)
-        # 5-Day Avg Intensity
         grp['VOL_Z_5D'] = grp['VOL_Z'].rolling(5).mean()
         grp['DELIV_Z_5D'] = grp['DELIV_Z'].rolling(5).mean()
-        
-        # 6-Month (125-Day) Avg Intensity
         grp['VOL_Z_125D'] = grp['VOL_Z'].rolling(125).mean()
         grp['DELIV_Z_125D'] = grp['DELIV_Z'].rolling(125).mean()
         
-        # 3. Pull values for the target date
         idx = today.index[0]
         cur = grp.loc[idx]
         
         vol_z = float(cur['VOL_Z']) if not pd.isna(cur['VOL_Z']) else 0
         deliv_z = float(cur['DELIV_Z']) if not pd.isna(cur['DELIV_Z']) else 0
-        
         vol_z_5d = float(cur['VOL_Z_5D']) if not pd.isna(cur['VOL_Z_5D']) else vol_z
-        deliv_z_5d = float(cur['DELIV_Z_5D']) if not pd.isna(cur['DELIV_Z_5D']) else deliv_z
-        
         vol_z_125d = float(cur['VOL_Z_125D']) if not pd.isna(cur['VOL_Z_125D']) else 0
-        deliv_z_125d = float(cur['DELIV_Z_125D']) if not pd.isna(cur['DELIV_Z_125D']) else 0
-        
-        # Sustainability Ratio (5D Avg vs 6M Avg)
-        # If 5D avg is significantly higher than 6M avg, it's a "Sustainable Spike"
-        sus_score = vol_z_5d # Use 5D intensity as the base sustainable score
         
         close = float(cur['CLOSE'])
         dma20 = grp['CLOSE'].tail(20).mean()
         dma50 = grp['CLOSE'].tail(50).mean() if len(grp) >= 50 else dma20
         dma200 = grp['CLOSE'].tail(200).mean() if len(grp) >= 200 else dma200
         
-        # Conviction Score (Same as before, based on daily intensity)
         vz_s = min(max(vol_z * 20, 0), 100)
         dz_s = min(max(deliv_z * 20, 0), 100)
         price_trend = 100 if (close > dma20 and cur['RETURN_PCT'] > 0) else 50
@@ -245,9 +230,7 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
             "DELIV_Z": deliv_z,
             "VOL_Z_5D": vol_z_5d,
             "VOL_Z_125D": vol_z_125d,
-            "DELIV_Z_5D": deliv_z_5d,
-            "DELIV_Z_125D": deliv_z_125d,
-            "SUSTAINABLE_SCORE": vol_z_5d, # Higher is more persistent
+            "SUSTAINABLE_SCORE": vol_z_5d,
             "DELIV_MA20": float(cur['DELIV_MA20']),
             "HIGH52": float(grp['CLOSE'].tail(250).max()),
             "CONVICTION_SCORE": float(conv_score)
@@ -258,7 +241,7 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
 
 def run_pipeline(trade_date: date):
     ensure_dirs()
-    log.info(f"--- Pipeline Execution (Sustainability Track): {trade_date} ---")
+    log.info(f"--- Pipeline Execution (Multi-Page): {trade_date} ---")
     
     n500 = get_nifty500_data()
     watchlists = fetch_watchlists()
@@ -274,7 +257,6 @@ def run_pipeline(trade_date: date):
     ts = pd.Timestamp(trade_date)
     
     if trade_date not in pd.to_datetime(cache["TRADE_DATE"]).dt.date.unique():
-        log.info(f"Fetching fresh bhavcopy for {trade_date}...")
         from backfill_history import fetch_one_bhav
         df_today = fetch_one_bhav(trade_date)
         if df_today is not None:
@@ -304,11 +286,9 @@ def run_pipeline(trade_date: date):
     today["IN_N500"] = today["SYMBOL"].isin(n500["symbols"])
     today["MARKET_CAP_CR"] = today["SYMBOL"].map(n500["mcap"])
     
-    # 3. Advanced Metrics with Sustainability Rolling Averages
     metrics_df = compute_advanced_metrics(cache, trade_date)
     today = today.merge(metrics_df, on="SYMBOL", how="left")
     
-    # 4. Sector Aggregation (Compute Daily and Sustainable Stats)
     sector_stats = {}
     for sec, grp in today.groupby("SECTOR"):
         sector_stats[sec] = {
@@ -319,7 +299,6 @@ def run_pipeline(trade_date: date):
             "count": int(len(grp))
         }
     
-    # 5. Generate Dashboards
     generate_dashboards(trade_date, today, sector_stats)
     return True
 
@@ -348,6 +327,7 @@ def generate_dashboards(trade_date: date, df: pd.DataFrame, sector_stats: dict):
     
     render("template.html", "index.html", payload)
     render("analytics_template.html", "analytics.html", payload)
+    render("sector_template.html", "sector.html", payload)
     log.info("Dashboards generated.")
 
 def render(template_name, output_name, data):
