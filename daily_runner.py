@@ -201,7 +201,9 @@ def run_pipeline(trade_date: date):
             "avg_vol_z_5d": float(grp["VOL_Z_5D"].mean()),
             "avg_vol_z_125d": float(grp["VOL_Z_125D"].mean()),
             "avg_conv": float(grp["CONVICTION_SCORE"].mean()),
+            "avg_return": float(grp["RETURN_PCT"].mean()),
             "count": int(len(grp))
+
         }
     
     generate_dashboards(trade_date, today, sector_stats)
