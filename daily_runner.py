@@ -117,19 +117,18 @@ def scrape_n500_mcap(session=None) -> dict[str, float]:
         except: pass
     return result
 
-def fetch_n500_sectors() -> dict[str, str]:
-    url = "https://archives.nseindia.com/content/indices/ind_nifty500list.csv"
+def fetch_sector_constituents(url: str) -> list[str]:
     try:
         r = requests.get(url, headers=NSE_HDRS, timeout=15)
         if r.status_code == 200:
             df = pd.read_csv(io.StringIO(r.text))
             df.columns = df.columns.str.strip()
             sym_col = next((c for c in df.columns if "symbol" in c.lower()), None)
-            ind_col = next((c for c in df.columns if "industry" in c.lower()), None)
-            if sym_col and ind_col:
-                return dict(zip(df[sym_col].str.strip().str.upper(), df[ind_col].str.strip()))
-    except: pass
-    return {}
+            if sym_col:
+                return df[sym_col].str.strip().str.upper().tolist()
+    except Exception as e:
+        log.warning(f"Failed to fetch sectoral CSV {url}: {e}")
+    return []
 
 def get_nifty500_data():
     if N500_JSON.exists():
@@ -140,7 +139,21 @@ def get_nifty500_data():
         except: pass
     log.info("Refreshing Nifty 500 universe...")
     mcap = scrape_n500_mcap()
-    sector = fetch_n500_sectors()
+    
+    # Base Sectors
+    url = "https://archives.nseindia.com/content/indices/ind_nifty500list.csv"
+    sector = {}
+    try:
+        r = requests.get(url, headers=NSE_HDRS, timeout=15)
+        if r.status_code == 200:
+            df = pd.read_csv(io.StringIO(r.text))
+            df.columns = df.columns.str.strip()
+            sym_col = next((c for c in df.columns if "symbol" in c.lower()), None)
+            ind_col = next((c for c in df.columns if "industry" in c.lower()), None)
+            if sym_col and ind_col:
+                sector = dict(zip(df[sym_col].str.strip().str.upper(), df[ind_col].str.strip()))
+    except: pass
+    
     symbols = sorted(set(mcap) | set(sector))
     data = {"fetched": date.today().isoformat(), "mcap": mcap, "sector": sector, "symbols": symbols}
     with open(N500_JSON, "w") as f: json.dump(data, f)
@@ -162,7 +175,6 @@ def get_extra_sector(symbol, cache):
 
 def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.DataFrame:
     ts = pd.Timestamp(target_date)
-    # Filter for symbols that have today's data first
     today_all = cache_df[cache_df["TRADE_DATE"] == ts]
     target_symbols = today_all["SYMBOL"].unique()
     
@@ -173,7 +185,6 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
         grp = grp.sort_values("TRADE_DATE")
         today = grp[grp["TRADE_DATE"] == ts]
         if today.empty: continue
-        
         hist = grp[grp["TRADE_DATE"] <= ts]
         
         # DMAs
@@ -184,18 +195,12 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
         # Vol/Deliv Metrics
         vol_tail = hist["TOTTRDQTY"].tail(20)
         deliv_tail = hist["DELIV_QTY"].tail(20)
-        
         v_mean, v_std = vol_tail.mean(), vol_tail.std()
         d_mean, d_std = deliv_tail.mean(), deliv_tail.std()
-        
-        v_today = today["TOTTRDQTY"].iloc[0]
-        d_today = today["DELIV_QTY"].iloc[0]
+        v_today, d_today = today["TOTTRDQTY"].iloc[0], today["DELIV_QTY"].iloc[0]
         
         vol_z = (v_today - v_mean) / v_std if (v_std and v_std > 0) else 0
         deliv_z = (d_today - d_mean) / d_std if (d_std and d_std > 0) else 0
-        
-        # Backward compatibility for index.html
-        deliv_ma20 = float(d_mean)
         
         # 52W High
         high52 = hist["CLOSE"].tail(250).max()
@@ -212,11 +217,10 @@ def compute_advanced_metrics(cache_df: pd.DataFrame, target_date: date) -> pd.Da
             "DMA200": float(dma200),
             "VOL_Z": float(vol_z),
             "DELIV_Z": float(deliv_z),
-            "DELIV_MA20": deliv_ma20,
+            "DELIV_MA20": float(d_mean),
             "HIGH52": float(high52),
             "CONVICTION_SCORE": float(conv_score)
         })
-        
     return pd.DataFrame(rows)
 
 # ── Pipeline ──────────────────────────────────────────────────────────────────
@@ -233,43 +237,43 @@ def run_pipeline(trade_date: date):
     all_target_syms = sorted(set(n500["symbols"]) | watchlist_syms)
     
     if not BHAV_PARQUET.exists():
-        log.error("Historical data missing. Run backfill_history.py first.")
+        log.error("Historical data missing.")
         return False
         
     cache = pd.read_parquet(BHAV_PARQUET)
     ts = pd.Timestamp(trade_date)
     
-    # Check if target date is in cache, if not fetch it
-    cached_dates = pd.to_datetime(cache["TRADE_DATE"]).dt.date.unique()
-    if trade_date not in cached_dates:
-        log.info(f"Target date {trade_date} missing in cache, fetching...")
+    if trade_date not in pd.to_datetime(cache["TRADE_DATE"]).dt.date.unique():
+        log.info(f"Target date {trade_date} missing, fetching...")
         from backfill_history import fetch_one_bhav
         df_today = fetch_one_bhav(trade_date)
         if df_today is not None:
             cache = pd.concat([cache, df_today], ignore_index=True).drop_duplicates(["SYMBOL", "TRADE_DATE"])
             cache.to_parquet(BHAV_PARQUET, index=False)
-        else:
-            log.warning(f"Could not fetch data for {trade_date}.")
-            return False
+        else: return False
 
+    # 1. Sector Refinement (PSU vs Private Banks)
+    psu_banks = set(fetch_sector_constituents("https://archives.nseindia.com/content/indices/ind_niftypsubanklist.csv"))
+    pvt_banks = set(fetch_sector_constituents("https://archives.nseindia.com/content/indices/ind_niftyprivatebanklist.csv"))
+    
     # 2. Enrichment
     today = cache[cache["TRADE_DATE"] == ts].copy()
     today = today[today["SYMBOL"].isin(all_target_syms)].copy()
     
-    # Extra Sectors
     extra_cache = {}
     if SECTOR_MAPPING_CACHE.exists():
         with open(SECTOR_MAPPING_CACHE) as f: extra_cache = json.load(f)
     
     sectors = n500["sector"]
     def resolve_sector(s):
+        if s in psu_banks: return "Public Sector Bank"
+        if s in pvt_banks: return "Private Sector Bank"
         if s in sectors: return sectors[s]
         return get_extra_sector(s, extra_cache)
     
     today["SECTOR"] = today["SYMBOL"].apply(resolve_sector)
     with open(SECTOR_MAPPING_CACHE, "w") as f: json.dump(extra_cache, f)
     
-    # Universe Flags
     today["IN_N500"] = today["SYMBOL"].isin(n500["symbols"])
     today["MARKET_CAP_CR"] = today["SYMBOL"].map(n500["mcap"])
     
@@ -292,18 +296,11 @@ def run_pipeline(trade_date: date):
     return True
 
 def generate_dashboards(trade_date: date, df: pd.DataFrame, sector_stats: dict):
-    # Old Quadrant Logic for index.html
     df = df.copy()
-    
-    # Convert Timestamps to strings for JSON serialization
     if "TRADE_DATE" in df.columns:
         df["TRADE_DATE"] = df["TRADE_DATE"].dt.strftime("%Y-%m-%d")
     
-    # Calculate fields for old dashboard
-    # DELIV_MA20 is already in df from compute_advanced_metrics
     df["ABOVE_MA"] = df["DELIV_QTY"] > df["DELIV_MA20"]
-    # For backward compatibility, we'll keep the spike % calculation similar to old one
-    # or just use the Z-score logic scaled to match visual expectations
     df["DELIV_VS_MA_PCT"] = ((df["DELIV_QTY"] - df["DELIV_MA20"]) / df["DELIV_MA20"] * 100).round(1).fillna(0)
     
     quads = {
@@ -321,25 +318,18 @@ def generate_dashboards(trade_date: date, df: pd.DataFrame, sector_stats: dict):
         "sectors": sector_stats
     }
     
-    # Publish to Root
     render("template.html", "index.html", payload)
     render("analytics_template.html", "analytics.html", payload)
-    log.info("Dashboards generated successfully in root.")
+    log.info("Dashboards generated.")
 
 def render(template_name, output_name, data):
     tp = DIR / template_name
-    if not tp.exists():
-        log.error(f"Template {template_name} missing.")
-        return
+    if not tp.exists(): return
     with open(tp, "r", encoding="utf-8") as f: html = f.read()
     html = html.replace("__DATA__", json.dumps(data))
     with open(DIR / output_name, "w", encoding="utf-8") as f: f.write(html)
 
 if __name__ == "__main__":
     t_date = date.today()
-    if t_date.weekday() >= 5: # Sat/Sun, fallback to Fri
-        t_date -= timedelta(days=t_date.weekday() - 4)
-    
-    if not run_pipeline(t_date):
-        log.info("Falling back to previous day...")
-        run_pipeline(t_date - timedelta(days=1))
+    if t_date.weekday() >= 5: t_date -= timedelta(days=t_date.weekday() - 4)
+    if not run_pipeline(t_date): run_pipeline(t_date - timedelta(days=1))

@@ -1,355 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Volume Analyzer — Delivery Screener</title>
-<meta name="description" content="Advanced NSE Delivery Volume Analyzer. Track high-conviction buys and selling distribution.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<style>
-:root {
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #111827;
-  --bg-card: rgba(17, 24, 39, 0.8);
-  --bg-glass: rgba(255, 255, 255, 0.05);
-  --border-glass: rgba(255, 255, 255, 0.1);
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --accent-blue: #3b82f6;
-  --accent-purple: #8b5cf6;
-  --accent-cyan: #06b6d4;
-  --accent-green: #10b981;
-  --accent-red: #ef4444;
-  --accent-amber: #f59e0b;
-  --gradient-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
-  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg-primary); color:var(--text-primary); min-height:100vh; line-height:1.6; }
-body::before { content:''; position:fixed; top:0;left:0;width:100%;height:100%; background: radial-gradient(ellipse at 20% 50%,rgba(59,130,246,.08) 0%,transparent 50%), radial-gradient(ellipse at 80% 20%,rgba(139,92,246,.06) 0%,transparent 50%), radial-gradient(ellipse at 50% 80%,rgba(6,182,212,.05) 0%,transparent 50%); pointer-events:none; z-index:0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume Analyzer | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e14;
+            --card-bg: rgba(23, 28, 36, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --success: #10b981;
+            --error: #ef4444;
+            --amber: #f59e0b;
+            --cyan: #06b6d4;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --glass: blur(12px);
+        }
 
-.header { background:var(--gradient-hero); border-bottom:1px solid var(--border-glass); padding:20px 32px; position:relative; z-index:10; }
-.header-inner { max-width:1600px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
-.header h1 { font-size:1.5rem; font-weight:800; background:var(--gradient-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.header .meta { font-size:.85rem; color:var(--text-muted); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 50px; overflow-x: hidden; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.content { max-width:1600px; margin:0 auto; padding:24px 32px; position:relative; z-index:1; }
+        header {
+            background: rgba(10, 14, 20, 0.8);
+            backdrop-filter: var(--glass);
+            border-bottom: 1px solid var(--border);
+            padding: 1.2rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-/* Quadrant Cards */
-.quad-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-bottom:24px; }
-.q-card { background:var(--bg-card); border:1px solid var(--border-glass); border-radius:var(--radius); padding:20px; border-left:4px solid transparent; transition:var(--transition); backdrop-filter:blur(10px); }
-.q-card:hover { transform:translateY(-2px); border-color:rgba(255,255,255,0.2); box-shadow:var(--shadow-glow); }
-.q-card h3 { font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-secondary); margin-bottom:8px; }
-.q-card .count { font-size:2.5rem; font-weight:800; line-height:1; margin-bottom:8px; }
-.q-card .desc { font-size:0.85rem; color:var(--text-muted); }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-weight: 500; transition: 0.3s; padding: 0.5rem 1rem; border-radius: 8px; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--card-bg); }
 
-.q-1 { border-left-color: var(--accent-green); } .q-1 .count { color: var(--accent-green); }
-.q-2 { border-left-color: var(--accent-red); } .q-2 .count { color: var(--accent-red); }
-.q-3 { border-left-color: var(--accent-cyan); } .q-3 .count { color: var(--accent-cyan); }
-.q-4 { border-left-color: var(--accent-amber); } .q-4 .count { color: var(--accent-amber); }
+        .container { width: 92%; max-width: 1400px; margin: 2rem auto; animation: fadeIn 0.6s ease-out; }
 
-/* Controls */
-.controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:20px; background:var(--bg-glass); padding:16px; border-radius:var(--radius); border:1px solid var(--border-glass); }
-.ctrl-group { display:flex; align-items:center; gap:8px; }
-.ctrl-group label { font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; }
+        .header-meta { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem; }
 
-select, input { background:#1e293b; color:white; border:1px solid var(--border-glass); padding:8px 12px; border-radius:var(--radius-sm); font-size:0.85rem; font-family:inherit; outline:none; transition:var(--transition); }
-select:focus, input:focus { border-color:var(--accent-blue); box-shadow:0 0 0 3px rgba(59, 130, 246, 0.2); }
+        /* Quadrant Cards */
+        .quad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+        .q-card { 
+            background: var(--card-bg); backdrop-filter: var(--glass); border: 1px solid var(--border); 
+            border-radius: 20px; padding: 1.5rem; transition: 0.3s; cursor: pointer; position: relative;
+            overflow: hidden;
+        }
+        .q-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.2); }
+        .q-card.active { border: 2px solid var(--accent); box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+        
+        .q-card h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 0.8rem; }
+        .q-card .count { font-size: 2.5rem; font-weight: 800; line-height: 1; margin-bottom: 0.5rem; }
+        .q-card .desc { font-size: 0.85rem; color: var(--text-dim); }
 
-.universe-toggle { display:flex; background:#1e293b; border-radius:var(--radius-sm); padding:4px; border:1px solid var(--border-glass); }
-.u-btn { padding:6px 16px; border-radius:6px; font-size:0.85rem; font-weight:600; cursor:pointer; color:var(--text-secondary); transition:var(--transition); }
-.u-btn.active { background:var(--gradient-primary); color:white; }
+        .q-1 { border-left: 4px solid var(--success); } .q-1 .count { color: var(--success); }
+        .q-2 { border-left: 4px solid var(--error); } .q-2 .count { color: var(--error); }
+        .q-3 { border-left: 4px solid var(--cyan); } .q-3 .count { color: var(--cyan); }
+        .q-4 { border-left: 4px solid var(--amber); } .q-4 .count { color: var(--amber); }
 
-/* Table */
-.table-wrap { overflow-x:auto; border-radius:var(--radius); border:1px solid var(--border-glass); background:var(--bg-card); }
-table { width:100%; border-collapse:collapse; font-size:0.85rem; text-align:left; }
-th { background:rgba(59,130,246,0.1); padding:12px 16px; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.5px; color:var(--accent-cyan); border-bottom:1px solid var(--border-glass); cursor:pointer; sticky top:0; z-index:5; }
-th:hover { background:rgba(59,130,246,0.2); }
-td { padding:10px 16px; border-bottom:1px solid rgba(255,255,255,0.05); }
-tr:hover td { background:rgba(255,255,255,0.02); }
+        /* Controls */
+        .controls { 
+            display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; 
+            margin-bottom: 2rem; background: var(--card-bg); padding: 1.2rem; 
+            border-radius: 16px; border: 1px solid var(--border); 
+        }
+        .ctrl-group { display: flex; align-items: center; gap: 10px; }
+        .ctrl-group label { font-size: 0.75rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; }
 
-.badge { padding:2px 8px; border-radius:4px; font-size:0.75rem; font-weight:700; }
-.b-pos { background:rgba(16, 185, 129, 0.15); color:#10b981; }
-.b-neg { background:rgba(239, 68, 68, 0.15); color:#ef4444; }
-.b-spike { background:rgba(139, 92, 246, 0.2); color:#a78bfa; border:1px solid rgba(139, 92, 246, 0.3); }
+        select, input { 
+            background: #1e293b; color: white; border: 1px solid var(--border); 
+            padding: 10px 14px; border-radius: 10px; font-size: 0.85rem; 
+            outline: none; transition: 0.3s; 
+        }
+        select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
 
-.company-name { font-weight:600; color:var(--text-primary); }
-.sector-name { font-size:0.75rem; color:var(--text-muted); }
+        .universe-toggle { display: flex; background: #1e293b; border-radius: 10px; padding: 4px; border: 1px solid var(--border); }
+        .u-btn { padding: 6px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: var(--text-dim); transition: 0.3s; }
+        .u-btn.active { background: var(--accent); color: white; }
 
-.footer { text-align:center; padding:40px; color:var(--text-muted); font-size:0.8rem; border-top:1px solid var(--border-glass); margin-top:40px; }
+        /* Table */
+        .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); background: var(--card-bg); }
+        table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+        th { 
+            background: rgba(255,255,255,0.03); padding: 1.2rem 1rem; text-align: left; 
+            font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); 
+            letter-spacing: 1px; border-bottom: 1px solid var(--border); cursor: pointer;
+        }
+        th:hover { background: rgba(59,130,246,0.1); color: white; }
+        td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
 
-@media (max-width: 1024px) {
-  .header-inner, .content { max-width: 100%; padding: 16px; }
-}
+        .badge { padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
+        .b-pos { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .b-neg { background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid var(--error); }
+        .b-spike { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.2); }
 
-@media (max-width: 768px) {
-  .header { padding: 12px 16px; }
-  .header h1 { font-size: 1.25rem; }
-  .header-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
-  
-  .quad-grid { grid-template-columns: 1fr; gap: 12px; }
-  .q-card { padding: 16px; cursor: pointer; }
-  .q-card .count { font-size: 2rem; }
-  
-  .controls { padding: 12px; gap: 16px; }
-  .ctrl-group { width: 100%; flex-direction: column; align-items: flex-start; }
-  .ctrl-group select, .ctrl-group input, .universe-toggle { width: 100%; }
-  
-  /* Mobile Card Table */
-  .table-wrap { border: none; background: transparent; }
-  table, thead, tbody, th, td, tr { display: block; }
-  thead tr { position: absolute; top: -9999px; left: -9999px; }
-  tr { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius); margin-bottom: 12px; padding: 12px; transition: var(--transition); }
-  tr:hover { border-color: var(--accent-blue); }
-  td { border: none !important; padding: 6px 0 !important; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
-  td:last-child { border-bottom: none !important; }
-  
-  td::before { content: attr(data-label); font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; float: left; }
-  
-  .company-name { font-size: 1rem; }
-  .badge { font-size: 0.8rem; padding: 4px 10px; }
-}
+        .company-name { font-weight: 600; color: var(--text); }
+        .sector-name { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; }
 
-</style>
+        .footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 40px; }
+
+        @media (max-width: 768px) {
+            header { padding: 1rem 5%; flex-direction: column; gap: 1rem; }
+            .quad-grid { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; align-items: stretch; gap: 1rem; }
+            .ctrl-group { flex-direction: column; align-items: flex-start; }
+            .u-btn, select, input { width: 100%; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-inner">
-    <h1>🚀 Volume Analyzer</h1>
-    <div class="meta">
-      <span id="tradeDate">Loading...</span> | 
-      Last Updated: <span id="updatedAt">...</span>
-    </div>
-  </div>
-</div>
+    <header>
+        <div class="logo">Volume Optimizer</div>
+        <nav class="nav-links">
+            <a href="index.html" class="active">Dashboard</a>
+            <a href="analytics.html">Smart Analytics</a>
+        </nav>
+    </header>
 
-<div class="content">
-  <div class="quad-grid">
-    <div class="q-card q-1" onclick="setFilter('Q1')">
-      <h3>Conviction Buy</h3>
-      <div class="count" id="count-Q1">0</div>
-      <div class="desc">Price Action + High Delivery</div>
-    </div>
-    <div class="q-card q-2" onclick="setFilter('Q2')">
-      <h3>Distribution</h3>
-      <div class="count" id="count-Q2">0</div>
-      <div class="desc">Negative Price + High Delivery</div>
-    </div>
-    <div class="q-card q-3" onclick="setFilter('Q3')">
-      <h3>Low-Conv Rally</h3>
-      <div class="count" id="count-Q3">0</div>
-      <div class="desc">Positive Price + Low Delivery</div>
-    </div>
-    <div class="q-card q-4" onclick="setFilter('Q4')">
-      <h3>Weak Selling</h3>
-      <div class="count" id="count-Q4">0</div>
-      <div class="desc">Negative Price + Low Delivery</div>
-    </div>
-  </div>
+    <div class="container">
+        <div class="header-meta">
+            <span id="tradeDate">Loading...</span> | 
+            Last Updated: <span id="updatedAt">...</span>
+        </div>
 
-  <div class="controls">
-    <div class="ctrl-group">
-      <label>Universe</label>
-      <div class="universe-toggle">
-        <div class="u-btn active" id="u-n500" onclick="setUniverse('n500')">Nifty 500</div>
-        <div class="u-btn" id="u-all" onclick="setUniverse('all')">All (Incl. Watchlists)</div>
-      </div>
+        <div class="quad-grid">
+            <div class="q-card q-1" id="card-Q1" onclick="setFilter('Q1')">
+                <h3>Conviction Buy</h3>
+                <div class="count" id="count-Q1">0</div>
+                <div class="desc">Price Action + High Delivery</div>
+            </div>
+            <div class="q-card q-2" id="card-Q2" onclick="setFilter('Q2')">
+                <h3>Distribution</h3>
+                <div class="count" id="count-Q2">0</div>
+                <div class="desc">Negative Price + High Delivery</div>
+            </div>
+            <div class="q-card q-3" id="card-Q3" onclick="setFilter('Q3')">
+                <h3>Low-Conv Rally</h3>
+                <div class="count" id="count-Q3">0</div>
+                <div class="desc">Positive Price + Low Delivery</div>
+            </div>
+            <div class="q-card q-4" id="card-Q4" onclick="setFilter('Q4')">
+                <h3>Weak Selling</h3>
+                <div class="count" id="count-Q4">0</div>
+                <div class="desc">Negative Price + Low Delivery</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="ctrl-group">
+                <label>Universe</label>
+                <div class="universe-toggle">
+                    <div class="u-btn active" id="u-n500" onclick="setUniverse('n500')">Nifty 500</div>
+                    <div class="u-btn" id="u-all" onclick="setUniverse('all')">All Universe</div>
+                </div>
+            </div>
+            <div class="ctrl-group">
+                <label>Search</label>
+                <input type="text" id="searchInput" placeholder="Symbol..." oninput="refresh()">
+            </div>
+            <div class="ctrl-group">
+                <label>Filter</label>
+                <select id="quadrantFilter" onchange="refresh()">
+                    <option value="ALL">All Quadrants</option>
+                    <option value="Q1">Q1: Conviction Buy</option>
+                    <option value="Q2">Q2: Distribution</option>
+                    <option value="Q3">Q3: Low-Conv Rally</option>
+                    <option value="Q4">Q4: Weak Selling</option>
+                </select>
+            </div>
+            <div class="ctrl-group">
+                <label>Spike</label>
+                <select id="spikeFilter" onchange="refresh()">
+                    <option value="ALL">All Delivery</option>
+                    <option value="SPIKE">High Delivery (>200% MA)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th onclick="setSort('SYMBOL')">Symbol</th>
+                        <th onclick="setSort('CLOSE')">Price</th>
+                        <th onclick="setSort('RETURN_PCT')">Chg%</th>
+                        <th onclick="setSort('DELIV_QTY')">Deliv Qty</th>
+                        <th onclick="setSort('DELIV_VS_MA_PCT')">vs 20D MA</th>
+                        <th onclick="setSort('DELIV_PER')">Deliv%</th>
+                        <th onclick="setSort('MARKET_CAP_CR')">MCap (Cr)</th>
+                        <th onclick="setSort('SECTOR')">Sector</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTable">
+                    <!-- Rows injected here -->
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="ctrl-group">
-      <label>Search</label>
-      <input type="text" id="searchInput" placeholder="Search symbol..." oninput="refresh()">
+
+    <div class="footer">
+        Developed by Ashika Group · Data source: NSE Bhavcopy & Screener.in
     </div>
-    <div class="ctrl-group">
-      <label>Quadrant</label>
-      <select id="quadrantFilter" onchange="refresh()">
-        <option value="ALL">All Quadrants</option>
-        <option value="Q1">Q1: Conviction Buy</option>
-        <option value="Q2">Q2: Distribution</option>
-        <option value="Q3">Q3: Low-Conv Rally</option>
-        <option value="Q4">Q4: Weak Selling</option>
-      </select>
-    </div>
-    <div class="ctrl-group">
-      <label>Delivery Spike</label>
-      <select id="spikeFilter" onchange="refresh()">
-        <option value="ALL">Total Universe</option>
-        <option value="SPIKE">High Delivery Spikes (>200% MA)</option>
-      </select>
-    </div>
-  </div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th onclick="setSort('SYMBOL')">Symbol</th>
-          <th onclick="setSort('CLOSE')">Price</th>
-          <th onclick="setSort('RETURN_PCT')">Chg%</th>
-          <th onclick="setSort('DELIV_QTY')">Deliv Qty</th>
-          <th onclick="setSort('DELIV_VS_MA_PCT')">vs 20D MA</th>
-          <th onclick="setSort('DELIV_PER')">Deliv%</th>
-          <th onclick="setSort('MARKET_CAP_CR')">MCap (Cr)</th>
-          <th onclick="setSort('SECTOR')">Sector</th>
-        </tr>
-      </thead>
-      <tbody id="dataTable">
-        <!-- Rows injected here -->
-      </tbody>
-    </table>
-  </div>
-</div>
+    <script>
+        const DATA = __DATA__;
+        let currentUniverse = 'n500';
+        let currentSort = 'DELIV_Z';
+        let currentOrder = 'desc';
+        let activeQuadrant = 'ALL';
 
-<div class="footer">
-  Developed by Ashika Group · Data source: NSE Bhavcopy & Screener.in · All metrics are based on delivery volumes.
-</div>
-
-<script>
-// Data placeholder - replaced by python script
-const DATA = __DATA__;
-
-let currentUniverse = 'n500';
-let currentSort = 'DELIV_VS_MA_PCT';
-let currentOrder = 'desc';
-let activeQuadrant = 'ALL';
-
-function init() {
-    try {
-        if (!DATA || !DATA.trade_date) {
-            console.error("Data missing or invalid");
-            document.getElementById('tradeDate').textContent = "Error Loading Data";
-            return;
+        function init() {
+            if (!DATA || !DATA.records) return;
+            document.getElementById('tradeDate').textContent = "Trade Date: " + DATA.trade_date;
+            document.getElementById('updatedAt').textContent = DATA.updated_at;
+            document.getElementById('count-Q1').textContent = DATA.quadrants.Q1;
+            document.getElementById('count-Q2').textContent = DATA.quadrants.Q2;
+            document.getElementById('count-Q3').textContent = DATA.quadrants.Q3;
+            document.getElementById('count-Q4').textContent = DATA.quadrants.Q4;
+            refresh();
         }
 
-        document.getElementById('tradeDate').textContent = "Trade Date: " + DATA.trade_date;
-        document.getElementById('updatedAt').textContent = DATA.updated_at;
-        
-        // Update quadrant counts
-        document.getElementById('count-Q1').textContent = DATA.quadrants.Q1;
-        document.getElementById('count-Q2').textContent = DATA.quadrants.Q2;
-        document.getElementById('count-Q3').textContent = DATA.quadrants.Q3;
-        document.getElementById('count-Q4').textContent = DATA.quadrants.Q4;
-        
-        refresh();
-    } catch (e) {
-        console.error("Init failed:", e);
-    }
-}
+        function setUniverse(u) {
+            currentUniverse = u;
+            document.getElementById('u-n500').classList.toggle('active', u === 'n500');
+            document.getElementById('u-all').classList.toggle('active', u === 'all');
+            refresh();
+        }
 
-function setUniverse(u) {
-    currentUniverse = u;
-    document.getElementById('u-n500').classList.toggle('active', u === 'n500');
-    document.getElementById('u-all').classList.toggle('active', u === 'all');
-    refresh();
-}
+        function setFilter(q) {
+            activeQuadrant = (activeQuadrant === q) ? 'ALL' : q;
+            document.getElementById('quadrantFilter').value = activeQuadrant;
+            
+            // UI state
+            for(let i=1; i<=4; i++) {
+                document.getElementById('card-Q'+i).classList.toggle('active', activeQuadrant === 'Q'+i);
+            }
+            refresh();
+        }
 
-function setFilter(q) {
-    if (activeQuadrant === q) activeQuadrant = 'ALL';
-    else activeQuadrant = q;
-    document.getElementById('quadrantFilter').value = activeQuadrant;
-    refresh();
-    
-    // Smooth scroll to table area on mobile
-    if (window.innerWidth <= 768) {
-        document.querySelector('.controls').scrollIntoView({ behavior: 'smooth' });
-    }
-}
+        function setSort(col) {
+            if (currentSort === col) currentOrder = currentOrder === 'desc' ? 'asc' : 'desc';
+            else { currentSort = col; currentOrder = 'desc'; }
+            refresh();
+        }
 
+        function refresh() {
+            const search = document.getElementById('searchInput').value.toUpperCase();
+            const spikeOnly = document.getElementById('spikeFilter').value === 'SPIKE';
+            const qFilt = document.getElementById('quadrantFilter').value;
+            
+            let filtered = DATA.records.filter(r => {
+                if (currentUniverse === 'n500' && !r.IN_N500) return false;
+                if (search && !r.SYMBOL.includes(search)) return false;
+                if (spikeOnly && r.DELIV_VS_MA_PCT < 200) return false;
+                
+                const isPos = r.RETURN_PCT > 0;
+                const aboveMA = r.DELIV_QTY > r.DELIV_MA20;
+                let q = isPos ? (aboveMA ? 'Q1' : 'Q3') : (aboveMA ? 'Q2' : 'Q4');
+                
+                if (qFilt !== 'ALL' && q !== qFilt) return false;
+                return true;
+            });
+            
+            filtered.sort((a, b) => {
+                let va = a[currentSort], vb = b[currentSort];
+                if (va === null) return 1; if (vb === null) return -1;
+                if (typeof va === 'string') return currentOrder === 'desc' ? vb.localeCompare(va) : va.localeCompare(vb);
+                return currentOrder === 'desc' ? vb - va : va - vb;
+            });
+            
+            render(filtered);
+        }
 
-function setSort(col) {
-    if (currentSort === col) currentOrder = currentOrder === 'desc' ? 'asc' : 'desc';
-    else {
-        currentSort = col;
-        currentOrder = 'desc';
-    }
-    refresh();
-}
-
-function refresh() {
-    const search = document.getElementById('searchInput').value.toUpperCase();
-    const spikeOnly = document.getElementById('spikeFilter').value === 'SPIKE';
-    const qFilt = document.getElementById('quadrantFilter').value;
-    
-    let filtered = DATA.records.filter(r => {
-        // Universe filter
-        if (currentUniverse === 'n500' && !r.IN_N500) return false;
-        
-        // Search filter
-        if (search && !r.SYMBOL.includes(search)) return false;
-        
-        // Spike filter
-        if (spikeOnly && r.DELIV_VS_MA_PCT < 200) return false;
-        
-        // Quadrant filter
-        const isPos = r.RETURN_PCT > 0;
-        const aboveMA = r.DELIV_QTY > r.DELIV_MA20;
-        let q = 'Q4';
-        if (isPos && aboveMA) q = 'Q1';
-        else if (!isPos && aboveMA) q = 'Q2';
-        else if (isPos && !aboveMA) q = 'Q3';
-        
-        if (qFilt !== 'ALL' && q !== qFilt) return false;
-        
-        return true;
-    });
-    
-    // Sort
-    filtered.sort((a, b) => {
-        let va = a[currentSort];
-        let vb = b[currentSort];
-        if (va === null) return 1;
-        if (vb === null) return -1;
-        if (typeof va === 'string') return currentOrder === 'desc' ? vb.localeCompare(va) : va.localeCompare(vb);
-        return currentOrder === 'desc' ? vb - va : va - vb;
-    });
-    
-    render(filtered);
-}
-
-function render(rows) {
-    const tbody = document.getElementById('dataTable');
-    tbody.innerHTML = '';
-    
-    rows.forEach(r => {
-        const tr = document.createElement('tr');
-        
-        const isPos = r.RETURN_PCT > 0;
-        const aboveMA = r.DELIV_VS_MA_PCT > 0;
-        const isSpike = r.DELIV_VS_MA_PCT >= 200;
-        
-        tr.innerHTML = `
-            <td data-label="Symbol">
-                <div class="company-name">${r.SYMBOL}</div>
-                <div class="sector-name">${r.SECTOR}</div>
-            </td>
-            <td data-label="Price" style="font-weight:700">₹${r.CLOSE.toLocaleString()}</td>
-            <td data-label="Chg%">
-                <span class="badge ${isPos ? 'b-pos' : 'b-neg'}">${isPos ? '+' : ''}${r.RETURN_PCT.toFixed(2)}%</span>
-            </td>
-            <td data-label="Deliv Qty" style="color:var(--text-secondary)">${r.DELIV_QTY.toLocaleString()}</td>
-            <td data-label="vs 20D MA">
-                <span class="badge ${aboveMA ? 'b-pos' : 'b-neg'} ${isSpike ? 'b-spike' : ''}">
-                    ${aboveMA ? '+' : ''}${r.DELIV_VS_MA_PCT.toFixed(1)}%
-                </span>
-            </td>
-            <td data-label="Deliv%">${r.DELIV_PER.toFixed(1)}%</td>
-            <td data-label="MCap (Cr)" style="color:var(--text-muted)">${r.MARKET_CAP_CR ? Math.round(r.MARKET_CAP_CR).toLocaleString() : '—'}</td>
-            <td data-label="Sector" style="font-size:0.75rem; color:var(--text-muted)">${r.SECTOR}</td>
-        `;
-
-        tbody.appendChild(tr);
-    });
-}
-
-init();
-</script>
+        function render(rows) {
+            const tbody = document.getElementById('dataTable');
+            tbody.innerHTML = '';
+            rows.forEach(r => {
+                const tr = document.createElement('tr');
+                const isPos = r.RETURN_PCT > 0;
+                const aboveMA = r.DELIV_VS_MA_PCT > 0;
+                const isSpike = r.DELIV_VS_MA_PCT >= 200;
+                
+                tr.innerHTML = `
+                    <td><div class="company-name">${r.SYMBOL}</div><div class="sector-name">${r.SECTOR}</div></td>
+                    <td style="font-weight:700">₹${r.CLOSE.toLocaleString()}</td>
+                    <td><span class="badge ${isPos ? 'b-pos' : 'b-neg'}">${isPos ? '+' : ''}${r.RETURN_PCT.toFixed(2)}%</span></td>
+                    <td style="color:var(--text-dim)">${r.DELIV_QTY.toLocaleString()}</td>
+                    <td><span class="badge ${aboveMA ? 'b-pos' : 'b-neg'} ${isSpike ? 'b-spike' : ''}">${aboveMA ? '+' : ''}${r.DELIV_VS_MA_PCT.toFixed(1)}%</span></td>
+                    <td>${r.DELIV_PER.toFixed(1)}%</td>
+                    <td style="color:var(--text-dim)">${r.MARKET_CAP_CR ? Math.round(r.MARKET_CAP_CR).toLocaleString() : '—'}</td>
+                    <td style="font-size:0.75rem; color:var(--text-dim)">${r.SECTOR}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
