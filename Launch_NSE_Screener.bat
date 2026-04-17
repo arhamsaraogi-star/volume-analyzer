@@ -10,7 +10,7 @@ for /f "tokens=5" %%a in ('netstat -aon ^| findstr :5050 ^| findstr LISTENING') 
 )
 
 REM Start Flask server in background (minimised window)
-start /min "NSE Screener Server" py screener_server.py
+start /min "NSE Screener Server" py volume_logic\screener_server.py
 
 REM Wait 2 seconds for server to start
 timeout /t 2 /nobreak >nul

@@ -233,7 +233,7 @@ def generate_dashboards(trade_date: date, df: pd.DataFrame, sector_stats: dict):
         "sectors": sector_stats
     }
     
-    render("template.html", "index.html", payload)
+    render("template.html", "volume_dashboard.html", payload)
     render("analytics_template.html", "analytics.html", payload)
     render("sector_template.html", "sector.html", payload)
     log.info("Dashboards generated.")

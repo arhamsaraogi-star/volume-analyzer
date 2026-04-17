@@ -1,105 +1,5 @@
 {
-  "HDFCBANK": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "MARUTI": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "EICHERMOT": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "HINDALCO": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "ONGC": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "TATASTEEL": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "WIPRO": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "BAJAJFINSV": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "AXISBANK": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "LT": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "MAXHEALTH": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "ETERNAL": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "SUNPHARMA": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "NESTLEIND": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "RELIANCE": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "JSWSTEEL": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "INDIGO": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "TATACONSUM": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "BHARTIARTL": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "HCLTECH": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "M&M": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "ADANIPORTS": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "TCS": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "TECHM": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "SBILIFE": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "TMPV": [
+  "INFY": [
     "Nifty 50",
     "Nifty 500"
   ],
@@ -107,7 +7,15 @@
     "Nifty 50",
     "Nifty 500"
   ],
-  "NTPC": [
+  "HINDUNILVR": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "TMPV": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "MAXHEALTH": [
     "Nifty 50",
     "Nifty 500"
   ],
@@ -115,15 +23,19 @@
     "Nifty 50",
     "Nifty 500"
   ],
-  "POWERGRID": [
+  "HCLTECH": [
     "Nifty 50",
     "Nifty 500"
   ],
-  "JIOFIN": [
+  "ADANIPORTS": [
     "Nifty 50",
     "Nifty 500"
   ],
-  "BAJAJ-AUTO": [
+  "TATACONSUM": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "SBILIFE": [
     "Nifty 50",
     "Nifty 500"
   ],
@@ -131,67 +43,7 @@
     "Nifty 50",
     "Nifty 500"
   ],
-  "TRENT": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "ICICIBANK": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "SBIN": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "HINDUNILVR": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "HDFCLIFE": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "INFY": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "DRREDDY": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "CIPLA": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "ADANIENT": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "ITC": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "BAJFINANCE": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "ULTRACEMCO": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "TITAN": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "APOLLOHOSP": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "GRASIM": [
-    "Nifty 50",
-    "Nifty 500"
-  ],
-  "SHRIRAMFIN": [
+  "EICHERMOT": [
     "Nifty 50",
     "Nifty 500"
   ],
@@ -199,131 +51,155 @@
     "Nifty 50",
     "Nifty 500"
   ],
-  "POWERINDIA": [
-    "Nifty Midcap 150",
+  "SUNPHARMA": [
+    "Nifty 50",
     "Nifty 500"
   ],
-  "NMDC": [
-    "Nifty Midcap 150",
+  "APOLLOHOSP": [
+    "Nifty 50",
     "Nifty 500"
   ],
-  "ICICIPRULI": [
-    "Nifty Midcap 150",
+  "LT": [
+    "Nifty 50",
     "Nifty 500"
   ],
-  "MANKIND": [
-    "Nifty Midcap 150",
+  "ETERNAL": [
+    "Nifty 50",
     "Nifty 500"
   ],
-  "LICI": [
-    "Nifty Midcap 150",
+  "TRENT": [
+    "Nifty 50",
     "Nifty 500"
   ],
-  "IDEA": [
-    "Nifty Midcap 150",
+  "ADANIENT": [
+    "Nifty 50",
     "Nifty 500"
   ],
-  "ABCAPITAL": [
-    "Nifty Midcap 150",
+  "SBIN": [
+    "Nifty 50",
     "Nifty 500"
   ],
-  "SAIL": [
-    "Nifty Midcap 150",
+  "TATASTEEL": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "HDFCLIFE": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "ULTRACEMCO": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "RELIANCE": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "BAJAJFINSV": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "NESTLEIND": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "BHARTIARTL": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "CIPLA": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "TITAN": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "TECHM": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "ICICIBANK": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "JSWSTEEL": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "TCS": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "SHRIRAMFIN": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "ITC": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "POWERGRID": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "HINDALCO": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "MARUTI": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "BAJFINANCE": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "HDFCBANK": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "ONGC": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "WIPRO": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "GRASIM": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "JIOFIN": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "DRREDDY": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "BAJAJ-AUTO": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "NTPC": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "AXISBANK": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "M&M": [
+    "Nifty 50",
+    "Nifty 500"
+  ],
+  "INDIGO": [
+    "Nifty 50",
     "Nifty 500"
   ],
   "GMRAIRPORT": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "ICICIGI": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "INDIANB": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "NTPCGREEN": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "LGEINDIA": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "NATIONALUM": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "WAAREEENER": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "AUROPHARMA": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "DABUR": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "MARICO": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "INDUSTOWER": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "POLYCAB": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "GROWW": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "PAYTM": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "ASHOKLEY": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "MCX": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "SUZLON": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "HAVELLS": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "OIL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "BHARTIHEXA": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "NYKAA": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "LLOYDSME": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "BAJAJHFL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "BHEL": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -331,7 +207,11 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "LTF": [
+  "SWIGGY": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "WAAREEENER": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -339,47 +219,23 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "HEROMOTOCO": [
+  "BHARATFORG": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "ICICIAMC": [
+  "IDEA": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "SRF": [
+  "POLYCAB": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "SWIGGY": [
+  "ABCAPITAL": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "PERSISTENT": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "NHPC": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "TORNTPOWER": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "JSWENERGY": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "LUPIN": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "POLICYBZR": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "BSE": [
+  "BAJAJHFL": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -387,11 +243,67 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "BHARATFORG": [
+  "ICICIPRULI": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "LENSKART": [
+  "INDUSTOWER": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "MARICO": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "POWERINDIA": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "PAYTM": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "HAVELLS": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "BSE": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "NTPCGREEN": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "NATIONALUM": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "MCX": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "LICI": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "NHPC": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "LUPIN": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "LTF": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "GROWW": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "BHARTIHEXA": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -399,139 +311,91 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "OBEROIRLTY": [
+  "POLICYBZR": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "GODREJPROP": [
+  "SAIL": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "JSL": [
+  "PERSISTENT": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "FORTIS": [
+  "SUZLON": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "BANKINDIA": [
+  "MANKIND": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "THERMAX": [
+  "AUROPHARMA": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "COLPAL": [
+  "OIL": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "SUPREMEIND": [
+  "ICICIGI": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "JSWINFRA": [
+  "BHEL": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "PATANJALI": [
+  "LGEINDIA": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "SUNDARMFIN": [
+  "NYKAA": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "NAM-INDIA": [
+  "SRF": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "PRESTIGE": [
+  "DABUR": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "SBICARD": [
+  "ASHOKLEY": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "HDBFS": [
+  "LENSKART": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "RVNL": [
+  "TORNTPOWER": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "MAHABANK": [
+  "NMDC": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "IDFCFIRSTB": [
+  "INDIANB": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "NAUKRI": [
+  "ICICIAMC": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "SCHAEFFLER": [
+  "JSWENERGY": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "MRF": [
+  "HEROMOTOCO": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "APARINDS": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "GICRE": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "APLAPOLLO": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "INDUSINDBK": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "GLENMARK": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "MFSL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "BIOCON": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "PIIND": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "VMM": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "BERGEPAINT": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "PHOENIXLTD": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "BDL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "LINDEINDIA": [
+  "LLOYDSME": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -539,51 +403,19 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "MPHASIS": [
+  "NAUKRI": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "ABBOTINDIA": [
+  "HDBFS": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "VOLTAS": [
+  "MRF": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "ATGL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "UPL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "TIINDIA": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "DIXON": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "COROMANDEL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "PREMIERENE": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "MOTILALOFS": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "OFSS": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "LAURUSLABS": [
+  "BDL": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -591,7 +423,111 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
+  "LAURUSLABS": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "PRESTIGE": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
   "UNOMINDA": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "APARINDS": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "OBEROIRLTY": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "ABBOTINDIA": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "BIOCON": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "MFSL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "GODREJPROP": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "OFSS": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "DIXON": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "PHOENIXLTD": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "TIINDIA": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "THERMAX": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "PIIND": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "VOLTAS": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "PREMIERENE": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "RVNL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "JSL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "IDFCFIRSTB": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "SUPREMEIND": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "SBICARD": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "ATGL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "COROMANDEL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "BERGEPAINT": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "VMM": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "SUNDARMFIN": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -599,7 +535,87 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
+  "NAM-INDIA": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "FORTIS": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "COLPAL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "GLENMARK": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "INDUSINDBK": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "SCHAEFFLER": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "APLAPOLLO": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "MAHABANK": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "UPL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "MPHASIS": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "JSWINFRA": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "LINDEINDIA": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "BANKINDIA": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "PATANJALI": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "MOTILALOFS": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "GICRE": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "HEXT": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
   "MEDANTA": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "BLUESTARCO": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "KPRMILL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "3MINDIA": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -607,19 +623,23 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "PETRONET": [
+  "NIACL": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "TATAELXSI": [
+  "HONAUT": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "JKCEMENT": [
+  "DALBHARAT": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "TATAINVEST": [
+  "KPITTECH": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "360ONE": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -627,19 +647,23 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "ANTHEM": [
+  "GODFRYPHLP": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "JUBLFOOD": [
+  "TATAELXSI": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "COCHINSHIP": [
+  "EXIDEIND": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "NLCINDIA": [
+  "TATAINVEST": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "FLUOROCHEM": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -651,50 +675,6 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "KPRMILL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "DALBHARAT": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "360ONE": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "LICHSGFIN": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "CRISIL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "BLUESTARCO": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "3MINDIA": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "AIAENG": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "HUDCO": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "FLUOROCHEM": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "AIIL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
   "AJANTPHARM": [
     "Nifty Midcap 150",
     "Nifty 500"
@@ -703,19 +683,7 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "HEXT": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "PAGEIND": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "ENDURANCE": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "SJVN": [
+  "GODREJIND": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -723,63 +691,7 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "M&MFIN": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "LTTS": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "KALYANKJIL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "GODFRYPHLP": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "UBL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "KPITTECH": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "ACC": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "AWL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "GODREJIND": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "NIACL": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "EXIDEIND": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "TATACOMM": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "IRCTC": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
   "COFORGE": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "IPCALAB": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -787,11 +699,7 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "ESCORTS": [
-    "Nifty Midcap 150",
-    "Nifty 500"
-  ],
-  "HONAUT": [
+  "IRCTC": [
     "Nifty Midcap 150",
     "Nifty 500"
   ],
@@ -799,23 +707,99 @@
     "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "IDBI": [
-    "Nifty Smallcap 250",
+  "AWL": [
+    "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "ATHERENERG": [
-    "Nifty Smallcap 250",
+  "ACC": [
+    "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "NH": [
-    "Nifty Smallcap 250",
+  "TATACOMM": [
+    "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "GODIGIT": [
-    "Nifty Smallcap 250",
+  "HUDCO": [
+    "Nifty Midcap 150",
     "Nifty 500"
   ],
-  "ITI": [
+  "ESCORTS": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "SJVN": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "JKCEMENT": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "AIIL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "CRISIL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "NLCINDIA": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "KALYANKJIL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "PETRONET": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "PAGEIND": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "IPCALAB": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "JUBLFOOD": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "M&MFIN": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "LICHSGFIN": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "COCHINSHIP": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "LTTS": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "ENDURANCE": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "ANTHEM": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "UBL": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "AIAENG": [
+    "Nifty Midcap 150",
+    "Nifty 500"
+  ],
+  "SONACOMS": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -823,171 +807,7 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "FORCEMOT": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "NUVAMA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "MEESHO": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "MSUMI": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "WELCORP": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "SUNTV": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CPPLUS": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "PWL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "DELHIVERY": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "UCOBANK": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "POONAWALLA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CENTRALBK": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "IOB": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CDSL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "IRB": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ABSLAMC": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "PIRAMALFIN": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "SONACOMS": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "FACT": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "EMCURE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "KIMS": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "NBCC": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "GLAND": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "KARURVYSYA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "AMBER": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CHOLAHLDNG": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "AEGISLOG": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ANGELONE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "BANDHANBNK": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ZFCVINDIA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
   "SHYAMMETL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "NAVINFLUOR": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "TIMKEN": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "HINDCOPPER": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "KAYNES": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ASTERDM": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "JBCHEPHARM": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ANANDRATHI": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "IKS": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "STARHEALTH": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "GILLETTE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "MRPL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -995,11 +815,255 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
+  "MRPL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "CHOLAHLDNG": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "FORCEMOT": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "KAYNES": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "AMBER": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "HINDCOPPER": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ITI": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "EMCURE": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "IKS": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "NUVAMA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "IDBI": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "CENTRALBK": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
   "GRSE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
+  "ATHERENERG": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ZFCVINDIA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "CPPLUS": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "MSUMI": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ABSLAMC": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "KIMS": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "POONAWALLA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "CDSL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "GLAND": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "SUNTV": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "NBCC": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "NAVINFLUOR": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "NH": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "IOB": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ASTERDM": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ANANDRATHI": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "STARHEALTH": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "PIRAMALFIN": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "GODIGIT": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "GILLETTE": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "FACT": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "IRB": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "AEGISLOG": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "UCOBANK": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "DELHIVERY": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "BANDHANBNK": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "MEESHO": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "WELCORP": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ANGELONE": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "PWL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "KARURVYSYA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "JBCHEPHARM": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "TIMKEN": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "NAVA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "DCMSHRIRAM": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "SYRMA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "PTCIL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "IGL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "TENNIND": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "BRIGADE": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "MANAPPURAM": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "SARDAEN": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "RBLBANK": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "PNBHOUSING": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "PINELABS": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
   "DEEPAKNTR": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "DATAPATTNS": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ERIS": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "NEULANDLAB": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ACUTAAS": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1011,43 +1075,7 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "TENNIND": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "RAMCOCEM": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "AEGISVOPAK": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "DATAPATTNS": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "BRIGADE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "BAYERCROP": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "AFFLE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "IIFL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "NAVA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "PFIZER": [
+  "CESC": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1055,35 +1083,19 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "ACUTAAS": [
+  "KAJARIACER": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "EIHOTEL": [
+  "PPLPHARMA": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "GALLANTT": [
+  "GESHIP": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "SARDAEN": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "LALPATHLAB": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "BELRISE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ATUL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "GPIL": [
+  "NATCOPHARM": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1095,23 +1107,7 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "MANAPPURAM": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ERIS": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "SAGILITY": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "URBANCO": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ASAHIINDIA": [
+  "CUB": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1119,35 +1115,11 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "PINELABS": [
+  "BELRISE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "GESHIP": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "NEULANDLAB": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "RBLBANK": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CUB": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "PPLPHARMA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "SAILIFE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "SYRMA": [
+  "PFIZER": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1155,39 +1127,11 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "KPIL": [
+  "BAYERCROP": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CESC": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "EMAMILTD": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "NATCOPHARM": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "DCMSHRIRAM": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "PNBHOUSING": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "PTCIL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "KAJARIACER": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CREDITACC": [
+  "AFFLE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1195,107 +1139,63 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "IGL": [
+  "RAMCOCEM": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "ACMESOLAR": [
+  "CREDITACC": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "BIKAJI": [
+  "EIHOTEL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CGCL": [
+  "GALLANTT": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "RRKABEL": [
+  "SAGILITY": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "REDINGTON": [
+  "ATUL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "EIDPARRY": [
+  "GPIL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CASTROLIND": [
+  "IIFL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CRAFTSMAN": [
+  "EMAMILTD": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "OLAELEC": [
+  "KPIL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "KFINTECH": [
+  "AEGISVOPAK": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "ABREL": [
+  "LALPATHLAB": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "COHANCE": [
+  "SAILIFE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CAMS": [
+  "ASAHIINDIA": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "EMMVEE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "JYOTICNC": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ABDL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CHOICEIN": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CROMPTON": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "INOXWIND": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "NIVABUPA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "JSWCEMENT": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "JINDALSAW": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "AARTIIND": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CEATLTD": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "TATACHEM": [
+  "URBANCO": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1303,59 +1203,7 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "TRAVELFOOD": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ZYDUSWELL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "TRITURBINE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "POLYMED": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "IGIL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "IFCI": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "SYNGENE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CHENNPETRO": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "FSL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CHALET": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "DEEPAKFERT": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ECLERX": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "GRANULES": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "PGEL": [
+  "ABDL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1367,11 +1215,11 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "ANANTRAJ": [
+  "IFCI": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "ONESOURCE": [
+  "EMMVEE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1379,19 +1227,19 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "VTL": [
+  "IGIL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CHAMBLFERT": [
+  "EIDPARRY": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CARBORUNIV": [
+  "CROMPTON": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "SAMMAANCAP": [
+  "CHALET": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1399,143 +1247,159 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "MINDACORP": [
+  "RRKABEL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "JPPOWER": [
+  "AARTIIND": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "DEVYANI": [
+  "DEEPAKFERT": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "JKTYRE": [
+  "ABREL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "THELEELA": [
+  "COHANCE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "FINCABLES": [
+  "CHAMBLFERT": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "NSLNISP": [
+  "ECLERX": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "JAINREC": [
+  "TRITURBINE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "PARADEEP": [
+  "CHENNPETRO": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "HFCL": [
+  "SYNGENE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "ZENSARTECH": [
+  "CGCL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "ZENTEC": [
+  "CAMS": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "TEGA": [
+  "CHOICEIN": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "RAINBOW": [
+  "PGEL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "SPLPETRO": [
+  "NIVABUPA": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "ENGINERSIN": [
+  "TATACHEM": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "JWL": [
+  "CEATLTD": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "USHAMART": [
+  "ANANTRAJ": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "JSWDULUX": [
+  "SAMMAANCAP": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "UTIAMC": [
+  "ONESOURCE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "IEX": [
+  "BIKAJI": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "FIRSTCRY": [
+  "TRAVELFOOD": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CANHLIFE": [
+  "CRAFTSMAN": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "JMFINANCIL": [
+  "JYOTICNC": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "BLS": [
+  "CARBORUNIV": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "GABRIEL": [
+  "CASTROLIND": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "POLYMED": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "REDINGTON": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "KFINTECH": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ZYDUSWELL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "VTL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "JINDALSAW": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "INOXWIND": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ACMESOLAR": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "JSWCEMENT": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "OLAELEC": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "FSL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "GRANULES": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
   "ANURAS": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "SOBHA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ABLBL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "AFCONS": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "LTFOODS": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ARE&M": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "TRIDENT": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "GRAPHITE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "HEG": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1547,15 +1411,27 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "TECHNOE": [
+  "FINCABLES": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "FIVESTAR": [
+  "ZENTEC": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CCL": [
+  "TEGA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "JKTYRE": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "HEG": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "JMFINANCIL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1563,19 +1439,11 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "SCI": [
+  "CANHLIFE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "GRAVITA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "DOMS": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "TBOTEK": [
+  "NSLNISP": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1583,15 +1451,23 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CAPLIPOINT": [
+  "DOMS": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "APTUS": [
+  "THELEELA": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "INDIAMART": [
+  "MINDACORP": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "IEX": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "FIVESTAR": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1599,35 +1475,127 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "RPOWER": [
+  "GRAPHITE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "HONASA": [
+  "USHAMART": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "MMTC": [
+  "ABLBL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "INDGN": [
+  "GRAVITA": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "TARIL": [
+  "JSWDULUX": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "BATAINDIA": [
+  "SOBHA": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CONCORDBIO": [
+  "GABRIEL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "ELECON": [
+  "HFCL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "FIRSTCRY": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "APTUS": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "AFCONS": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "DEVYANI": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ZENSARTECH": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "LTFOODS": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "TECHNOE": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ARE&M": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "JPPOWER": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "INDIAMART": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "BLS": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "JWL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "SPLPETRO": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "TRIDENT": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ENGINERSIN": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "PARADEEP": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "JAINREC": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "RAINBOW": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "SCI": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "CAPLIPOINT": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "CCL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "TBOTEK": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "UTIAMC": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1635,31 +1603,7 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "BALRAMCHIN": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "NEWGEN": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "SBFC": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "RITES": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CARTRADE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "CYIENT": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ZEEL": [
+  "OLECTRA": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1667,43 +1611,23 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "RKFORGE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ABFRL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "LEMONTREE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "ACE": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "RAILTEL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "OLECTRA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "MAPMYINDIA": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "HOMEFIRST": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
   "MGL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "BLUEJET": [
+  "TITAGARH": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "INTELLECT": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "ZEEL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "CARTRADE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1715,6 +1639,14 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
+  "LEMONTREE": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "NCC": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
   "JUBLINGREA": [
     "Nifty Smallcap 250",
     "Nifty 500"
@@ -1723,23 +1655,7 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "CLEAN": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "SWANCORP": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "NUVOCO": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "NCC": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "SAREGAMA": [
+  "ACE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1747,11 +1663,7 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "PCBL": [
-    "Nifty Smallcap 250",
-    "Nifty 500"
-  ],
-  "PVRINOX": [
+  "RKFORGE": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1759,11 +1671,15 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "LATENTVIEW": [
+  "AAVAS": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "TITAGARH": [
+  "ELECON": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "PCBL": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1771,7 +1687,19 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "BSOFT": [
+  "BALRAMCHIN": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "RPOWER": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "INDGN": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "NUVOCO": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1779,7 +1707,23 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "INTELLECT": [
+  "BATAINDIA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "RAILTEL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "MMTC": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "BLUEJET": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "CONCORDBIO": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1787,11 +1731,47 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
+  "SWANCORP": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "TARIL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "LATENTVIEW": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "CYIENT": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
   "BBTC": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "AAVAS": [
+  "BSOFT": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "RITES": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "SBFC": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "SAREGAMA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "MAPMYINDIA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "PVRINOX": [
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
@@ -1799,10 +1779,24 @@
     "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "DMART": [
+  "NEWGEN": [
+    "Nifty Smallcap 250",
     "Nifty 500"
   ],
-  "HINDZINC": [
+  "ABFRL": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "HONASA": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "CLEAN": [
+    "Nifty Smallcap 250",
+    "Nifty 500"
+  ],
+  "HOMEFIRST": [
+    "Nifty Smallcap 250",
     "Nifty 500"
   ],
   "VEDL": [
@@ -1811,124 +1805,124 @@
   "IOC": [
     "Nifty 500"
   ],
-  "ADANIGREEN": [
-    "Nifty 500"
-  ],
-  "DIVISLAB": [
-    "Nifty 500"
-  ],
-  "TVSMOTOR": [
-    "Nifty 500"
-  ],
-  "HAL": [
+  "HINDZINC": [
     "Nifty 500"
   ],
   "ADANIPOWER": [
     "Nifty 500"
   ],
-  "TATACAP": [
+  "HAL": [
     "Nifty 500"
   ],
-  "AMBUJACEM": [
+  "TVSMOTOR": [
     "Nifty 500"
   ],
-  "IRFC": [
+  "DMART": [
     "Nifty 500"
   ],
-  "UNIONBANK": [
+  "DIVISLAB": [
     "Nifty 500"
   ],
-  "VBL": [
-    "Nifty 500"
-  ],
-  "TMCV": [
-    "Nifty 500"
-  ],
-  "ENRIN": [
-    "Nifty 500"
-  ],
-  "BRITANNIA": [
-    "Nifty 500"
-  ],
-  "LTM": [
-    "Nifty 500"
-  ],
-  "SOLARINDS": [
-    "Nifty 500"
-  ],
-  "BPCL": [
-    "Nifty 500"
-  ],
-  "CHOLAFIN": [
-    "Nifty 500"
-  ],
-  "JINDALSTEL": [
-    "Nifty 500"
-  ],
-  "CANBK": [
-    "Nifty 500"
-  ],
-  "CGPOWER": [
-    "Nifty 500"
-  ],
-  "GODREJCP": [
-    "Nifty 500"
-  ],
-  "BOSCHLTD": [
-    "Nifty 500"
-  ],
-  "MUTHOOTFIN": [
-    "Nifty 500"
-  ],
-  "ADANIENSOL": [
-    "Nifty 500"
-  ],
-  "PIDILITIND": [
-    "Nifty 500"
-  ],
-  "SIEMENS": [
-    "Nifty 500"
-  ],
-  "PFC": [
-    "Nifty 500"
-  ],
-  "HYUNDAI": [
-    "Nifty 500"
-  ],
-  "BAJAJHLDNG": [
-    "Nifty 500"
-  ],
-  "TORNTPHARM": [
-    "Nifty 500"
-  ],
-  "MOTHERSON": [
-    "Nifty 500"
-  ],
-  "TATAPOWER": [
-    "Nifty 500"
-  ],
-  "PNB": [
-    "Nifty 500"
-  ],
-  "BANKBARODA": [
+  "ADANIGREEN": [
     "Nifty 500"
   ],
   "CUMMINSIND": [
     "Nifty 500"
   ],
-  "HDFCAMC": [
+  "BANKBARODA": [
     "Nifty 500"
   ],
-  "ABB": [
+  "PNB": [
+    "Nifty 500"
+  ],
+  "PIDILITIND": [
     "Nifty 500"
   ],
   "DLF": [
     "Nifty 500"
   ],
-  "LODHA": [
+  "PFC": [
     "Nifty 500"
   ],
-  "UNITDSPR": [
+  "JINDALSTEL": [
+    "Nifty 500"
+  ],
+  "SIEMENS": [
+    "Nifty 500"
+  ],
+  "CANBK": [
+    "Nifty 500"
+  ],
+  "ADANIENSOL": [
+    "Nifty 500"
+  ],
+  "LTM": [
+    "Nifty 500"
+  ],
+  "IRFC": [
+    "Nifty 500"
+  ],
+  "SOLARINDS": [
+    "Nifty 500"
+  ],
+  "HDFCAMC": [
+    "Nifty 500"
+  ],
+  "BOSCHLTD": [
+    "Nifty 500"
+  ],
+  "CHOLAFIN": [
+    "Nifty 500"
+  ],
+  "UNIONBANK": [
+    "Nifty 500"
+  ],
+  "ABB": [
+    "Nifty 500"
+  ],
+  "TATAPOWER": [
+    "Nifty 500"
+  ],
+  "TATACAP": [
+    "Nifty 500"
+  ],
+  "BRITANNIA": [
+    "Nifty 500"
+  ],
+  "CGPOWER": [
+    "Nifty 500"
+  ],
+  "AMBUJACEM": [
+    "Nifty 500"
+  ],
+  "ENRIN": [
+    "Nifty 500"
+  ],
+  "BPCL": [
+    "Nifty 500"
+  ],
+  "GODREJCP": [
+    "Nifty 500"
+  ],
+  "HYUNDAI": [
+    "Nifty 500"
+  ],
+  "VBL": [
+    "Nifty 500"
+  ],
+  "MOTHERSON": [
+    "Nifty 500"
+  ],
+  "TORNTPHARM": [
+    "Nifty 500"
+  ],
+  "MUTHOOTFIN": [
+    "Nifty 500"
+  ],
+  "TMCV": [
+    "Nifty 500"
+  ],
+  "BAJAJHLDNG": [
     "Nifty 500"
   ],
   "GAIL": [
@@ -1937,16 +1931,22 @@
   "RECLTD": [
     "Nifty 500"
   ],
-  "MAZDOCK": [
-    "Nifty 500"
-  ],
   "ZYDUSLIFE": [
     "Nifty 500"
   ],
   "SHREECEM": [
     "Nifty 500"
   ],
+  "UNITDSPR": [
+    "Nifty 500"
+  ],
   "INDHOTEL": [
+    "Nifty 500"
+  ],
+  "MAZDOCK": [
+    "Nifty 500"
+  ],
+  "LODHA": [
     "Nifty 500"
   ]
 }

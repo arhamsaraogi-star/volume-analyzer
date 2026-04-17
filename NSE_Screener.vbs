@@ -18,7 +18,7 @@ sKillCmd = "cmd /c for /f ""tokens=5"" %a in ('netstat -aon ^| findstr :5050 ^| 
 oShell.Run sKillCmd, 0, True
 
 ' Start Flask server silently (window hidden = 0)
-sPy = "py """ & sDir & "\screener_server.py"""
+sPy = "py """ & sDir & "\volume_logic\screener_server.py"""
 oShell.Run sPy, 0, False
 
 ' Wait 3 seconds for server to come up

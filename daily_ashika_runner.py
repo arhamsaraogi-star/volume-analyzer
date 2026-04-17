@@ -95,27 +95,51 @@ def generate_gateway_hub():
     # This will be implemented in Phase 3
     pass
 
-def main():
-    log("Starting Daily Ashika Pipeline...")
+def get_target_date():
+    """Determine the most appropriate trade date based on the current time."""
+    now = datetime.now()
+    t_date = now.date()
     
-    # 1. Update Corporate Data
+    # If it's before market hours (9 AM) or a weekend, go back
+    if now.hour < 9:
+        t_date -= timedelta(days=1)
+    
+    # Adjust for weekend
+    if t_date.weekday() == 5: # Saturday
+        t_date -= timedelta(days=1)
+    elif t_date.weekday() == 6: # Sunday
+        t_date -= timedelta(days=2)
+        
+    return t_date
+
+def main():
+    log("="*60)
+    log(f"Starting Ashika Pipeline @ {datetime.now().strftime('%H:%M:%S')}")
+    log("="*60)
+    
+    t_date = get_target_date()
+    log(f"Target Trading Date: {t_date.strftime('%d %b %Y')}")
+    
+    # 1. Update Corporate Data (BSE & Screener)
     run_results_engine()
     
-    # 2. Sync Repository
+    # 2. Sync Repository (Merge Results & Board Dates into Master)
     sync_master_repository()
     
     # 3. Update Volume Data (Enriched by Master)
-    run_volume_engine()
+    log("Executing Volume Engine...")
+    script = VOLUME_DIR / "logic_volume.py"
+    # Note: logic_volume.py internally handles its own date logic, 
+    # but we trigger it here to ensure it's in sync.
+    subprocess.run([PYTHON, str(script)], cwd=VOLUME_DIR)
     
-    # 4. Generate Hub
-    generate_gateway_hub()
-    
+    # 4. Final Verification
     log("Ashika Pipeline Complete.")
     
-    # Auto-open dashboard
+    # Auto-open the GATEWAY HUB (the entry point for all dashboards)
     index_path = ROOT / "index.html"
     if index_path.exists():
-        log(f"Opening dashboard: {index_path}")
+        log(f"Opening Gateway Hub: {index_path}")
         os.startfile(index_path)
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ echo ==================================================
 echo   🚀 Ashika Dashboard - Daily Mega Update
 echo ==================================================
 echo.
-python daily_ashika_runner.py
+py daily_ashika_runner.py || python daily_ashika_runner.py
 echo.
 echo ==================================================
 echo   ✅ Update Complete!
