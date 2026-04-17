@@ -510,7 +510,7 @@ body { font-family:'Outfit', sans-serif; background: var(--bg); color: var(--tex
 body::before { content:''; position:fixed; top:0;left:0;width:100%;height:100%; background: radial-gradient(ellipse at 20% 50%,rgba(59,130,246,.05) 0%,transparent 50%), radial-gradient(ellipse at 80% 20%,rgba(139,92,246,.04) 0%,transparent 50%); pointer-events:none; z-index:0; }
 
 header {
-    background: rgba(10, 14, 20, 0.9);
+    background: #0a0e14 !important; /* Force solid for sticky stability */
     backdrop-filter: var(--glass);
     border-bottom: 1px solid var(--border);
     padding: 0.75rem 2%;
@@ -539,7 +539,7 @@ header {
 .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.05); }
 .nav-links a.active { color: var(--accent); }
 
-.tabs { display:flex; gap:8px; padding:12px 32px; background:rgba(10,14,20,0.5); backdrop-filter:var(--glass); border-bottom:1px solid var(--border); position:sticky; top:54px; z-index:900; }
+.tabs { display:flex; gap:8px; padding:12px 32px; background:rgba(10,14,20,0.8); backdrop-filter:var(--glass); border-bottom:1px solid var(--border); position:sticky; top:54px; z-index:900; }
 .tab { padding:10px 24px; border-radius:12px; font-size:.85rem; font-weight:600; cursor:pointer; transition:0.3s; color:var(--text-dim); border:1px solid var(--border); background: var(--card-bg); }
 .tab:hover { color:var(--text); background:rgba(255,255,255,0.05); }
 .tab.active { background:var(--accent); color:#fff; border-color:var(--accent); box-shadow: 0 0 15px var(--accent); }
@@ -653,10 +653,10 @@ canvas { width:100%!important; }
       <div class="logo">Ashika <span>Results</span></div>
   </div>
   <nav class="nav-links">
-      <a href="volume_dashboard.html">Volume</a>
+      <a href="volume_dashboard.html">Quadrants</a>
       <a href="analytics.html">Analytics</a>
-      <a href="results_dashboard.html" class="active">Results</a>
-      <a href="results_dashboard.html#panel-board">Board</a>
+      <a href="results_dashboard.html" id="nav-results">Results</a>
+      <a href="results_dashboard.html#board" id="nav-board" onclick="switchTab('board')">Board</a>
   </nav>
   <span class="meta" style="font-size:0.75rem; color:var(--text-dim); opacity:0.8;">Updated __TIMESTAMP__</span>
 </header>
@@ -737,7 +737,29 @@ const BOARD_DATA=__BOARD_DATA__;
 // Recalculate daysAway dynamically from parsedDate (fixes timezone/time-of-day offset)
 (function(){const t=new Date();t.setHours(0,0,0,0);BOARD_DATA.forEach(m=>{if(m.parsedDate){const d=new Date(m.parsedDate+'T00:00:00');m.daysAway=Math.round((d-t)/86400000);}});})();
 
-function switchTab(n){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+n).classList.add('active');document.getElementById('panel-'+n).classList.add('active');}
+function switchTab(n){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+n).classList.add('active');
+  document.getElementById('panel-'+n).classList.add('active');
+  
+  // Highlight correct nav link
+  document.getElementById('nav-results').classList.toggle('active', n !== 'board');
+  document.getElementById('nav-board').classList.toggle('active', n === 'board');
+}
+
+window.addEventListener('load', () => {
+    const hash = window.location.hash;
+    if (hash === '#board') switchTab('board');
+    else if (hash === '#sector') switchTab('sector');
+    else switchTab('daily');
+});
+
+window.addEventListener('hashchange', () => {
+    const hash = window.location.hash;
+    if (hash === '#board') switchTab('board');
+    else if (hash === '#results' || !hash) switchTab('daily');
+});
 
 const D_PCT=new Set(["Sales YoY Q%","EBITDA YoY Q%","NP YoY Q%","EPS YoY Q%","Sales QoQ%","EBITDA QoQ%","NP QoQ%","EPS QoQ%","FY Sales YoY%","FY EBITDA YoY%","FY NP YoY%","FY EPS YoY%"]);
 const D_PP=new Set(["EBITDA Margin YoY pp","PAT Margin YoY pp","EBITDA Margin QoQ pp","PAT Margin QoQ pp","FY EBITDA Margin YoY pp","FY PAT Margin YoY pp"]);
