@@ -36,4 +36,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Auto-update: Dashboard data for $(date +'%Y-%m-%d')"
-          file_pattern: 'public_site/index.html screener_cache/*'
+          file_pattern: 'index.html analytics.html template.html analytics_template.html screener_cache/*'

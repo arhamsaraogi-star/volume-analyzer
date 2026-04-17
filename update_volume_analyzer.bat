@@ -11,5 +11,5 @@ echo ==================================================
 echo   ✅ Update Complete!
 echo   Opening dashboard...
 echo ==================================================
-start "" "public_site\index.html"
+start "" "index.html"
 pause
